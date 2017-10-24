@@ -17,6 +17,10 @@ class Stage_Manager():
 			'void' : self.void,
 			'select_stats' : self.select_stats
 			}
+		self.function_in = ''
+		self.stat_list = []
+		self.input_in = False
+
 
 	#Will play out the current stage
 	def narrate_current_stage(self):
@@ -42,12 +46,18 @@ class Stage_Manager():
 
 
 	#Fetches user input
-	def take_input(self, input):
+	def take_nar_input(self, input):
 		if input == 'exit':
 			quit()
 		else:
 			self.current_stage = self.select_stage(self.current_stage.choices[input])
 			self.get_narration()
+
+	def take_func_input(self, input):
+		print('Input taken')
+		self.function_in = input
+		self.input_in = True
+
 
 	#Select the right stage after input
 	def select_stage(self, text):
@@ -75,8 +85,31 @@ class Stage_Manager():
 		else:
 			return True
 
+
+
 	def select_stats(self):
-		print('Now player selects stats')
+		for stat in self.gui_obj.player.stats['special']:
+			if self.gui_obj.player.availiable_stat_points > 0:
+				self.gui_obj.add_txt('narration', '\n\nYou have ' + str(self.gui_obj.player.availiable_stat_points) + ' points left', self.narrator.tag)
+				self.gui_obj.add_txt('narration', '\n\nHow much ' + stat.upper() + '?', self.narrator.tag)
+				while not self.input_in:
+					print('Waiting')
+					self.gui_obj.main.update()
+
+				self.gui_obj.player.stats['special'][stat] = self.function_in
+				if int(self.function_in) >= self.gui_obj.player.availiable_stat_points:
+					self.gui_obj.player.availiable_stat_points -= int(self.function_in)
+					self.function_in = ''
+				else:
+					self.gui_obj.clear_middle()
+					self.input_in = False
+					self.gui_obj.update_stat_display()
+			else:
+				self.gui_obj.clear_middle()
+				self.gui_obj.add_txt('narration', 'You have no more points left!', self.narrator.tag)
+				break
+
+
 
 	def void(self):
 		pass

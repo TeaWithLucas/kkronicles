@@ -12,6 +12,7 @@ class Actor():
 		self.lname =  str(data['CharLname']).strip()
 		self.name = self.fname + " " + self.lname
 		self.id = self.fname + "_" + self.lname
+		self.availiable_stat_points = 20
 		self.nickname =  str(data['CharNickname']).strip()
 		self.location =  str(data['CharLoc']).strip()
 		self.function =  str(data['CharFunc']).strip()
@@ -38,6 +39,10 @@ class Actor():
 		new_maxh = self.stats['level']['lvl'] * 8 + self.stats['special']['end'] * 8
 		new_curh = cur_curh + (new_maxh - cur_maxh)
 		self.stats['health'] = {'maxh': new_maxh, 'curh': new_curh}
+
+	def stat_check(self, min_stats):
+		pass
+
 
 
 """The Stage class allows to navigate through the game"""

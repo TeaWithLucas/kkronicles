@@ -47,7 +47,7 @@ gun_item = Item('Gun', 'a shiny gun', 'This is a very reliable weapon.')
 
 #Stages(integrate with DB in future)
 stg_main_menu = Stage('main_menu', 'Main Menu', [{'speaker':actors['Nikeen_Patel'], 'dialog':(draw_ascii('./assets/welcome.txt') + '\n\n\n\n\n' + 'Welcome  Kirill\t'), 'location': locations['menu']}], {'start': 'stat_menu', 'exit':'main_menu'}, 'narrated')
-stg_stat_menu = Stage('stat_menu', 'Stat Selection', [{'speaker':actors['Nikeen_Patel'], 'dialog':'Time to select your stats!', 'location': locations['menu']}], {}, 'functional', 'select_stats')
+stg_stat_menu = Stage('stat_menu', 'Stat Selection', [{'speaker':actors['Nikeen_Patel'], 'dialog':'Time to select your stats!', 'location': locations['menu']}], {'':''}, 'functional', 'select_stats')
 stg_act1 = Stage('act1', 'Act 1', [
 	{'speaker':actors['Nikeen_Patel'], 'dialog':'Lorem ipsum dolor sit amet, sea ei ridens signiferumque, vel no graece altera viderer. Has diam nibh no. Pro in noster probatus eleifend, saepe graecis corpora quo ei. Debitis definitiones quo ad, tollit eirmod patrioque ad vim, dico dolore assentior ut mel. Vel epicurei intellegam ex. Cum probatus theophrastus an, per id tota virtute.', 'location': locations['queens']},
 	{'speaker':actors['James_Wills'], 'dialog':'Dico quando invidunt ei sit. Et bonorum delicata cum, per falli praesent explicari ea. Usu et tale error dissentiet, cum an laboramus aliquando repudiandae. Munere eloquentiam disputationi in vix. Tota salutandi rationibus eu pro, ius no persius menandri. Eam ut purto case instructior, decore periculis reprehendunt mei in, ea dicat cotidieque cum.', 'location':  locations['queens']},

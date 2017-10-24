@@ -150,9 +150,15 @@ class gui():
 
 	#Event driven fuctions
 	def rtn_pressed(self, event):
-		print("Input - Enter Key")
-		self.stage_man.take_input(self.get_input())
-		self.navigate()
+		if self.stage_man.current_stage.stage_type == 'narrated':
+			self.stage_man.take_nar_input(self.get_input())
+			self.navigate()
+			print('We are in a narrated stage - Enter was pressed')
+		else:
+			self.stage_man.take_func_input(self.get_input())
+			print('We are in a funtional stage - Enter was pressed')
+
+
 
 
 	#Game clock update
@@ -207,6 +213,7 @@ class gui():
 		#		time.sleep(self.narration_speed)
 		#		self.main.update()
 		time.sleep(self.waittime)
+		print('Enabling console')
 		self.widgets['console'].config(state = NORMAL)
 		self.widgets[widget].config(state = DISABLED)
 
