@@ -99,18 +99,18 @@ class gui():
 
 		#items_widget = Text(frame_right, bg = '#262820', fg = 'white', height = 15, width = 25)
 		#items_widget.grid(row = 3, column = 1)
-
+		
 		#Reseting images to avoid them disapearing
 		background.image = bg_image
 		map_widget.image = map_sprite
 		loc_widget.image = loc_sprite
-
+		
 		#Disable all widgets so they become read only
 		inv_widget.config(state = DISABLED)
 		choice_widget.config(state = DISABLED)
 		narration_widget.config(state = DISABLED)
 		stat_widget.config(state = DISABLED)
-
+		
 		#Widget dictionary for access
 		self.widgets = {
 			'background' : background,
@@ -137,22 +137,12 @@ class gui():
 		self.setup_tags(actors)
 
 		#Start
-		self.navigate()
-
-	#Function to update consoles
-	def navigate(self):
-		self.clear_middle() #Clear consoles
-		self.refresh() #Update secondary consoles
-		self.set_title(self.stage_man.current_stage.name) #Set correct window title
-		self.stage_man.narrate_current_stage() #Start narration of the stage
-
-
+		self.stage_man.first_run()
 
 	#Event driven fuctions
 	def rtn_pressed(self, event):
 		print("Input - Enter Key")
-		self.stage_man.take_input(self.get_input())
-		self.navigate()
+		self.stage_man.navigate(self.get_input())
 
 
 	#Game clock update
