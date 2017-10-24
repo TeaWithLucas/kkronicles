@@ -47,7 +47,7 @@ class Actor():
 
 """The Stage class allows to navigate through the game"""
 class Stage():
-	def __init__(self, stage_id, name, narration, choices, stage_type, function = 'void'):
+	def __init__(self, stage_id, name, narration, choices, stage_type, function = 'void', next_stg = ''):
 		self.stage_id = stage_id
 		self.name = name
 		self.narration = narration #The text to be displayed in this stage (story/dialog)
@@ -58,6 +58,7 @@ class Stage():
 
 		self.stage_type = stage_type
 		self.function = function
+		self.next_stg = next_stg
 
 """The location class allows to navigate through the game map and describe locations in the narration """
 

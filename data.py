@@ -1,3 +1,4 @@
+
 from classes import *
 import sql
 
@@ -46,23 +47,22 @@ gun_item = Item('Gun', 'a shiny gun', 'This is a very reliable weapon.')
 #Stages
 
 #Stages(integrate with DB in future)
-stg_main_menu = Stage('main_menu', 'Main Menu', [{'speaker':actors['Nikeen_Patel'], 'dialog':(draw_ascii('./assets/welcome.txt') + '\n\n\n\n\n' + 'Welcome  Kirill\t'), 'location': locations['menu']}], {'start': 'stat_menu', 'exit':'main_menu'}, 'narrated')
-stg_stat_menu = Stage('stat_menu', 'Stat Selection', [{'speaker':actors['Nikeen_Patel'], 'dialog':'Time to select your stats!', 'location': locations['menu']}], {'':''}, 'functional', 'select_stats')
+stg_main_menu = Stage('main_menu', 'Main Menu', [{'speaker':actors['Nikeen_Patel'], 'dialog':(draw_ascii('./assets/welcome.txt') + '\n\n\n\n\n' + 'Welcome  Kirill\t'), 'location': locations['menu']}], {'start': 'wake_up', 'exit':'main_menu'}, 'narrated')
+stg_wake_up = Stage('wake_up', 'Wake up', [{'speaker':actors['Nikeen_Patel'], 'dialog': 'You wake on your desk. Having worked late last night to complete your proposal to obtain funding for a start-up of your completely original and not and all copyright infringing program called CloudNet, a friendly security system.', 'location':locations['menu']}], {'continue': 'stat_menu'}, 'narrated' , 'act1')
+stg_stat_menu = Stage('stat_menu', 'Stat Selection', [{'speaker':actors['Nikeen_Patel'], 'dialog':'', 'location': locations['menu']}], {'':''}, 'functional', 'select_stats', 'act1')
 stg_act1 = Stage('act1', 'Act 1', [
-	{'speaker':actors['Nikeen_Patel'], 'dialog':'Lorem ipsum dolor sit amet, sea ei ridens signiferumque, vel no graece altera viderer. Has diam nibh no. Pro in noster probatus eleifend, saepe graecis corpora quo ei. Debitis definitiones quo ad, tollit eirmod patrioque ad vim, dico dolore assentior ut mel. Vel epicurei intellegam ex. Cum probatus theophrastus an, per id tota virtute.', 'location': locations['queens']},
-	{'speaker':actors['James_Wills'], 'dialog':'Dico quando invidunt ei sit. Et bonorum delicata cum, per falli praesent explicari ea. Usu et tale error dissentiet, cum an laboramus aliquando repudiandae. Munere eloquentiam disputationi in vix. Tota salutandi rationibus eu pro, ius no persius menandri. Eam ut purto case instructior, decore periculis reprehendunt mei in, ea dicat cotidieque cum.', 'location':  locations['queens']},
-	{'speaker':actors['Bai_Hu'], 'dialog':'Indoctum ocurreret cu duo, propriae deseruisse philosophia in est. Nam id tale timeam alienum, purto elaboraret qui no. At vim ferri labitur ceteros, nam eu dictas recteque intellegebat. Vis ea amet sumo, pro ex tacimates repudiare consetetur, id eos legimus omittam referrentur. Ne sea ludus voluptaria rationibus. Ad oratio consulatu aliquando ius, duo legere probatus et.', 'location':  locations['home']},
-	{'speaker':actors['Kirill_Sidorov'], 'dialog':'Nisl postulant ne eos. Ut eos vide dolor urbanitas, ipsum legere instructior no eam. Quo eu affert recusabo partiendo, his ne accusam probatus facilisi. Soleat forensibus definiebas ex vix.', 'location':  locations['park']},
-	{'speaker':actors['Nikeen_Patel'], 'dialog':'Porro graeco semper ei quo, per iudico percipit ut. Exerci luptatum elaboraret mel ex, no sed debet commodo dolores. Erat liber tantas at vis. Ut possit prompta feugiat nec, summo interesset an his, debitis probatus convenire id vix. Nobis dissentiunt sed ei, cum at impetus viderer definiebas. Ius cu nominavi mediocrem, an mel iriure dolorum, et veritus inciderint ius. Ad case virtute eleifend est.', 'location':  locations['park']},
-	{'speaker':actors['William_Davies'], 'dialog':'Id eum dicunt ullamcorper, ne sea enim appareat. Omnium repudiare eu ius. Vero dicit sea te, mea ad iuvaret sensibus. Ex vis doming commodo theophrastus, prima civibus laboramus his cu. Ius ea soluta mollis erroribus, modus novum eu has.', 'location':  locations['home']}
-	],  {'menu': 'main_menu', 'replay':'act1'}, 'narrated')
+	{'speaker':actors['Nikeen_Patel'], 'dialog':'You take your application to your superiors, moving through the many corridors of the Computer Science department. When you arrive, the head of the department looks over your proposal with one eyebrow raised. He turns his focus to you. ', 'location': locations['menu']},
+	{'speaker':actors['Stuart_Allen'], 'dialog':'There is absolutely nothing you can say or do to make me give the green light to fund this kind of crazy program. An AI system as advanced as this could wipe out humanity completely....This program seems oddly familiar to one I have seen in a film before', 'location':  locations['menu']},
+	{'speaker':actors['Nikeen_Patel'], 'dialog':'You leave the building with your head hanging low, you feel as though years of your work have gone to waste.\n Switch leaning on the wall with one leg propped up looks over from under his hood. ', 'location':  locations['menu']},
+	{'speaker':actors['James_Wills'], 'dialog':'You look down, My G, Ive got some friends at the Taf who could cheer you up. Name s Switch', 'location':  locations['menu']},
+	{'speaker':actors['Nikeen_Patel'], 'dialog':'You follow Switch. ', 'location':  locations['menu']}],  {'continue': 'main_menu'}, 'narrated')
 stg_other_menu = Stage('other menu', 'other menu', [{'speaker':actors['Nikeen_Patel'], 'dialog':'Welcome  Krill', 'location': locations['menu']}],  {'start': 'act1', 'exit':'main_menu'},'narrated')
 stg_new_game = Stage('new game', 'new game', [{'speaker':actors['Nikeen_Patel'], 'dialog':'Welcome  Krill', 'location': locations['menu']}],  {'start': 'act1', 'exit':'main_menu'}, 'narrated')
 stg_load_game = Stage('load game', 'load game', [{'speaker':actors['Nikeen_Patel'], 'dialog':'Welcome  Krill', 'location': locations['menu']}],  {'start': 'act1', 'exit':'main_menu'}, 'narrated')
 stg_exit = Stage('exit', 'Exiting', [{'speaker':actors['Nikeen_Patel'], 'dialog':'Welcome  Krill', 'location': locations['menu']}],  {'start': 'act1', 'exit':'main_menu'}, 'narrated')
 stg_lost = Stage('lost', 'You Loose', [{'speaker':actors['Nikeen_Patel'], 'dialog':'You lost', 'location': locations['menu']}],  {'start': 'act1', 'exit':'main_menu'}, 'narrated')
 
-stages = [stg_main_menu, stg_stat_menu, stg_act1, stg_other_menu, stg_new_game, stg_load_game, stg_exit, stg_lost]
+stages = [stg_main_menu, stg_stat_menu, stg_act1, stg_other_menu, stg_new_game, stg_load_game, stg_exit, stg_lost, stg_wake_up]
 
 item_names = []
 #for item in global_game_items:

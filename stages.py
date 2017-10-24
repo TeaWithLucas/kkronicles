@@ -22,6 +22,7 @@ class Stage_Manager():
 		self.input_in = False
 
 
+
 	#Will play out the current stage
 	def narrate_current_stage(self):
 		if self.current_stage.stage_type == 'narrated':
@@ -90,25 +91,38 @@ class Stage_Manager():
 	def select_stats(self):
 		for stat in self.gui_obj.player.stats['special']:
 			if self.gui_obj.player.availiable_stat_points > 0:
+				self.gui_obj.add_txt('narration', '[APPLICATION FORM]', self.narrator.tag)
 				self.gui_obj.add_txt('narration', '\n\nYou have ' + str(self.gui_obj.player.availiable_stat_points) + ' points left', self.narrator.tag)
 				self.gui_obj.add_txt('narration', '\n\nHow much ' + stat.upper() + '?', self.narrator.tag)
 				while not self.input_in:
 					print('Waiting')
 					self.gui_obj.main.update()
 
-				self.gui_obj.player.stats['special'][stat] = self.function_in
-				if int(self.function_in) >= self.gui_obj.player.availiable_stat_points:
+				if int(self.function_in) <= self.gui_obj.player.availiable_stat_points:
+					self.gui_obj.player.stats['special'][stat] = self.function_in
 					self.gui_obj.player.availiable_stat_points -= int(self.function_in)
 					self.function_in = ''
-				else:
 					self.gui_obj.clear_middle()
 					self.input_in = False
 					self.gui_obj.update_stat_display()
+				else:
+					self.gui_obj.clear_middle()
+					self.gui_obj.add_txt('narration', 'Not enough points', self.narrator.tag)
+					break
+
 			else:
 				self.gui_obj.clear_middle()
 				self.gui_obj.add_txt('narration', 'You have no more points left!', self.narrator.tag)
 				break
 
+		self.next_stage()
+
+
+	def next_stage(self):
+		self.current_stage = self.select_stage(self.current_stage.next_stg)
+		print(self.current_stage)
+		self.get_narration()
+		self.narrate_current_stage()
 
 
 	def void(self):
