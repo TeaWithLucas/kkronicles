@@ -42,7 +42,7 @@ class Actor():
 
 """The Stage class allows to navigate through the game"""
 class Stage():
-	def __init__(self, stage_id, name, narration, choices):
+	def __init__(self, stage_id, name, narration, choices, stage_type, function = 'void'):
 		self.stage_id = stage_id
 		self.name = name
 		self.narration = narration #The text to be displayed in this stage (story/dialog)
@@ -50,6 +50,9 @@ class Stage():
 		self.choicesinput = [] #List of choices to filter out bad input
 		for choice in choices:
 			self.choicesinput.append(choice.lower())
+
+		self.stage_type = stage_type
+		self.function = function
 
 """The location class allows to navigate through the game map and describe locations in the narration """
 

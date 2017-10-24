@@ -321,7 +321,7 @@ class gui():
 		new_image = PIL.ImageTk.PhotoImage(PIL.Image.open(image_loc))
 		self.widgets[widget].configure(image=new_image)
 		self.widgets[widget].image = new_image
-		
+
 #Start game
 def init():
 	window = gui(game_title)

@@ -13,25 +13,33 @@ class Stage_Manager():
 		self.narrator = narrator
 		self.system_text = system_text
 		self.linebar = '____________________________________________________\n'
-
+		self.function_dict = {
+			'void' : self.void,
+			'select_stats' : self.select_stats
+			}
 
 	#Will play out the current stage
 	def narrate_current_stage(self):
-		for narration in self.remaining_narration:
-			print(self.change_location(narration['location']))
-			if self.change_location(narration['location']):
-				if narration['speaker'] == self.narrator:
-					self.gui_obj.add_txt('narration', narration['dialog'] + '\n\n', self.system_text.tag)
-				else:
-					self.gui_obj.add_txt('narration', narration['speaker'].name + ': ' + narration['dialog'] + '\n\n', narration['speaker'].tag)
-					#self.gui_obj.add_txt('narration', '_____________________________________________________________________\n\n', 'center_tag', '#FFFACD')
-		self.update_choices()
+		if self.current_stage.stage_type == 'narrated':
+			for narration in self.remaining_narration:
+				print(self.change_location(narration['location']))
+				if self.change_location(narration['location']):
+					if narration['speaker'] == self.narrator:
+						self.gui_obj.add_txt('narration', narration['dialog'] + '\n\n', self.system_text.tag)
+					else:
+						self.gui_obj.add_txt('narration', narration['speaker'].name + ': ' + narration['dialog'] + '\n\n', narration['speaker'].tag)
+						#self.gui_obj.add_txt('narration', '_____________________________________________________________________\n\n', 'center_tag', '#FFFACD')
+			self.update_choices()
+		else:
+			self.function_dict[self.current_stage.function]()
+
 
 	#Output choices for stage
 	def update_choices(self):
 		for choice in self.current_stage.choices:
 			print('c = ' + choice)
 			self.gui_obj.add_txt('choice', '\n[' + choice.upper() + ']    \n', self.narrator.tag)
+
 
 	#Fetches user input
 	def take_input(self, input):
@@ -46,6 +54,7 @@ class Stage_Manager():
 		for stage in self.all_stages:
 			if text == stage.stage_id:
 				return stage
+
 
 	#Gets the remaining_narration
 	def get_narration(self):
@@ -65,6 +74,13 @@ class Stage_Manager():
 			return False
 		else:
 			return True
+
+	def select_stats(self):
+		print('Now player selects stats')
+
+	def void(self):
+		pass
+
 
 	#def load_loc_description(self):
 	#	location_description = self.current_stage.location.description
