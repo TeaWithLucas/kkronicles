@@ -41,8 +41,6 @@ class Actor():
 		new_curh = cur_curh + (new_maxh - cur_maxh)
 		self.stats['health'] = {'maxh': new_maxh, 'curh': new_curh}
 
-	def add_email(self, email):
-		self.emails.append(email)
 
 	def add_email(self, email):
 		self.emails.append(email)
@@ -50,7 +48,6 @@ class Actor():
 
 """The Stage class allows to navigate through the game"""
 class Stage():
-<<<<<<< HEAD
 	def __init__(self, data):
 		self.id = str(data['stages_id']).strip()
 		self.name = str(data['stages_name']).strip()
@@ -60,35 +57,16 @@ class Stage():
 		self.choices = {}
 		choices = json.loads(data['stages_choices']) #The choices availiable at the end of this stage
 		self.choicesinput = [] #List of choices to filter  out bad input
-=======
-	def __init__(self, stage_id, name, narration, question, choices):
-		self.stage_id = stage_id
-		self.name = name
-		self.narration = narration #The text to be displayed in this stage (story/dialog)
-		#self.choices = choices #The choices availiable at the end of this stage
-		self.question = question
-		self.choices = {} #The choices availiable at the end of this stage
-		self.choicesinput = [] #List of choices to filter out bad input
->>>>>>> b8269b1d1a38a154b6692d7e004c8ab21f6572e5
 		for choice, dic in choices.items():
 			self.choices[str(choice).lower().strip()] = dic
 			self.choicesinput.append(str(choice).lower().strip())
 
-<<<<<<< HEAD
 	def narration_add(self, data):	
 		for row in data:
 			tempdict = {'speaker':str(row['narr_speaker']).strip(), 'location':str(row['narr_location']).strip(), 'order':int(row['narr_order']), 'dialog':str(row['narr_dialog'])}
 			self.narration.append(tempdict)
 """The location class allows to navigate through the game map and describe locations in the narration """
-=======
-class Email:
-	def __init__(self, sender, title, text):
-		self.sender = sender
-		self.title = title
-		self.text = text
->>>>>>> b8269b1d1a38a154b6692d7e004c8ab21f6572e5
 
-"""The location class allows to navigate through the game map and describe locations in the narration """
 class Location():
 	#def __init__(self, locname, name, image = "", desc = ""):
 		#self.id = locname
@@ -118,7 +96,7 @@ class Item():
 		self.buy = int(data['ItemBuyValue'])
 		self.sell = int(data['ItemSellValue'])
 		self.legal = bool(data['ItemLegal'])
-
+	
 	def inspect():
 		#Print out name, description and hints in narration section
 		pass

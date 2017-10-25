@@ -20,13 +20,7 @@ class Stage_Manager():
 		self.email_disp = False
 		self.email_read = False
 
-<<<<<<< HEAD
 		self.functions = {"cmd_sell_online": self.cmd_sell_online, "cmd_buy_online": self.cmd_buy_online, "cmd_open_tor": self.cmd_open_tor, "cmd_read_email": self.cmd_read_email,"cmd_display_emails": self.cmd_display_emails,"cmd_new_game":self.cmd_new_game, "cmd_exit":self.cmd_exit, "cmd_back":self.cmd_back, "cmd_change_scene":self.cmd_change_scene, "cmd_lose":self.cmd_lose, "cmd_won":self.cmd_won, "cmd_dialog_choice":self.cmd_dialog_choice, "cmd_make_chems":self.cmd_make_chems, "cmd_create_chems":self.cmd_create_chems, "cmd_caught_police":self.cmd_caught_police, "cmd_start_job":self.cmd_start_job}
-=======
-
-		self.functions = {"cmd_sell_online": self.cmd_sell_online, "cmd_buy_online": self.cmd_buy_online, "cmd_open_tor": self.cmd_open_tor, "cmd_read_email": self.cmd_read_email,"cmd_display_emails": self.cmd_display_emails,"cmd_new_game":self.cmd_new_game, "cmd_exit":self.cmd_exit, "cmd_back":self.cmd_back, "cmd_change_scene":self.cmd_change_scene, "cmd_lose":self.cmd_lose, "cmd_won":self.cmd_won, "cmd_dialog_choice":self.cmd_dialog_choice, "cmd_make_chems":self.cmd_make_chems, "cmd_create_chems":self.cmd_create_chems, "cmd_caught_police":self.cmd_caught_police, "cmd_start_job":self.cmd_start_job}
-		#, "cmd_":self.cmd_, "cmd_":self.cmd_, "cmd_":self.cmd_, "cmd_":self.cmd_, "cmd_":self.cmd_, "cmd_":self.cmd_, "cmd_":self.cmd_, "cmd_":self.cmd_, "cmd_":self.cmd_}
->>>>>>> b8269b1d1a38a154b6692d7e004c8ab21f6572e5
 
 
 	#Function to update consoles
@@ -40,25 +34,9 @@ class Stage_Manager():
 		print('inp ' + input_choice[0])
 		print(str(self.current_stage))
 		functions = self.functions
-<<<<<<< HEAD
 		if input_choice[0] in self.current_stage.choices:
 			cmd = self.current_stage.choices[input_choice[0]]['cmd']
 			var = self.current_stage.choices[input_choice[0]]['var']
-=======
-		whole_input = ''
-		first = True
-		for word in input_choice:
-			if first:
-				whole_input = word
-				first = False
-			else:
-				whole_input +=  ' ' + word
-
-		if whole_input in self.current_stage.choices:
-			print('navigating')
-			cmd = self.current_stage.choices[whole_input]['cmd']
-			var = self.current_stage.choices[whole_input]['var']
->>>>>>> b8269b1d1a38a154b6692d7e004c8ab21f6572e5
 			if cmd in functions:
 				functions[cmd](var)
 
@@ -134,9 +112,6 @@ class Stage_Manager():
 	def cmd_change_scene(self, args = ""):
 		print('cmd_change_scene')
 		self.current_stage=self.all_stages[args]
-		if self.email_disp:
-			self.current_stage.choices = self.prev_choices
-			self.current_stage.choicesinput = self.prev_list_choices
 		self.new_scene()
 	def cmd_exit(self, args = ""):
 		print('cmd_exit')
@@ -233,8 +208,4 @@ class Stage_Manager():
 		print('Sell Online')
 
 	def cmd_buy_online(self, args = ""):
-<<<<<<< HEAD
 		print('Buy Online')
-=======
-		print('Buy Online')
->>>>>>> b8269b1d1a38a154b6692d7e004c8ab21f6572e5
