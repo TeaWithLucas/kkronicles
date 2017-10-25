@@ -1,4 +1,5 @@
 from classes import *
+from data import *
 
 """The Stage Manager allows to easily change stages, take inputs and display all the outputs"""
 class Stage_Manager():
@@ -45,12 +46,13 @@ class Stage_Manager():
 	def narrate_current_stage(self):
 		remaining_narration = self.current_stage.narration
 		for narration in remaining_narration:
-			print(self.change_location(narration['location']))
-			if self.change_location(narration['location']):
-				if narration['speaker'] == self.narrator or narration['speaker'] == self.system_text:
-					self.gui.add_txt('narration', narration['dialog'] + '\n\n', narration['speaker'].tag)
+			print(self.change_location(locations[narration['location']]))
+			if self.change_location(locations[narration['location']]):
+				speaker = actors[narration['speaker']]
+				if speaker== self.narrator or speaker == self.system_text:
+					self.gui.add_txt('narration', narration['dialog'] + '\n\n',  speaker.tag)
 				else:
-					self.gui.add_txt('narration', narration['speaker'].name + '\n\t"' + narration['dialog'] + '"\n\n', narration['speaker'].tag)
+					self.gui.add_txt('narration', speaker.name + '\n\t"' + narration['dialog'] + '"\n\n', speaker.tag)
 		self.update_choices()
 
 	#Output choices for stage

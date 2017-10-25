@@ -1,7 +1,6 @@
 
 """ THIS IS THE MAIN GAME CLASS IT CONTAINS THE MAIN GAME LOOP AND LOGIC ASWELL AS MENU FUNCTIONS"""
 from stages import *
-from data import *
 import PIL.Image
 import PIL.ImageTk
 import secrets
@@ -21,8 +20,8 @@ class gui():
 		self.user_input = ""
 
 		#Stage manager to navigate through the game
-		start_stage = stg_main_menu
-		self.stage_man = Stage_Manager(self,stages,start_stage,self.narrator,self.system_text)
+		start_stage = all_stages["stg_main_menu"]
+		self.stage_man = Stage_Manager(self,all_stages,start_stage,self.narrator,self.system_text)
 
 		#health and location initialisation
 		self.cur_health_symbols = "<health>"

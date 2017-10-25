@@ -1,0 +1,110 @@
+stages_id,narr_speaker,narr_location,narr_order,narr_dialog
+stg_intro,Nikeen_Patel,office,1,"You wake on your desk. Having worked late last night to complete your proposal to obtain funding for a start-up of your completely original and not and all copyright infringing program called CloudNet, a friendly security oriented AI system"
+stg_stat_choice,Nikeen_Patel,office,1,
+stg_the_taffia,Nikeen_Patel,queens,1,"You take your application to your superiors, moving through the many, long corridors of the Computer Science department. When you arrive at his office, the head of the department looks over your proposal with one eyebrow raised. He turns his focus to you, his eyes glare at up at you just above the top of the application letter. "
+stg_the_taffia,Stuart_Allen,queens,2,"""There is absolutely nothing you can say or do to make me give the green light to fund this kind of crazy program. An AI system as advanced as this could wipe out humanity completely....This program seems oddly familiar to one I've seen in a film before"""
+stg_the_taffia,Nikeen_Patel,queens,3,He says with one hand cupped on his chin.ÿ
+stg_the_taffia,Nikeen_Patel,queens,4,"You leave the building with your head hanging low, you feel as though years of your work have gone to waste.ÿ"
+stg_the_taffia,Nikeen_Patel,queens,5,"Spliffy, leaning on the wall with one leg propped up looks over from under his hood.ÿÿ"
+stg_the_taffia,Aaron_Sehmby,queens,5,"""You look down, My G, what up?"""
+stg_the_taffia,Nikeen_Patel,queens,5,"He offers you a dreg of what was most certianly not a cigerette. You decided after a day like this, you could use some relaxing"
+stg_the_taffia,Kirill_Sidorov,queens,5,"""I just had my project rejected, I'll never be able to develop my lifes project in time"""
+stg_the_taffia,Aaron_Sehmby,queens,5,"""Hmm?. You do cumputas right? I've got some friends at the Taf who could cheer you up. Name's Spliffy."""
+stg_the_taffia,Nikeen_Patel,queens,5,"Spliffy winks and guestures you to follow, you follow him across the bridge towards to Student Union"
+stg_the_taffia,Nikeen_Patel,taff,5,"At the Taf, Spliffy escorts you through to a room behind the bar.ÿ"
+stg_the_taffia,Nikeen_Patel,taff,5,"Staring you down at the end of a long table, shrouded in shadow, is the big boss you heard of in rumours: Castellano"
+stg_the_taffia,William_Davies,taff,5,"""Allright boyo"""
+stg_the_taffia,Nikeen_Patel,taff,5,Says the dark figure in his thick Welsh accent.
+stg_the_taffia,Kirill_Sidorov,taff,5,"""Hello..."""
+stg_the_taffia,Nikeen_Patel,taff,5,You reply unsure of how you actually ended up here?
+stg_the_taffia,William_Davies,taff,5,"""You cum highly recommended by my friend here Spliffy. See, I've got an little issue mister computa man. I can't sell my... products as da ... inspectors have been lockin' up my best ... distributas. I 'ear you've got a little cash flow problem that maybe tog'eva we can fix."" ÿ"
+stg_the_taffia,Action Choice,taff,5,"""Now I am not one for dem documentories, by the lady had one of dem on about those dark webs and shit. I want you to send my merchanice via those emails and snapchats. I'll sell to you bulk, you make profit, everybody happy, 'ight? "
+stg_join_taffia,William_Davies,taff,1,"""Fantastic Mister Computa man"" "
+stg_join_taffia,Nikeen_Patel,taff,2, Says Castellano in his deep bellowing voice
+stg_join_taffia,William_Davies,taff,3,"""My mister vice-president here, Claws, will sell you the products, and we can talk more once you start pulling your weight. Now go make us rich.""ÿ"
+stg_join_taffia,Nikeen_Patel,taff,4,"You leave, ready to use the Taffia and to earn you enough bitcoin to reach your goal of launching SkyNet.ÿ"
+stg_decline_taffia,Kirill_Sidorov,taff,1,"""Thank you for your offer Castellano. I am afraid to say, I'll politely decline. This is not my kind of business."""
+stg_decline_taffia,Nikeen_Patel,taff,2,"You are guestured to leave as if you are of no worth or importance, and you do so hurredly"
+stg_decline_taffia,Nikeen_Patel,taff,3,"Leaving the Taf, you chuckle, beaming, knowing that you now know how to fund your research....ÿ"
+stg_decline_taffia,Nikeen_Patel,taff,4,A couple of student look at you confused as you cross paths on the stairs.ÿ
+stg_decline_taffia,Nikeen_Patel,taff,5,You head home to collect his thoughts and work out exactly how it was you plan to become Cardiff's biggest chem lord.ÿ
+stg_park,Nikeen_Patel,park,1,"You head over, no one is around as far as you can tell and stand next to the bin. Looking in the bin next to you, you see a with a anonymous symbol in it.ÿ"
+stg_caught_park,Nikeen_Patel,park,1,As you turn to leave you see suspicious men walking towards you from all directions.ÿÿ
+stg_caught_park,Nikeen_Patel,park,2,"You spot a gap in their circle, you run for the gap. The men sprint after you.ÿ"
+stg_caught_park,Inspector_Jones,park,3,"""PUT YOUR HANDS UP""ÿ"
+stg_caught_park,Nikeen_Patel,park,4,Woopsy! It looks like you've been caught by a police sting!ÿÿ
+stg_caught_park,Inspector_Jones,park,5,"""GIT HIM""ÿ"
+stg_caught_park,Nikeen_Patel,park,6, They tackle you to the ground. Having placed you in handcuffs you're escorted to the police station and imprisoned for 5 years.ÿCloudNetÿisn't going online anytime soon.
+stg_caught_park,Nikeen_Patel,park,7,Your dreams on launchingÿCloudNetÿare left with the choice to trust a anonymous email?  <The End>
+stg_leave_park,Nikeen_Patel,park,1,You pick it up and place the package into you're abnormally long coat.ÿÿ
+stg_leave_park,Nikeen_Patel,park,2,You look around hoping no one noticed you rummaging around in the bin and briskly walk away.ÿÿ
+stg_leave_park,Nikeen_Patel,park,3,You take the package home and open it to find various components for chems. Time to get selling.ÿ
+stg_leave_park,Nikeen_Patel,park,4,"You'll need to move to a computer in the library to access the dark web, listing the chems available and finding potential buyers.ÿ"
+stg_caught_labs,Nikeen_Patel,chem,1,"You hear someone opening a door behind you and foots steps around, as you run in frount of you is someone in riot gear."
+stg_caught_labs,Inspector_Jones,chem,2,"""PUT YOUR HANDS UP""ÿ"
+stg_caught_labs,Nikeen_Patel,chem,3,Opsy! The gaurds must of alerted the police!ÿÿ
+stg_caught_labs,Inspector_Jones,chem,4,"""GET DOWN ON THE GROUND""ÿ"
+stg_caught_labs,Nikeen_Patel,chem,5,"You're thrown in to the back of a police car, your head hits the door on the opposite side of the car due to force at which you were thrown in. You're knocked out. No getting out of this one.ÿ"
+stg_caught_labs,Nikeen_Patel,chem,6,CloudNetÿisn't going online anytime soon.ÿ <The End>
+stg_labs_first,Nikeen_Patel,chem,1,"You sneak into theÿchemÿlabs, watching the door doesn't slam shut. Crouched, you quietly move around the room and take the components you need. The security guard enters the room and shines his torch around the dark room, his name badge reads Alex Rhames. You take cover behind a shelving unit."
+stg_labs_first,Nikeen_Patel,chem,2," He walks towards you and you begin to feel your heartbeat pacing. Rhames turns to look the other way momentarily. In a rush of adrenaline-fueled though, you sprint for the door as quietly and quickly as you can.ÿ"
+stg_labs_first,Nikeen_Patel,chem,3,You've made it out. Rhames is unaware of your presence.ÿ
+stg_labs,Nikeen_Patel,chem,1,"You sneak into theÿchemÿlabs, looking to get as much as you can without getting noticed. "
+stg_labs_success,Nikeen_Patel,chem,1,You've made it out. No one even knew you were there? you hope.
+stg_win_game,Nikeen_Patel,menu,1,"Congratulations! You've done it Kirill, using you're perfect mix of wit, cunning, intelligence and agility that makes you SPECIAL: you've managed to earn those preciousÿBitCoins, you can finally bring your revolutionary security software into the world.ÿÿ"
+stg_win_game,Nikeen_Patel,menu,2,But should you have listened to your superiors at the Computer science department when they said it was crazy and could be the worst idea to build such advanced AI?ÿ
+stg_win_game,Nikeen_Patel,menu,3,"For that my friends, you will have to wait and see.ÿ"
+stg_win_game,Nikeen_Patel,menu,4,KIRILL           WILL                RETURN          ?. <The End>
+stg_job_offer_triad,Bai_Hu,triad,1,"?So Kirill, your new to the gang. We have an opportunity coming up that would give you the chance to show your loyalty. A fresh shipment of product needs to be picked up this evening. You?ll get more information later. The question is are you in??"
+stg_job_offer_triad_refuse,Bai_Hu,triad,1,"?This is not a good choice, we no longer want your services.?"
+stg_job_offer_triad_refuse,Nikeen_Patel,triad,2,"Bai gestures you to leave, and not to return."
+stg_job_triad,Bai_Hu,triad,1,"?This is the beginning of a fruitful partnership Kirill. Come with me, I?ll show you the plan."""
+stg_job_triad,Nikeen_Patel,triad,2,"Bai leads you into the back office, there is a white board with the plan on it.ÿÿ"
+stg_job_triad,Nikeen_Patel,triad,3,The shipment arrives at 03:45 tommorrow and will be brought to the shore in Three Cliffs Bay
+stg_job_triad,Nikeen_Patel,triad,4,"The next day you meet up with them outside 'Dymtro's Cash Laundering', you hope its meant to be ironic"
+stg_job_triad,Nikeen_Patel,triad,5,"You get into a van with the same name and leave, heading directly to Three cliffs bay.ÿ"
+stg_job_triad,Nikeen_Patel,cliffs,6,"You head down to the beach on foot, there is no vehicle access and start carrying the shipments back to the van,"
+stg_job_triad,Nikeen_Patel,cliffs,7,"Everything is going to plan when you hear a gun shot out of nowhere. Bai turns, pucking a AK seemily out of nowhere."
+stg_job_triad,Bai_Hu,cliffs,8,"""Y¡n ch¢ng (??), Taffia!"".ÿ"
+stg_job_triad,Nikeen_Patel,cliffs,9,"You are tossed a pistol,ÿyou?ll have to fight to defend your shipment."
+stg_job_triad_win,Nikeen_Patel,cliffs,1,"You dive behind a rock, your keen perception comes into play as start picking off the Taffs. With screams in both English and Chineese everything dissolves into choas.ÿ"
+stg_job_triad_win,Nikeen_Patel,cliffs,2,
+stg_job_triad_escape,Nikeen_Patel,cliffs,1,"You are no fighter and this is not your battle, you run, and keep running. "
+stg_job_triad_escape,Nikeen_Patel,cliffs,2,"You are woken up later by police sirens, you are hidden away in a abandoned house. You find a bus stop and head home as if nothing ever happened"
+stg_job_triad_escape,Nikeen_Patel,cliffs,3,You don't think its wise to visit the triads again
+stg_job_triad_die,Nikeen_Patel,cliffs,1,"You realise you can't fight, you're a bloody computer science researcher!"
+stg_job_triad_die,Nikeen_Patel,cliffs,2,You are easy target for the Taffia and are picked off quickly
+stg_job_triad_die,Nikeen_Patel,cliffs,3,No one will ever see your realisation of CloudNet as you are dead? for now <The End>
+stg_job_offer_taffia,James_Wills,taff,1,"?My boy, it?s time to prove your worth. We?reÿgonna' rush the Triads at their block later. I need to call on bare homies to come rush the Triads. Are you down??ÿ"
+stg_job_offer_taffia_refuse,James_Wills,taff,1,"?nah g, where the is your loyalty? You're a disgrace to theÿTaffia, get out of my pub find someone else to deal with and watch your back. If I ever see your face here again, you'reÿgonna' get dropped.?"
+stg_job_offer_taffia_refuse,Nikeen_Patel,taff,2,"You hastely head away as people appearing all around head towards you, you had better not return?"
+stg_job_taffia,Nikeen_Patel,taff,1,"You hear a chuckle, you see Castellano in a dark corner grining at you.ÿ"
+stg_job_taffia,William_Davies,taff,2,"?Nice one boyo. I told you he's one of us Claws. Meet us at eleven now in a minute. See, you might be Russain, but your also a Taff?"
+stg_job_taffia,Nikeen_Patel,taff,3,"You stay in the pub, hoping to drink some dutch courage before you go."
+stg_job_taffia,Nikeen_Patel,taff,4,"At half past eight you see Claws emerge from the backrooms and summons you over. You follow him down a line of three 'jacked' up minis. You get into the back one and endure songs and chants all the way, some of which you think were English, but you couldn't tell. "
+stg_job_taffia,Nikeen_Patel,taff,5,"You're diven to a spot up a hill and walk down quitely, readying at the ambush spot. Someone passes you a loaded handgun. "
+stg_job_taffia,Nikeen_Patel,cliffs,6,After a while you hear footsteps nearing you and slight sounds of Chineese and English. All of a sudden Castellno bursts out and shouts
+stg_job_taffia,William_Davies,cliffs,7,"""On me boys, time to show them whos country this is!"""
+stg_job_taffia,Nikeen_Patel,cliffs,8,"You hear guns click all around you, it's time to rush the triads. "
+stg_job_taffia_win_strength,Nikeen_Patel,cliffs,1,"You slide into a crouched position behind a shrub,  you bag the first triad and go towards the shipment container. You shoot two of the triads and a gun war breaks out.ÿ"
+stg_job_taffia_win_perception,Nikeen_Patel,cliffs,1,"You slide into a crouched position behind a shrub, your keen perception comes into play as you sharpshoot your first triad. You shoot two of the triads in the head and soon utter choas pursuses.ÿ"
+stg_job_taffia_escape,Nikeen_Patel,cliffs,1,"You are no fighter and this is not your battle, you run, and keep running. "
+stg_job_taffia_escape,Nikeen_Patel,cliffs,2,"You are woken up later by police sirens, you are hidden away in a abandoned house. You find a bus stop and head home as if nothing ever happened"
+stg_job_taffia_escape,Nikeen_Patel,cliffs,3,You don't think its wise to visit The Taff again
+stg_job_taffia_die,Nikeen_Patel,cliffs,1,"You realise you can't fight, you're a bloody computer science researcher!"
+stg_job_taffia_die,Nikeen_Patel,cliffs,2,You are easy target for the Taffia and are picked off quickly
+stg_job_taffia_die,Nikeen_Patel,cliffs,3,No one will ever see your realisation of CloudNet as you are dead? for now <The End>
+stg_the_triad,Nikeen_Patel,triad,1,
+stg_join_triad,Nikeen_Patel,triad,1,
+stg_decline_triad,Nikeen_Patel,triad,1,
+stg_at_taff,Nikeen_Patel,taff,1,You enter the student pub and head to the backroom
+stg_at_taff_buy,Nikeen_Patel,taff,1,You approch Claws
+stg_at_taff_buy,James_Wills,taff,2,"""ight? 'eres what we got"""
+stg_at_triad,Nikeen_Patel,,1,You enter the casino and head for the backrooms
+stg_at_triad_buy,Nikeen_Patel,traid,1,You approch Snake
+stg_at_triad_buy,She_Ni,traid,2,"""Hello b i ch? (??)"""
+stg_at_uni,Nikeen_Patel,uni,1,You enter the university in which you work
+stg_at_home,Nikeen_Patel,home,1,You enter your appartment
+stg_at_library,Nikeen_Patel,library,1,"You enter the library, find a enclosed desk and pull out your laptop and start TOR"
+stg_main_menu,Dmytro_Kaduba,menu,1,
+stg_job_lecture,Nikeen_Patel,lecture,1,"You resentfully do some lecuturing with First Years, dispite all the effort you put in for little money, you doubt few will pass the first year"

@@ -42,18 +42,24 @@ class Actor():
 
 """The Stage class allows to navigate through the game"""
 class Stage():
-	def __init__(self, stage_id, name, narration, question, choices):
-		self.stage_id = stage_id
-		self.name = name
-		self.narration = narration #The text to be displayed in this stage (story/dialog)
+	def __init__(self, data):
+		self.id = str(data['stages_id']).strip()
+		self.name = str(data['stages_name']).strip()
+		self.narration = [] #The text to be displayed in this stage (story/dialog)
 		#self.choices = choices #The choices availiable at the end of this stage
-		self.question = question
-		self.choices = {} #The choices availiable at the end of this stage
+		#self.question = data['question']
+		self.question = str("needs to be put on db").strip()
+		self.choices = json.loads(data['stages_choices']) #The choices availiable at the end of this stage
 		self.choicesinput = [] #List of choices to filter ochoice.lower()ut bad input
-		for choice, dic in choices.items():
-			self.choices[choice.lower()] = dic
-			self.choicesinput.append(choice.lower())
+		if len(self.choices) > 0:
+			for choice, dic in choices.items():
+				self.choices[str(choice).lower().strip()] = dic
+				self.choicesinput.append(str(choice).lower().strip())
 
+	def narration_add(self, data):	
+		for row in data:
+			tempdict = {'speaker':str(row['narr_speaker']).strip(), 'location':str(row['narr_location']).strip(), 'order':int(row['narr_order']), 'dialog':str(row['narr_dialog'])}
+			self.narration.append(tempdict)
 """The location class allows to navigate through the game map and describe locations in the narration """
 
 class Location():
