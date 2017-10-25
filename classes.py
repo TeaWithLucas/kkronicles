@@ -12,6 +12,7 @@ class Actor():
 		self.lname =  str(data['CharLname']).strip()
 		self.name = self.fname + " " + self.lname
 		self.id = self.fname + "_" + self.lname
+		self.stat_points = 20
 		self.nickname =  str(data['CharNickname']).strip()
 		self.location =  str(data['CharLoc']).strip()
 		self.function =  str(data['CharFunc']).strip()
@@ -85,7 +86,7 @@ class Item():
 		self.buy = int(data['ItemBuyValue'])
 		self.sell = int(data['ItemSellValue'])
 		self.legal = bool(data['ItemLegal'])
-	
+
 	def inspect():
 		#Print out name, description and hints in narration section
 		pass

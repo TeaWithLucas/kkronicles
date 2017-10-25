@@ -26,12 +26,20 @@ class Stage_Manager():
 
 	#Function to update consoles
 	def navigate(self, input_choice):
+		print('KEYS> ' + str(self.gui.player.stats['special'].keys()))
+		print('inp ' + input_choice[0])
+		print(str(self.current_stage))
 		functions = self.functions
-		if input_choice in self.current_stage.choices:
-			cmd = self.current_stage.choices[input_choice]['cmd']
-			var = self.current_stage.choices[input_choice]['var']
+		if input_choice[0] in self.current_stage.choices:
+			cmd = self.current_stage.choices[input_choice[0]]['cmd']
+			var = self.current_stage.choices[input_choice[0]]['var']
 			if cmd in functions:
 				functions[cmd](var)
+
+		elif input_choice[0] in self.gui.player.stats['special'].keys() and self.current_stage == self.all_stages['stg_stat_choice']:
+			print('Doing stats')
+			self.cmd_set_stat(input_choice[0],input_choice[1])
+
 		else:
 			self.update_choices()
 
@@ -119,4 +127,6 @@ class Stage_Manager():
 		print('cmd_caught_police')
 	def cmd_start_job(self, args = ""):
 		print('cmd_start_job')
-	
+	def cmd_set_stat(self, stat, value, arg = ""):
+		self.gui.player.stats['special'][stat] = value
+		self.gui.update_stat_display()
