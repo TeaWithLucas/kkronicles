@@ -12,6 +12,7 @@ class Actor():
 		self.lname =  str(data['CharLname']).strip()
 		self.name = self.fname + " " + self.lname
 		self.id = self.fname + "_" + self.lname
+		self.emails = []
 		self.stat_points = 20
 		self.nickname =  str(data['CharNickname']).strip()
 		self.location =  str(data['CharLoc']).strip()
@@ -40,6 +41,8 @@ class Actor():
 		new_curh = cur_curh + (new_maxh - cur_maxh)
 		self.stats['health'] = {'maxh': new_maxh, 'curh': new_curh}
 
+	def add_email(self, email):
+		self.emails.append(email)
 
 """The Stage class allows to navigate through the game"""
 class Stage():
@@ -50,13 +53,18 @@ class Stage():
 		#self.choices = choices #The choices availiable at the end of this stage
 		self.question = question
 		self.choices = {} #The choices availiable at the end of this stage
-		self.choicesinput = [] #List of choices to filter ochoice.lower()ut bad input
+		self.choicesinput = [] #List of choices to filter out bad input
 		for choice, dic in choices.items():
 			self.choices[choice.lower()] = dic
 			self.choicesinput.append(choice.lower())
 
-"""The location class allows to navigate through the game map and describe locations in the narration """
+class Email:
+	def __init__(self, sender, title, text):
+		self.sender = sender
+		self.title = title
+		self.text = text
 
+"""The location class allows to navigate through the game map and describe locations in the narration """
 class Location():
 	#def __init__(self, locname, name, image = "", desc = ""):
 		#self.id = locname

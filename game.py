@@ -14,6 +14,8 @@ class gui():
 		self.running = True
 		self.title = title
 		self.player = actors['Kirill_Sidorov'] #The protagonist actor object
+		self.player.add_email(email_z)
+		self.player.add_email(email_d)
 		self.narrator = actors['Nikeen_Patel'] #The narrato actor
 		self.system_text = actors['Dmytro_Kaduba'] #System text display actor
 
@@ -234,6 +236,8 @@ class gui():
 				spaces += ' '
 
 			update_txt += ' ' + desc.upper() + ': '+ spaces + str(amount) + '\n'
+
+		update_txt += '\n' + 'Availiable Points: ' + str(self.player.stat_points)
 		print ('updating stats:' + str(self.player.stats['special']))
 		self.update_txt('stats', update_txt)
 
