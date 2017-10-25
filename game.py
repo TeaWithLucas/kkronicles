@@ -291,19 +291,16 @@ class gui():
 	#Updates inventory display after every cycle
 	def update_inv_display(self):
 		update_txt = ""
+		added_items = []
 		for item in self.player.inv:
-			update_txt += '  ---  ' + item.itemid + '\n'
+			if item in added_items:
+				item.quant += 1
+
+			else:
+				added_items.append(item)
+				update_txt += '  ---  ' + item.name + '(' + str(item.quant) + ')\n'
+
 		self.update_txt('inv', update_txt)
-
-		update_txt_room = ''
-		update_txt_room += '	 [YOU CAN PICK]\n\n'
-		#for item in self.stage_man.current_stage.location.items:
-		#	update_txt_room += ' --- ' + item.itemid + '\n'
-		#self.update_txt('items', update_txt_room)
-
-	#def update_choices(self):
-		#for choice in self.current_stage.choices:
-			#self.add_txt('choice', "\t\t\t\t" + choice + "\n", self.player.tag)
 
 	#Refresh displays
 	def refresh(self):

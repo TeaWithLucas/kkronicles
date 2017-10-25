@@ -190,7 +190,7 @@ class Stage_Manager():
 				self.current_stage.choicesinput.append('open from ' + c)
 				self.current_stage.choices.update({'open from ' + c : {'cmd':'cmd_read_email', 'var': c}})
 			self.current_stage.choicesinput.append('close')
-			self.current_stage.choices.update({'close': {'cmd':'cmd_open_tor', 'var': self.current_stage.stage_id}})
+			self.current_stage.choices.update({'close': {'cmd':'cmd_open_tor', 'var': ""}})
 			self.update_choices()
 
 	def cmd_read_email(self, args = ""):
@@ -263,70 +263,70 @@ class Stage_Manager():
 	def cmd_buy_online(self, args = ""):
 		print('Buy Online')
 
-		def cmd_sell_item(self, args = ""):
-			self.email_read = True
-			item_sold = ''
+	def cmd_sell_item(self, args = ""):
+		self.email_read = True
+		item_sold = ''
+		for i in self.all_items.values():
+			if i.id == args:
+				item_sold = i
+		print(item_sold.name)
+		self.gui.player.inv.remove(item_sold)
+		self.gui.update_inv_display()
+		self.gui.player.wallet += item_sold.sell
+		self.gui.update_wallet()
+		items_to_sell = []
+		for item in self.gui.player.inv:
+			if item.type == 'Drug':
+				items_to_sell.append(item)
+
+		self.cmd_sell_online()
+
+	def cmd_cook_menu(self, arg = ""):
+		self.email_disp = True
+		if not(self.email_read):
+			self.prev_choices = self.current_stage.choices
+			self.prev_list_choices = self.current_stage.choicesinput
+			self.email_read = False
+		self.gui.clear_middle()
+		self.gui.add_txt('narration', 'Recepie Book\n\n', self.narrator.tag)
+		self.gui.add_txt('narration', 'Here you can cook your very own drugs! Have fun...\n\n', self.system_text.tag)
+		possibilities = self.gui.recipe_engine.check_for_possibilities(self.gui.player.inv)
+		self.gui.add_txt('narration', 'With your items you can make:\n\n', self.system_text.tag)
+		self.current_stage.choicesinput = []
+		for c in possibilities:
+			drug_name = ''
+			drug_id = c.output
+			for item in self.all_items.values():
+				print(item.id + ' - ' + c.output)
+				if c.output == item.id:
+					drug_name = item.name
+
+			self.gui.add_txt('narration', '\t\t' + drug_name + '\n\n', self.system_text.tag)
+
+			self.current_stage.choicesinput.append('cook ' + drug_name)
+			self.current_stage.choices.update({'cook ' + drug_name.lower() : {'cmd':'cmd_cook_drug', 'var': drug_id}})
+
+		self.current_stage.choicesinput.append('close')
+		self.current_stage.choices.update({'close' : {'cmd':'cmd_change_scene', 'var': self.current_stage.stage_id}})
+		self.update_choices()
+
+	def cmd_cook_drug(self, drug_id):
+		self.email_read = True
+		print('Cooking...')
+		drug_item = ''
+		for item in self.all_items.values():
+			if item.id == drug_id:
+				drug_item = item
+		self.gui.player.take(drug_item)
+		remove_list = []
+		all_game_rec = self.gui.recipe_engine.all_recepies
+		for rec in all_game_rec.values():
+			if rec.output == drug_id:
+				remove_list += rec.input.values()
+		print(remove_list)
+		for item in remove_list:
 			for i in self.all_items.values():
-				if i.id == args:
-					item_sold = i
-			print(item_sold.name)
-			self.gui.player.inv.remove(item_sold)
-			self.gui.update_inv_display()
-			self.gui.player.wallet += item_sold.sell
-			self.gui.update_wallet()
-			items_to_sell = []
-			for item in self.gui.player.inv:
-				if item.type == 'Drug':
-					items_to_sell.append(item)
-
-			self.cmd_sell_online()
-
-			def cmd_cook_menu(self, arg = ""):
-				self.email_disp = True
-				if not(self.email_read):
-					self.prev_choices = self.current_stage.choices
-					self.prev_list_choices = self.current_stage.choicesinput
-					self.email_read = False
-				self.gui.clear_middle()
-				self.gui.add_txt('narration', 'Recepie Book\n\n', self.narrator.tag)
-				self.gui.add_txt('narration', 'Here you can cook your very own drugs! Have fun...\n\n', self.system_text.tag)
-				possibilities = self.gui.recipe_engine.check_for_possibilities(self.gui.player.inv)
-				self.gui.add_txt('narration', 'With your items you can make:\n\n', self.system_text.tag)
-				self.current_stage.choicesinput = []
-				for c in possibilities:
-					drug_name = ''
-					drug_id = c.output
-					for item in self.all_items.values():
-						print(item.id + ' - ' + c.output)
-						if c.output == item.id:
-							drug_name = item.name
-
-					self.gui.add_txt('narration', '\t\t' + drug_name + '\n\n', self.system_text.tag)
-
-					self.current_stage.choicesinput.append('cook ' + drug_name)
-					self.current_stage.choices.update({'cook ' + drug_name.lower() : {'cmd':'cmd_cook_drug', 'var': drug_id}})
-
-				self.current_stage.choicesinput.append('close')
-				self.current_stage.choices.update({'close' : {'cmd':'cmd_change_scene', 'var': self.current_stage.stage_id}})
-				self.update_choices()
-
-			def cmd_cook_drug(self, drug_id):
-				self.email_read = True
-				print('Cooking...')
-				drug_item = ''
-				for item in self.all_items.values():
-					if item.id == drug_id:
-						drug_item = item
-				self.gui.player.take(drug_item)
-				remove_list = []
-				all_game_rec = self.gui.recipe_engine.all_recepies
-				for rec in all_game_rec.values():
-					if rec.output == drug_id:
-						remove_list += rec.input.values()
-				print(remove_list)
-				for item in remove_list:
-					for i in self.all_items.values():
-						if i.id == item:
-							self.gui.player.drop(i)
-				self.gui.update_inv_display()
-				self.cmd_cook_menu()
+				if i.id == item:
+					self.gui.player.drop(i)
+		self.gui.update_inv_display()
+		self.cmd_cook_menu()

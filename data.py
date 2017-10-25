@@ -2,6 +2,8 @@ from classes import *
 import sql
 
 game_title = 'Kirill Kronicles'
+email_z = Email('z', 'Yo Kirill', "You don’t know me, G, but I can hook you up with my product, you feel. If you want 'em. They'll be waiting. Leave the money, my bredrin' will collect it. ")
+email_d = Email('dmytro', 'spam', "I will send you a very big amount of spam emails if you sell drugs. ")
 
 bitcoin_values = [{'name':'bitcoin', 'value':10**8, 'symbol':'₿'}, {'name':'milli', 'value':10**5, 'symbol':'m₿'}, {'name':'micro', 'value':10**2, 'symbol':'µ₿'}, {'name':'nano', 'value':1, 'symbol':'n₿'}]
 
@@ -37,6 +39,7 @@ items = table_to_class("tblItems", {'class': Item})
 all_stages = table_to_class("tblStages", {'class': Stage})
 for stage in all_stages.values():
 	stage.narration_add(table_to_list("tblNarration", "stages_id", stage.id))
+recipes = table_to_class("tblRecipes", {'class': Recipe})
 
 #Items
 #book_item = Item('Book', 'an old book', 'This is a very old looking book.')

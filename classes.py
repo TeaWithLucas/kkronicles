@@ -57,8 +57,17 @@ class Actor():
 		stat_return = stat_value + stat_modifier
 		return stat_return
 
+class Recipe():
 
-	class Recipe_Manager():
+	def __init__(self, data):
+			self.id = str(data['rec_id']).strip()
+			self.name = str(data['rec_name']).strip()
+			self.input = json.loads(data['rec_input'])
+			self.output = str(data['rec_output']).strip()
+			self.method = str(data['rec_method']).strip()
+
+
+class Recipe_Manager():
 
 		def __init__(self, all_recepies):
 			self.all_recepies = all_recepies
