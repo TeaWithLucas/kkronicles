@@ -48,9 +48,8 @@ items = table_to_class("tblItems", {'class': Item})
 
 #Stages(integrate with DB in future)
 stg_main_menu = Stage('stg_main_menu', 'Main Menu', [{'speaker':actors['Dmytro_Kaduba'], 'dialog':(draw_ascii('./assets/welcome.txt') + '\n\n\n\n\n' + '0Welcome  Kirill\t'), 'location': locations['menu']}], "What would you like to do?", {'Start': {'cmd':'cmd_change_scene', 'var':'stg_stat_choice'}, 'Exit':{'cmd':'cmd_exit', 'var':''}})
-stg_stat_choice = Stage('stg_stat_choice', 'Selecting Stats', [{'speaker':actors['Nikeen_Patel'], 'dialog':'[APPLICATIION FORM]', 'location': locations['menu']}, {'speaker':actors['Dmytro_Kaduba'], 'dialog':'Enter your chosen stats to complete your application by typing the stat followed by the value. When you are done type [continue]. ', 'location': locations['menu']}], "What would you like to do?", {'continue': {'cmd':'cmd_change_scene', 'var':'stg_act1'}, 'email':{'cmd':'cmd_display_emails','var': ''}})
+stg_stat_choice = Stage('stg_stat_choice', 'Selecting Stats', [{'speaker':actors['Nikeen_Patel'], 'dialog':'[APPLICATIION FORM]', 'location': locations['menu']}, {'speaker':actors['Dmytro_Kaduba'], 'dialog':'Enter your chosen stats to complete your application by typing the stat followed by the value. When you are done type [continue]. ', 'location': locations['menu']}], "What would you like to do?", {'continue': {'cmd':'cmd_change_scene', 'var':'stg_act1'},'open tor': {'cmd':'cmd_open_tor', 'var':'stg_act1'}})
 
-stg_display_emails = Stage('display_emails', 'Mailbox',[{'speaker':actors['Nikeen_Patel'], 'dialog': 'You open your email', 'location':locations['menu']}], "What would you like to do?", {'continue': {'cmd':'cmd_change_scene', 'var':'stg_act1'}, 'email':{'cmd':'cmd_change_scene','var': 'stg_act1'}})
 stg_act1 = Stage('stg_act1', 'Act 1', [
 	{'speaker':actors['Nikeen_Patel'], 'dialog':'Lorem ipsum dolor sit amet, sea ei ridens signiferumque, vel no graece altera viderer. Has diam nibh no. Pro in noster probatus eleifend, saepe graecis corpora quo ei. Debitis definitiones quo ad, tollit eirmod patrioque ad vim, dico dolore assentior ut mel. Vel epicurei intellegam ex. Cum probatus theophrastus an, per id tota virtute.', 'location': locations['queens']},
 	{'speaker':actors['James_Wills'], 'dialog':'Dico quando invidunt ei sit. Et bonorum delicata cum, per falli praesent explicari ea. Usu et tale error dissentiet, cum an laboramus aliquando repudiandae. Munere eloquentiam disputationi in vix. Tota salutandi rationibus eu pro, ius no persius menandri. Eam ut purto case instructior, decore periculis reprehendunt mei in, ea dicat cotidieque cum.', 'location':  locations['queens']},
@@ -65,7 +64,7 @@ stg_load_game = Stage('stg_load game', 'load game', [{'speaker':actors['Dmytro_K
 stg_exit = Stage('stg_exit', 'Exiting', [{'speaker':actors['Dmytro_Kaduba'], 'dialog':'Welcome  Krill', 'location': locations['menu']}],  "What next?", {'Main Menu': {'cmd':'cmd_new_game', 'var':''}, 'Exit':{'cmd':'cmd_exit', 'var':''}})
 stg_lost = Stage('stg_lost', 'You Loose', [{'speaker':actors['Dmytro_Kaduba'], 'dialog':'You lost', 'location': locations['menu']}], "What next?", {'Main Menu': {'cmd':'cmd_new_game', 'var':''}, 'Exit':{'cmd':'cmd_exit', 'var':''}})
 
-stages = {'stg_display_emails': stg_display_emails, 'stg_main_menu':stg_main_menu, 'stg_act1':stg_act1, 'stg_act1b':stg_act1b, 'stg_new_game':stg_new_game, 'stg_load_game':stg_load_game, 'stg_exit':stg_exit, 'stg_lost':stg_lost, 'stg_stat_choice': stg_stat_choice}
+stages = { 'stg_main_menu':stg_main_menu, 'stg_act1':stg_act1, 'stg_act1b':stg_act1b, 'stg_new_game':stg_new_game, 'stg_load_game':stg_load_game, 'stg_exit':stg_exit, 'stg_lost':stg_lost, 'stg_stat_choice': stg_stat_choice}
 
 item_names = []
 #for item in global_game_items:

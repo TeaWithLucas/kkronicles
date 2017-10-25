@@ -20,7 +20,7 @@ class Stage_Manager():
 		self.email_read = False
 
 
-		self.functions = { "cmd_read_email": self.cmd_read_email,"cmd_display_emails": self.cmd_display_emails,"cmd_new_game":self.cmd_new_game, "cmd_exit":self.cmd_exit, "cmd_back":self.cmd_back, "cmd_change_scene":self.cmd_change_scene, "cmd_lose":self.cmd_lose, "cmd_won":self.cmd_won, "cmd_dialog_choice":self.cmd_dialog_choice, "cmd_make_chems":self.cmd_make_chems, "cmd_create_chems":self.cmd_create_chems, "cmd_caught_police":self.cmd_caught_police, "cmd_start_job":self.cmd_start_job}
+		self.functions = {"cmd_sell_online": self.cmd_sell_online, "cmd_buy_online": self.cmd_buy_online, "cmd_open_tor": self.cmd_open_tor, "cmd_read_email": self.cmd_read_email,"cmd_display_emails": self.cmd_display_emails,"cmd_new_game":self.cmd_new_game, "cmd_exit":self.cmd_exit, "cmd_back":self.cmd_back, "cmd_change_scene":self.cmd_change_scene, "cmd_lose":self.cmd_lose, "cmd_won":self.cmd_won, "cmd_dialog_choice":self.cmd_dialog_choice, "cmd_make_chems":self.cmd_make_chems, "cmd_create_chems":self.cmd_create_chems, "cmd_caught_police":self.cmd_caught_police, "cmd_start_job":self.cmd_start_job}
 		#, "cmd_":self.cmd_, "cmd_":self.cmd_, "cmd_":self.cmd_, "cmd_":self.cmd_, "cmd_":self.cmd_, "cmd_":self.cmd_, "cmd_":self.cmd_, "cmd_":self.cmd_, "cmd_":self.cmd_}
 
 
@@ -152,11 +152,7 @@ class Stage_Manager():
 
 
 	def cmd_display_emails(self, args = ""):
-			self.email_disp = True
-			if not(self.email_read):
-				self.prev_choices = self.current_stage.choices
-				self.prev_list_choices = self.current_stage.choicesinput
-				self.email_read = False
+			self.email_read = True
 			self.gui.clear_middle()
 			self.gui.add_txt('narration', 'You open your email\n\n', self.narrator.tag)
 			self.gui.add_txt('narration', 'You have ' + str(len(self.gui.player.emails)) + ' emails:\n\n', self.system_text.tag)
@@ -171,7 +167,7 @@ class Stage_Manager():
 				self.current_stage.choicesinput.append('open from ' + c)
 				self.current_stage.choices.update({'open from ' + c : {'cmd':'cmd_read_email', 'var': c}})
 			self.current_stage.choicesinput.append('close')
-			self.current_stage.choices.update({'close': {'cmd':'cmd_change_scene', 'var': self.current_stage.stage_id}})
+			self.current_stage.choices.update({'close': {'cmd':'cmd_open_tor', 'var': self.current_stage.stage_id}})
 			self.update_choices()
 
 	def cmd_read_email(self, args = ""):
@@ -188,3 +184,38 @@ class Stage_Manager():
 		self.current_stage.choicesinput.append('close')
 		self.current_stage.choices.update({'close' : {'cmd':'cmd_display_emails', 'var': ''}})
 		self.update_choices()
+
+	def cmd_open_tor(self, args = ""):
+		self.email_disp = True
+		if not(self.email_read):
+			self.prev_choices = self.current_stage.choices
+			self.prev_list_choices = self.current_stage.choicesinput
+			self.email_read = False
+		print('Opened TOR')
+		self.gui.clear_middle()
+		self.gui.add_txt('narration', 'You open Tor Browser\n\n', self.narrator.tag)
+		self.gui.add_txt('narration', 'BREAKIN NEWS\n\n', self.narrator.tag)
+		self.gui.add_txt('narration', '[HACKER HIJACKS]\n', self.system_text.tag)
+		self.gui.add_txt('narration', 'A new widespread ransomware attack is spreading like wildfire around Europe and has already affected over 200 major organisations, primarily in Russia, Ukraine, Turkey and Germany, in the past few \n\n', self.system_text.tag)
+		self.gui.add_txt('narration', '[BAD RABBIT]\n', self.system_text.tag)
+		self.gui.add_txt('narration', "When yesterday I was reporting about the sudden outbreak of another global ransomware attack 'Bad Rabbit,' I thought what could be worse than this? Then late last night I got my answer with a notification\n\n", self.system_text.tag)
+		self.gui.add_txt('narration', '[DUHK ATTACK]\n', self.system_text.tag)
+		self.gui.add_txt('narration', "DUHK — Don't Use Hard-coded Keys — is a new 'non-trivial' cryptographic implementation vulnerability that could allow attackers to recover encryption keys that secure VPN connections and web browsing\n\n", self.system_text.tag)
+
+		self.current_stage.choicesinput = []
+		self.current_stage.choicesinput.append('sell online')
+		self.current_stage.choices.update({'sell online' : {'cmd':'cmd_sell_online', 'var': ''}})
+		self.current_stage.choicesinput.append('buy online')
+		self.current_stage.choices.update({'buy online' : {'cmd':'cmd_buy_online', 'var': ''}})
+		self.current_stage.choicesinput.append('email')
+		self.current_stage.choices.update({'email' : {'cmd':'cmd_display_emails', 'var': ''}})
+		self.current_stage.choicesinput.append('close')
+		self.current_stage.choices.update({'close' : {'cmd':'cmd_change_scene', 'var': 'stg_stat_choice'}})
+
+		self.update_choices()
+
+	def cmd_sell_online(self, args = ""):
+		print('Sell Online')
+
+	def cmd_buy_online(self, args = ""):
+		print('Buy Online')
