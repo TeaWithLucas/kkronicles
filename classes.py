@@ -75,7 +75,7 @@ class Location():
 
 """Item class not complete(need to integrate with DB)"""
 class Item():
-	def __init__(self, data)
+	def __init__(self, data):
 		self.id = str(data['ItemTag']).strip()
 		self.name = str(data['ItemName']).strip()
 		self.type = str(data['ItemType']).strip()

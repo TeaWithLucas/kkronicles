@@ -54,7 +54,7 @@ class gui():
 		background.place(x=0, y=0, relwidth=1, relheight=1)
 
 		#creating each widget
-		frame_left = Frame(frame, background = 'black')
+		frame_left = Frame(frame, background = 'black', height=20)
 		frame_left.pack( side = LEFT, fill=X)
 
 		stat_desc_widget = Label(frame_left, text="Stats", bg = 'black', fg = 'White', font = (16), width = 25)
@@ -75,7 +75,7 @@ class gui():
 		inv_desc_widget.grid(row = 5, column = 1, columnspan=2)
 		inv_widget.grid(row = 6, column = 1, columnspan=2)
 
-		frame_middle = Frame(frame, background = 'black')
+		frame_middle = Frame(frame, background = 'black', height=20)
 		frame_middle.pack( side = LEFT, fill=X)
 
 		narration_widget = Text(frame_middle, bg = 'black', fg = '#D3D3D3', padx = 20, pady = 20, wrap = WORD)
@@ -85,14 +85,14 @@ class gui():
 		choice_widget.grid(row = 2, column = 1)
 		console_widget.grid(row = 3, column = 1)
 
-		frame_right = Frame(frame, background = 'black')
+		frame_right = Frame(frame, background = 'black', height=40)
 		frame_right.pack( side = LEFT, fill=X)
 
-		map_desc_widget = Label(frame_right, text="Map", bg = 'black', fg = 'White', font = (16))
+		map_desc_widget = Label(frame_right, text="Map", bg = 'black', fg = 'White', font = (16), width = 25)
 		map_desc_widget.grid(row = 1, column = 1)
 		map_widget = Label(frame_right,  image = map_sprite)
 		map_widget.grid(row = 2, column = 1)
-		loc_desc_widget = Label(frame_right, text='<curloc>', bg = 'black', fg = 'White', font = (16))
+		loc_desc_widget = Label(frame_right, text='<curloc>', bg = 'black', fg = 'White', font = (16), width = 25)
 		loc_desc_widget.grid(row = 3, column = 1)
 		loc_widget = Label(frame_right,  image = loc_sprite)
 		loc_widget.grid(row = 4, column = 1)
