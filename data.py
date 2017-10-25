@@ -29,6 +29,9 @@ locations = table_to_class("tblLocations", {'class' : Location})
 book_item = Item('Book', 'an old book', 'This is a very old looking book.')
 gun_item = Item('Gun', 'a shiny gun', 'This is a very reliable weapon.')
 
+email_z = Email('z', 'Yo Kirill', 'You don’t know me, G, but I can hook you up with my product, you feel. If you want em. Theyll be waiting. Leave the money, my bredrin will collect it.')
+email_rnd =  Email('dmytro','Spam', 'Totally random email')
+
 #Characters
 #char_narrator = Actor('narrator_tag', '#D3D3D3', "Narrator")
 #example_guy = Actor('sec_char_tag','#C1CDCD','Mr Hodge Hodgeson')
@@ -50,19 +53,21 @@ gun_item = Item('Gun', 'a shiny gun', 'This is a very reliable weapon.')
 stg_main_menu = Stage('main_menu', 'Main Menu', [{'speaker':actors['Nikeen_Patel'], 'dialog':(draw_ascii('./assets/welcome.txt') + '\n\n\n\n\n' + 'Welcome  Kirill\t'), 'location': locations['menu']}], {'start': 'wake_up', 'exit':'main_menu'}, 'narrated')
 stg_wake_up = Stage('wake_up', 'Wake up', [{'speaker':actors['Nikeen_Patel'], 'dialog': 'You wake on your desk. Having worked late last night to complete your proposal to obtain funding for a start-up of your completely original and not and all copyright infringing program called CloudNet, a friendly security system.', 'location':locations['menu']}], {'continue': 'stat_menu'}, 'narrated' , 'act1')
 stg_stat_menu = Stage('stat_menu', 'Stat Selection', [{'speaker':actors['Nikeen_Patel'], 'dialog':'', 'location': locations['menu']}], {'':''}, 'functional', 'select_stats', 'act1')
+stg_emails = Stage('email_disp', 'Your Mailbox', [{'speaker':actors['Nikeen_Patel'], 'dialog':'', 'location': locations['menu']}], {'':''}, 'functional', 'display_email', 'act1')
+stg_read_email = Stage('read_email', 'Reading Mail', [{'speaker':actors['Nikeen_Patel'], 'dialog':'', 'location': locations['menu']}], {'close':'email_disp'}, 'functional', 'read_email')
 stg_act1 = Stage('act1', 'Act 1', [
 	{'speaker':actors['Nikeen_Patel'], 'dialog':'You take your application to your superiors, moving through the many corridors of the Computer Science department. When you arrive, the head of the department looks over your proposal with one eyebrow raised. He turns his focus to you. ', 'location': locations['menu']},
 	{'speaker':actors['Stuart_Allen'], 'dialog':'There is absolutely nothing you can say or do to make me give the green light to fund this kind of crazy program. An AI system as advanced as this could wipe out humanity completely....This program seems oddly familiar to one I have seen in a film before', 'location':  locations['menu']},
 	{'speaker':actors['Nikeen_Patel'], 'dialog':'You leave the building with your head hanging low, you feel as though years of your work have gone to waste.\n Switch leaning on the wall with one leg propped up looks over from under his hood. ', 'location':  locations['menu']},
 	{'speaker':actors['James_Wills'], 'dialog':'You look down, My G, Ive got some friends at the Taf who could cheer you up. Name s Switch', 'location':  locations['menu']},
-	{'speaker':actors['Nikeen_Patel'], 'dialog':'You follow Switch. ', 'location':  locations['menu']}],  {'continue': 'main_menu'}, 'narrated')
+	{'speaker':actors['Nikeen_Patel'], 'dialog':'You follow Switch. ', 'location':  locations['menu']}],  {'continue': 'main_menu', 'email':'email_disp'}, 'narrated')
 stg_other_menu = Stage('other menu', 'other menu', [{'speaker':actors['Nikeen_Patel'], 'dialog':'Welcome  Krill', 'location': locations['menu']}],  {'start': 'act1', 'exit':'main_menu'},'narrated')
 stg_new_game = Stage('new game', 'new game', [{'speaker':actors['Nikeen_Patel'], 'dialog':'Welcome  Krill', 'location': locations['menu']}],  {'start': 'act1', 'exit':'main_menu'}, 'narrated')
 stg_load_game = Stage('load game', 'load game', [{'speaker':actors['Nikeen_Patel'], 'dialog':'Welcome  Krill', 'location': locations['menu']}],  {'start': 'act1', 'exit':'main_menu'}, 'narrated')
 stg_exit = Stage('exit', 'Exiting', [{'speaker':actors['Nikeen_Patel'], 'dialog':'Welcome  Krill', 'location': locations['menu']}],  {'start': 'act1', 'exit':'main_menu'}, 'narrated')
 stg_lost = Stage('lost', 'You Loose', [{'speaker':actors['Nikeen_Patel'], 'dialog':'You lost', 'location': locations['menu']}],  {'start': 'act1', 'exit':'main_menu'}, 'narrated')
 
-stages = [stg_main_menu, stg_stat_menu, stg_act1, stg_other_menu, stg_new_game, stg_load_game, stg_exit, stg_lost, stg_wake_up]
+stages = [stg_main_menu, stg_stat_menu, stg_act1, stg_other_menu, stg_new_game, stg_load_game, stg_exit, stg_lost, stg_wake_up, stg_emails, stg_read_email]
 
 item_names = []
 #for item in global_game_items:

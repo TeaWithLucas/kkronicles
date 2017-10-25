@@ -3,6 +3,8 @@ from functions import *
 from tkinter import *
 import json
 
+
+
 """ These are the classes which are the structures for different objects in the game """
 class Actor():
 	#Constructor inits the object with data pulled form DB
@@ -13,6 +15,9 @@ class Actor():
 		self.name = self.fname + " " + self.lname
 		self.id = self.fname + "_" + self.lname
 		self.availiable_stat_points = 20
+		self.police_alert = 0
+		self.police_alert_max = 10
+		self.emails = []
 		self.nickname =  str(data['CharNickname']).strip()
 		self.location =  str(data['CharLoc']).strip()
 		self.function =  str(data['CharFunc']).strip()
@@ -43,7 +48,13 @@ class Actor():
 	def stat_check(self, min_stats):
 		pass
 
-
+	def check_busted(self):
+		if self.police_alert >= self.police_alert_max:
+			return True
+		else:
+			return False
+	def add_email(self, email):
+		self.emails.append(email)
 
 """The Stage class allows to navigate through the game"""
 class Stage():
@@ -89,3 +100,9 @@ class Item():
 	def inspect():
 		#Print out name, description and hints in narration section
 		pass
+
+class Email():
+	def __init__(self, sender, title, text):
+		self.sender = sender
+		self.title = title
+		self.text = text

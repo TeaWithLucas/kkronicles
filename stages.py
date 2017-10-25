@@ -15,11 +15,14 @@ class Stage_Manager():
 		self.linebar = '____________________________________________________\n'
 		self.function_dict = {
 			'void' : self.void,
-			'select_stats' : self.select_stats
+			'select_stats' : self.select_stats,
+			'display_email' : self.display_email,
+			'read_email': self.read_email
 			}
 		self.function_in = ''
 		self.stat_list = []
 		self.input_in = False
+		self.function_arg = ''
 
 
 
@@ -36,7 +39,7 @@ class Stage_Manager():
 						#self.gui_obj.add_txt('narration', '_____________________________________________________________________\n\n', 'center_tag', '#FFFACD')
 			self.update_choices()
 		else:
-			self.function_dict[self.current_stage.function]()
+			self.function_dict[self.current_stage.function](self.function_arg)
 
 
 	#Output choices for stage
@@ -88,7 +91,7 @@ class Stage_Manager():
 
 
 
-	def select_stats(self):
+	def select_stats(self, arg):
 		for stat in self.gui_obj.player.stats['special']:
 			if self.gui_obj.player.availiable_stat_points > 0:
 				self.gui_obj.add_txt('narration', '[APPLICATION FORM]', self.narrator.tag)
@@ -116,6 +119,57 @@ class Stage_Manager():
 				break
 
 		self.next_stage()
+
+	def display_email(self, arg):
+		self.gui_obj.clear_middle()
+		self.gui_obj.add_txt('narration', 'You open your emails.\n\n', self.narrator.tag)
+		if self.gui_obj.player.emails:
+			self.gui_obj.add_txt('narration', 'You have ' + str(len(self.gui_obj.player.emails)) + ' emails to read:\n\n', self.system_text.tag)
+			for email in self.gui_obj.player.emails:
+				text = 'from ' + email.sender
+				self.gui_obj.add_txt('narration', '       >> '+ text + '\n\n', self.system_text.tag)
+				self.current_stage.choices.update({'open ' + text: 'read_email'})
+
+			self.update_choices()
+			while not self.input_in:
+				print('Waiting')
+				self.gui_obj.main.update()
+			self.input_in = False
+			email = ''
+			choice = self.function_in
+			list_words = choice.split()
+			for e in self.gui_obj.player.emails:
+				if e.sender == list_words[2]:
+					email = e
+			self.function_arg = email
+			self.current_stage = self.select_stage(self.current_stage.choices[self.function_in])
+			print(self.current_stage.name)
+			self.narrate_current_stage()
+
+
+		else:
+			self.gui_obj.clear_middle()
+			self.gui_obj.add_txt('narration', 'You have 0 emails to read.\n\n', self.system_text.tag)
+
+
+
+	def read_email(self, email):
+		print('Executed read_email')
+		print(str(email))
+		self.gui_obj.clear_middle()
+		self.gui_obj.add_txt('narration', email.title + '\n\n', self.narrator.tag)
+		self.gui_obj.add_txt('narration', email.text + '\n\n', self.system_text.tag)
+		self.gui_obj.add_txt('narration', email.sender.upper() + '\n', self.system_text.tag)
+		self.update_choices()
+		while not self.input_in:
+			print('Waiting')
+			self.gui_obj.main.update()
+		self.input_in = False
+		print('CLOSE')
+		self.current_stage = self.select_stage(self.current_stage.choices[self.function_in])
+		print(self.current_stage.name)
+		self.narrate_current_stage()
+
 
 
 	def next_stage(self):
