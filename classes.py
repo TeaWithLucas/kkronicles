@@ -48,6 +48,9 @@ class Actor():
 	def take(self, item):
 		self.inv.append(item)
 
+	def drop(self, item):
+		self.inv.remove(item)
+
 	def stat_check(self, stat_to_check):
 		stat_value = self.stats['special'][stat_to_check]
 		luc_stat = self.stats['special']['luc']
@@ -93,12 +96,15 @@ class Recipe_Manager():
 		self.all_recepies = all_recepies
 
 	def check_for_possibilities(self,inventory):
-		print(inventory)
 		possible_recepy_list = []
+		inventory_ids = []
+		for item in inventory:
+			inventory_ids.append(item.id)
 		for recepy in self.all_recepies.values():
 			current_rec_input = recepy.input.values()
 			print(current_rec_input in inventory)
-			if current_rec_input in inventory:
+			print(current_rec_input)
+			if all(x in inventory_ids for x in current_rec_input):
 				print('MATCH')
 				possible_recepy_list.append(recepy)
 
@@ -136,7 +142,7 @@ class Item():
 		self.buy = int(data['ItemBuyValue'])
 		self.sell = int(data['ItemSellValue'])
 		self.legal = bool(data['ItemLegal'])
-
+		self.quant = 1
 	def inspect():
 		#Print out name, description and hints in narration section
 		pass

@@ -17,11 +17,14 @@ class gui():
 		self.player.add_email(email_z)
 		self.player.add_email(email_d)
 		self.player.take(items['in_coca'])
+		self.player.take(items['in_coca'])
 		self.player.take(items['in_soda'])
 		self.player.take(items['in_paint'])
+		self.player.take(items['in_safr'])
+		self.player.take(items['in_meth'])
 		self.narrator = actors['Nikeen_Patel'] #The narrato actor
 		self.system_text = actors['Dmytro_Kaduba'] #System text display actor
-		self.recepe_engine = Recipe_Manager(recipes)
+		self.recipe_engine = Recipe_Manager(recipes)
 
 		#User input (global)
 		self.user_input = ""
@@ -291,12 +294,18 @@ class gui():
 	#Updates inventory display after every cycle
 	def update_inv_display(self):
 		update_txt = ""
+		added_items = []
 		for item in self.player.inv:
-			update_txt += '  ---  ' + item.name + '\n'
+			if item in added_items:
+				item.quant += 1
+
+			else:
+				added_items.append(item)
+				update_txt += '  ---  ' + item.name + '(' + str(item.quant) + ')\n'
+
 		self.update_txt('inv', update_txt)
 
-		update_txt_room = ''
-		update_txt_room += '	 [YOU CAN PICK]\n\n'
+
 		#for item in self.stage_man.current_stage.location.items:
 		#	update_txt_room += ' --- ' + item.itemid + '\n'
 		#self.update_txt('items', update_txt_room)
