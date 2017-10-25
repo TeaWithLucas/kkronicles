@@ -71,8 +71,13 @@ class Location():
 		self.desc = {'short': str(data['LocDescShort']).strip(), 'long1':  str(data['LocDescLong1']).strip(), 'long2':  str(data['LocDescLong2']).strip()}
 
 """Item class not complete(need to integrate with DB)"""
+<<<<<<< HEAD
 class Items():
 	def __init__(self, data):
+=======
+class Item():
+	def __init__(self, data)
+>>>>>>> master
 		self.id = str(data['ItemTag']).strip()
 		self.name = str(data['ItemName']).strip()
 		self.type = str(data['ItemType']).strip()
@@ -82,7 +87,11 @@ class Items():
 		self.buy = int(data['ItemBuyValue'])
 		self.sell = int(data['ItemSellValue'])
 		self.legal = bool(data['ItemLegal'])
+<<<<<<< HEAD
 
+=======
+	
+>>>>>>> master
 	def inspect():
 		#Print out name, description and hints in narration section
 		pass
