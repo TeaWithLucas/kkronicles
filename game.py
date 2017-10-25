@@ -15,8 +15,7 @@ class gui():
 		self.player = actors['Kirill_Sidorov'] #The protagonist actor object
 		self.player.add_email(email_z)
 		self.player.add_email(email_d)
-		self.player.take(items['in_coca'])
-		self.player.take(items['in_coca'])
+		self.player.take(items['dru_coca'])
 		self.player.take(items['in_soda'])
 		self.player.take(items['in_paint'])
 		self.player.take(items['in_safr'])
