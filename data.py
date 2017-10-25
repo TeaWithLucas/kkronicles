@@ -20,11 +20,7 @@ def table_to_class(table, dic):
 #Pulling data from DB
 actors = table_to_class("tblCharacters", {'class' : Actor})
 locations = table_to_class("tblLocations", {'class' : Location})
-<<<<<<< HEAD
-items = table_to_class("tblItems", {'class': Items})
-=======
 items = table_to_class("tblItems", {'class': Item})
->>>>>>> master
 
 #Items
 #book_item = Item('Book', 'an old book', 'This is a very old looking book.')
@@ -48,7 +44,7 @@ items = table_to_class("tblItems", {'class': Item})
 #Stages
 
 #Stages(integrate with DB in future)
-stg_main_menu = Stage('main_menu', 'Main Menu', [{'speaker':actors['Nikeen_Patel'], 'dialog':(draw_ascii('./assets/welcome.txt') + '\n\n\n\n\n' + 'Welcome  Kirill\t'), 'location': locations['menu']}], {'start': 'act1', 'exit':'main_menu'})
+stg_main_menu = Stage('main_menu', 'Main Menu', [{'speaker':actors['Dmytro_Kaduba'], 'dialog':(draw_ascii('./assets/welcome.txt') + '\n\n\n\n\n' + 'Welcome  Kirill\t'), 'location': locations['menu']}], "What would you like to do?", {'Start': {'cmd':'cmd_change_scene', 'var':'stg_act1'}, 'Exit':{'cmd':'cmd_exit', 'var':''}})
 stg_act1 = Stage('act1', 'Act 1', [
 	{'speaker':actors['Nikeen_Patel'], 'dialog':'Lorem ipsum dolor sit amet, sea ei ridens signiferumque, vel no graece altera viderer. Has diam nibh no. Pro in noster probatus eleifend, saepe graecis corpora quo ei. Debitis definitiones quo ad, tollit eirmod patrioque ad vim, dico dolore assentior ut mel. Vel epicurei intellegam ex. Cum probatus theophrastus an, per id tota virtute.', 'location': locations['queens']},
 	{'speaker':actors['James_Wills'], 'dialog':'Dico quando invidunt ei sit. Et bonorum delicata cum, per falli praesent explicari ea. Usu et tale error dissentiet, cum an laboramus aliquando repudiandae. Munere eloquentiam disputationi in vix. Tota salutandi rationibus eu pro, ius no persius menandri. Eam ut purto case instructior, decore periculis reprehendunt mei in, ea dicat cotidieque cum.', 'location':  locations['queens']},
@@ -56,16 +52,6 @@ stg_act1 = Stage('act1', 'Act 1', [
 	{'speaker':actors['Kirill_Sidorov'], 'dialog':'Nisl postulant ne eos. Ut eos vide dolor urbanitas, ipsum legere instructior no eam. Quo eu affert recusabo partiendo, his ne accusam probatus facilisi. Soleat forensibus definiebas ex vix.', 'location':  locations['park']},
 	{'speaker':actors['Nikeen_Patel'], 'dialog':'Porro graeco semper ei quo, per iudico percipit ut. Exerci luptatum elaboraret mel ex, no sed debet commodo dolores. Erat liber tantas at vis. Ut possit prompta feugiat nec, summo interesset an his, debitis probatus convenire id vix. Nobis dissentiunt sed ei, cum at impetus viderer definiebas. Ius cu nominavi mediocrem, an mel iriure dolorum, et veritus inciderint ius. Ad case virtute eleifend est.', 'location':  locations['park']},
 	{'speaker':actors['William_Davies'], 'dialog':'Id eum dicunt ullamcorper, ne sea enim appareat. Omnium repudiare eu ius. Vero dicit sea te, mea ad iuvaret sensibus. Ex vis doming commodo theophrastus, prima civibus laboramus his cu. Ius ea soluta mollis erroribus, modus novum eu has.', 'location':  locations['home']}
-<<<<<<< HEAD
-	],  {'menu': 'main_menu', 'replay':'act1'})
-stg_other_menu = Stage('other menu', 'other menu', [{'speaker':actors['Nikeen_Patel'], 'dialog':'Welcome  Krill', 'location': locations['menu']}],  {'start': 'act1', 'exit':'main_menu'})
-stg_new_game = Stage('new game', 'new game', [{'speaker':actors['Nikeen_Patel'], 'dialog':'Welcome  Krill', 'location': locations['menu']}],  {'start': 'act1', 'exit':'main_menu'})
-stg_load_game = Stage('load game', 'load game', [{'speaker':actors['Nikeen_Patel'], 'dialog':'Welcome  Krill', 'location': locations['menu']}],  {'start': 'act1', 'exit':'main_menu'})
-stg_exit = Stage('exit', 'Exiting', [{'speaker':actors['Nikeen_Patel'], 'dialog':'Welcome  Krill', 'location': locations['menu']}],  {'start': 'act1', 'exit':'main_menu'})
-stg_lost = Stage('lost', 'You Loose', [{'speaker':actors['Nikeen_Patel'], 'dialog':'You lost', 'location': locations['menu']}],  {'start': 'act1', 'exit':'main_menu'})
-
-stages = [stg_main_menu, stg_act1, stg_other_menu, stg_new_game, stg_load_game, stg_exit, stg_lost]
-=======
 	],  "What do you decide?", {'Yes': {'cmd':'cmd_change_scene', 'var':'stg_act1b'}, 'No':{'cmd':'cmd_dialog_choice', 'var':'no'}})
 stg_act1b = Stage('act1b', 'Act 1b', [{'speaker':actors['Kirill_Sidorov'], 'dialog':'Welcome  Krill', 'location': locations['triad']}],  "What next?", {'Main Menu': {'cmd':'cmd_new_game', 'var':''}, 'Exit':{'cmd':'cmd_exit', 'var':''}})
 stg_new_game = Stage('new game', 'new game', [{'speaker':actors['Dmytro_Kaduba'], 'dialog':'Welcome  Krill', 'location': locations['menu']}],  "What next?", {'Main Menu': {'cmd':'cmd_new_game', 'var':''}, 'Exit':{'cmd':'cmd_exit', 'var':''}})
@@ -74,8 +60,8 @@ stg_exit = Stage('exit', 'Exiting', [{'speaker':actors['Dmytro_Kaduba'], 'dialog
 stg_lost = Stage('lost', 'You Loose', [{'speaker':actors['Dmytro_Kaduba'], 'dialog':'You lost', 'location': locations['menu']}], "What next?", {'Main Menu': {'cmd':'cmd_new_game', 'var':''}, 'Exit':{'cmd':'cmd_exit', 'var':''}})
 
 stages = {'stg_main_menu':stg_main_menu, 'stg_act1':stg_act1, 'stg_act1b':stg_act1b, 'stg_new_game':stg_new_game, 'stg_load_game':stg_load_game, 'stg_exit':stg_exit, 'stg_lost':stg_lost}
->>>>>>> master
 
+item_names = []
 #for item in global_game_items:
 	#item_names.append(item.id)
 
