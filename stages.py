@@ -17,6 +17,7 @@ class Stage_Manager():
 		self.prev_choices = ''
 		self.prev_list_choices = []
 		self.email_disp = False
+		self.email_read = False
 
 
 		self.functions = { "cmd_read_email": self.cmd_read_email,"cmd_display_emails": self.cmd_display_emails,"cmd_new_game":self.cmd_new_game, "cmd_exit":self.cmd_exit, "cmd_back":self.cmd_back, "cmd_change_scene":self.cmd_change_scene, "cmd_lose":self.cmd_lose, "cmd_won":self.cmd_won, "cmd_dialog_choice":self.cmd_dialog_choice, "cmd_make_chems":self.cmd_make_chems, "cmd_create_chems":self.cmd_create_chems, "cmd_caught_police":self.cmd_caught_police, "cmd_start_job":self.cmd_start_job}
@@ -152,9 +153,10 @@ class Stage_Manager():
 
 	def cmd_display_emails(self, args = ""):
 			self.email_disp = True
-			self.prev_choices = self.current_stage.choices
-			self.prev_list_choices = self.current_stage.choicesinput
-			print('IN EMAILS')
+			if not(self.email_read):
+				self.prev_choices = self.current_stage.choices
+				self.prev_list_choices = self.current_stage.choicesinput
+				self.email_read = False
 			self.gui.clear_middle()
 			self.gui.add_txt('narration', 'You open your email\n\n', self.narrator.tag)
 			self.gui.add_txt('narration', 'You have ' + str(len(self.gui.player.emails)) + ' emails:\n\n', self.system_text.tag)
@@ -173,6 +175,7 @@ class Stage_Manager():
 			self.update_choices()
 
 	def cmd_read_email(self, args = ""):
+		self.email_read = True
 		email_to_read = ''
 		for e in self.player_emails:
 			if e.sender == args:
