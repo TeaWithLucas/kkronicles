@@ -13,6 +13,8 @@ class gui():
 		self.running = True
 		self.title = title
 		self.player = actors['Kirill_Sidorov'] #The protagonist actor object
+		self.player.add_email(email_z)
+		self.player.add_email(email_d)
 		self.narrator = actors['Nikeen_Patel'] #The narrato actor
 		self.system_text = actors['Dmytro_Kaduba'] #System text display actor
 
@@ -102,19 +104,19 @@ class gui():
 
 		#items_widget = Text(frame_right, bg = '#262820', fg = 'white', height = 15, width = 25)
 		#items_widget.grid(row = 3, column = 1)
-		
+
 		#Reseting images to avoid them disapearing
 		#background.image = bg_image
 		map_widget.image = map_sprite
 		loc_widget.image = loc_sprite
 		title_widget.image = title_image
-		
+
 		#Disable all widgets so they become read only
 		inv_widget.config(state = DISABLED)
 		choice_widget.config(state = DISABLED)
 		narration_widget.config(state = DISABLED)
 		stat_widget.config(state = DISABLED)
-		
+
 		#Widget dictionary for access
 		self.widgets = {
 			#'background' : background,
@@ -233,6 +235,10 @@ class gui():
 				spaces += ' '
 
 			update_txt += ' ' + desc.upper() + ': '+ spaces + str(amount) + '\n'
+<<<<<<< HEAD
+=======
+
+>>>>>>> b8269b1d1a38a154b6692d7e004c8ab21f6572e5
 		update_txt += '\n' + 'Availiable Points: ' + str(self.player.stat_points)
 		print ('updating stats:' + str(self.player.stats['special']))
 		self.update_txt('stats', update_txt)
@@ -316,7 +322,7 @@ class gui():
 		new_image = PIL.ImageTk.PhotoImage(PIL.Image.open(image_loc))
 		self.widgets[widget].configure(image=new_image)
 		self.widgets[widget].image = new_image
-		
+
 #Start game
 def init():
 	window = gui(game_title)
