@@ -42,11 +42,11 @@ class Actor():
 
 """The Stage class allows to navigate through the game"""
 class Stage():
-	def __init__(self, stage_id, name, narration, choices):
-		self.stage_id = stage_id
-		self.name = name
-		self.narration = narration #The text to be displayed in this stage (story/dialog)
-		self.choices = choices #The choices availiable at the end of this stage
+	def __init__(self, data):
+		self.id = str(data['stages_id']).strip()
+		self.name = str(data['stages_name']).strip()
+		self.narration = data['narration']
+		self.choices = json.loads(data['narr_choices'])
 		self.choicesinput = [] #List of choices to filter out bad input
 		for choice in choices:
 			self.choicesinput.append(choice.lower())
@@ -71,7 +71,7 @@ class Location():
 		self.desc = {'short': str(data['LocDescShort']).strip(), 'long1':  str(data['LocDescLong1']).strip(), 'long2':  str(data['LocDescLong2']).strip()}
 
 """Item class not complete(need to integrate with DB)"""
-class Items():
+class Item():
 	def __init__(self, data):
 		self.id = str(data['ItemTag']).strip()
 		self.name = str(data['ItemName']).strip()
@@ -83,13 +83,14 @@ class Items():
 		self.sell = int(data['ItemSellValue'])
 		self.legal = bool(data['ItemLegal'])
 
-class Recipes():
-	def __init__(self, data):
+class Recipe():
+	def __init__(self, dat, gui):
 		self.id = str(data['rec_id']).strip()
 		self.name = str(data['rec_name']).strip()
 		self.input = json.loads(data['rec_input'])
 		self.output = str(data['rec_output']).strip()
 		self.method = str(data['rec_method']).strip()
+		self.gui = gui
 
 	def inspect():
 		#Print out name, description and hints in narration section
