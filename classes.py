@@ -31,6 +31,7 @@ class Actor():
 		elif self.tags['justify']=='CENTER': self.tags['justify']=CENTER
 		else: self.tags['justify']=LEFT
 		self.inv = []
+		self.faction = "indie"
 		self.calc_stats()
 
 	#calculates the currect stats of the actor
@@ -54,6 +55,7 @@ class Stage():
 		self.narration = [] #The text to be displayed in this stage (story/dialog)
 		self.question = data['stages_questions']
 		#self.question = str("needs to be put on db").strip()
+		self.cmd = json.loads(data['stages_choices'])
 		self.choices = {}
 		choices = json.loads(data['stages_choices']) #The choices availiable at the end of this stage
 		self.choicesinput = [] #List of choices to filter  out bad input

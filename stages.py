@@ -19,8 +19,8 @@ class Stage_Manager():
 		self.prev_list_choices = []
 		self.email_disp = False
 		self.email_read = False
-
-		self.functions = {"cmd_sell_online": self.cmd_sell_online, "cmd_buy_online": self.cmd_buy_online, "cmd_open_tor": self.cmd_open_tor, "cmd_read_email": self.cmd_read_email,"cmd_display_emails": self.cmd_display_emails,"cmd_new_game":self.cmd_new_game, "cmd_exit":self.cmd_exit, "cmd_back":self.cmd_back, "cmd_change_scene":self.cmd_change_scene, "cmd_lose":self.cmd_lose, "cmd_won":self.cmd_won, "cmd_dialog_choice":self.cmd_dialog_choice, "cmd_make_chems":self.cmd_make_chems, "cmd_create_chems":self.cmd_create_chems, "cmd_caught_police":self.cmd_caught_police, "cmd_start_job":self.cmd_start_job}
+		self.job_offered = False
+		self.functions = {"cmd_change_stage": self.cmd_change_stage, "cmd_sell_online": self.cmd_sell_online, "cmd_buy_online": self.cmd_buy_online, "cmd_open_tor": self.cmd_open_tor, "cmd_read_email": self.cmd_read_email,"cmd_display_emails": self.cmd_display_emails,"cmd_new_game":self.cmd_new_game, "cmd_exit":self.cmd_exit, "cmd_choose":self.cmd_choose, "cmd_change_scene":self.cmd_change_scene, "cmd_lose":self.cmd_lose, "cmd_won":self.cmd_won, "cmd_dialog_choice":self.cmd_dialog_choice, "cmd_make_chems":self.cmd_make_chems, "cmd_create_chems":self.cmd_create_chems, "cmd_caught_police":self.cmd_caught_police, "cmd_start_job":self.cmd_start_job}
 
 
 	#Function to update consoles
@@ -66,6 +66,7 @@ class Stage_Manager():
 					self.gui.add_txt('narration', speaker.name + '\n\t"' + narration['dialog'] + '"\n\n', speaker.tag)
 		self.update_choices()
 
+
 	#Output choices for stage
 	def update_choices(self):
 		self.gui.add_txt('choice', "\t" + self.current_stage.question + "\n", self.system_text.tag)
@@ -109,6 +110,8 @@ class Stage_Manager():
 		#insert code to reset game here
 		self.current_stage=stages['stg_main_menu']
 		self.new_scene()
+	def cmd_change_stage(self, args = ""):
+		self.cmd_change_scene(args)
 	def cmd_change_scene(self, args = ""):
 		print('cmd_change_scene')
 		self.current_stage=self.all_stages[args]
@@ -116,8 +119,20 @@ class Stage_Manager():
 	def cmd_exit(self, args = ""):
 		print('cmd_exit')
 		quit()
-	def cmd_back(self, args = ""):
-		print('cmd_back')
+	def cmd_choose(self, args = ""):
+		print('cmd_choose')
+		options = args.split(" ")
+		if options[0] == "faction":
+			if options[1] == "taffia":
+				self.gui.player.faction = "taffia"
+			elif options[1] == "triad":
+				self.gui.player.faction = "triad"
+		elif options[0] == "job":
+			self.job_offered = True
+			if options[1] == "refuse":
+				self.gui.player.faction = "indie"
+		self.cmd_change_stage(options[2])
+
 	def cmd_lose(self, args = ""):
 		print('cmd_lose')
 	def cmd_won(self, args = ""):
@@ -132,10 +147,16 @@ class Stage_Manager():
 		print('cmd_caught_police')
 	def cmd_start_job(self, args = ""):
 		print('cmd_start_job')
+
+	def cmd_rnd_stats(self, arg = ""):
+		self.gui.player.stats['special'] = {'str':3, 'per':3, 'end':3, 'cha':3, 'int':3, 'agi':3, 'luc':3}
+		self.gui.player.calc_stats()
+		self.cmd_change_stage("stg_stat_choice")
 	def cmd_set_stat(self, stat, value, arg = ""):
 		if self.gui.player.stat_points - int(value) > 0:
 			self.gui.player.stat_points -= int(value) - self.gui.player.stats['special'][stat]
 			self.gui.player.stats['special'][stat] = int(value)
+			self.gui.player.calc_stats()
 			self.gui.update_stat_display()
 		else:
 			self.gui.add_txt('narration', '[NOT ENOUGH POINTS]', self.narrator.tag)
