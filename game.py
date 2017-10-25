@@ -38,54 +38,58 @@ class gui():
 		main.resizable(width = False, height = False)
 		main.title(self.title)
 
-		font.Font(root=self.main, font="./fonts/AbydosR.ttf", name="Abydos")
+		self.font_Abydos = font.Font(root=main, family="./fonts/AbydosR.ttf", size=12)
+		self.font_Pricedown = font.Font(root=main, family="./fonts/pricedown.ttf", size=20)
 
 		#Loading images from files
 		bg_image = PIL.ImageTk.PhotoImage(PIL.Image.open("./assets/back.jpg"))
 		map_sprite = PIL.ImageTk.PhotoImage(PIL.Image.open("./assets/map.bmp"))
 		loc_sprite = PIL.ImageTk.PhotoImage(PIL.Image.open("./assets/queens.bmp"))
+		title_image = PIL.ImageTk.PhotoImage(PIL.Image.open("./assets/kkronicles-sm.png"))
 
 		#main frame
-		frame = Frame(main, width = 250)
+		frame = Frame(main, width = 250, background = 'black')
 		frame.pack()
 
 		#window background
-		background = Label(frame, image = bg_image, bg = 'black')
-		background.place(x=0, y=0, relwidth=1, relheight=1)
+		#background = Label(frame, image = bg_image, bg = 'black')
+		#background.place(x=0, y=0, relwidth=1, relheight=1)
 
 		#creating each widget
-		frame_left = Frame(frame, background = 'black', height=20)
+		frame_left = Frame(frame, background = 'black')
 		frame_left.pack( side = LEFT, fill=X)
 
+		title_widget = Label(frame_left,  image = title_image, bg = 'black')
 		stat_desc_widget = Label(frame_left, text="Stats", bg = 'black', fg = 'White', font = (16), width = 25)
 		stat_widget = Text(frame_left, bg = '#262820', fg = 'lightgreen', height = 10, width = 25)
 		hp_desc_widget = Label(frame_left, text="HP:", bg = 'black', fg = 'White', font = (16), width = 5)
 		hp_widget = Label(frame_left, text='<health>', bg = 'black', fg = 'red', font = (20), width = 15)
 		wallet_desc_widget = Label(frame_left, text="Wallet:", bg = 'black', fg = 'White', font = (16), width = 5)
-		wallet_widget = Label(frame_left, text='<wallet>', bg = 'black', fg = 'red', font = ("Abydos", 12), width = 15)
+		wallet_widget = Label(frame_left, text='<wallet>', bg = 'black', fg = 'red', font = self.font_Abydos, width = 15)
 		inv_desc_widget = Label(frame_left, text="Inventory", bg = 'black', fg = 'White', font = (16), width = 25)
 		inv_widget = Text(frame_left, bg = '#262820',fg = 'white', height = 15, width = 25)
 
-		stat_desc_widget.grid(row = 1, column = 1, columnspan=2)
-		stat_widget.grid(row = 2, column = 1, columnspan=2)
-		hp_desc_widget.grid(row = 3, column = 1)
-		hp_widget.grid(row = 3, column = 2)
-		wallet_desc_widget.grid(row = 4, column = 1)
-		wallet_widget.grid(row = 4, column = 2)
-		inv_desc_widget.grid(row = 5, column = 1, columnspan=2)
-		inv_widget.grid(row = 6, column = 1, columnspan=2)
+		title_widget.grid(row = 1, column = 1, columnspan=2)
+		stat_desc_widget.grid(row = 2, column = 1, columnspan=2)
+		stat_widget.grid(row = 3, column = 1, columnspan=2)
+		hp_desc_widget.grid(row = 4, column = 1)
+		hp_widget.grid(row = 4, column = 2)
+		wallet_desc_widget.grid(row = 5, column = 1)
+		wallet_widget.grid(row = 5, column = 2)
+		inv_desc_widget.grid(row = 6, column = 1, columnspan=2)
+		inv_widget.grid(row = 7, column = 1, columnspan=2)
 
-		frame_middle = Frame(frame, background = 'black', height=20)
+		frame_middle = Frame(frame, background = 'black')
 		frame_middle.pack( side = LEFT, fill=X)
 
-		narration_widget = Text(frame_middle, bg = 'black', fg = '#D3D3D3', padx = 20, pady = 20, wrap = WORD)
-		choice_widget = Text(frame_middle, bg = 'black', fg = '#D3D3D3', height = 10, width = 85)
+		narration_widget = Text(frame_middle, bg = 'black', fg = '#D3D3D3', padx = 20, pady = 20, wrap = WORD, height = 20, width = 85)
+		choice_widget = Text(frame_middle, bg = 'black', fg = '#D3D3D3', padx = 20, pady = 20, wrap = WORD, height = 10, width = 85)
 		console_widget = Entry(frame_middle, bg = 'black', fg = 'white', width = 75, insertwidth = 10 , insertbackground ='white')
-		narration_widget.grid(row = 1, column = 1)
-		choice_widget.grid(row = 2, column = 1)
-		console_widget.grid(row = 3, column = 1)
+		narration_widget.grid(row = 2, column = 1)
+		choice_widget.grid(row = 3, column = 1)
+		console_widget.grid(row = 4, column = 1)
 
-		frame_right = Frame(frame, background = 'black', height=40)
+		frame_right = Frame(frame, background = 'black')
 		frame_right.pack( side = LEFT, fill=X)
 
 		map_desc_widget = Label(frame_right, text="Map", bg = 'black', fg = 'White', font = (16), width = 25)
@@ -101,9 +105,10 @@ class gui():
 		#items_widget.grid(row = 3, column = 1)
 		
 		#Reseting images to avoid them disapearing
-		background.image = bg_image
+		#background.image = bg_image
 		map_widget.image = map_sprite
 		loc_widget.image = loc_sprite
+		title_widget.image = title_image
 		
 		#Disable all widgets so they become read only
 		inv_widget.config(state = DISABLED)
@@ -113,7 +118,7 @@ class gui():
 		
 		#Widget dictionary for access
 		self.widgets = {
-			'background' : background,
+			#'background' : background,
 			'console' : console_widget,
 			'map_desc' : map_desc_widget,
 			'map' : map_widget,
@@ -283,7 +288,7 @@ class gui():
 		self.update_txt('inv', update_txt)
 
 		update_txt_room = ''
-		update_txt_room += '     [YOU CAN PICK]\n\n'
+		update_txt_room += '	 [YOU CAN PICK]\n\n'
 		#for item in self.stage_man.current_stage.location.items:
 		#	update_txt_room += ' --- ' + item.itemid + '\n'
 		#self.update_txt('items', update_txt_room)
