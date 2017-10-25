@@ -20,10 +20,11 @@ def table_to_class(table, dic):
 #Pulling data from DB
 actors = table_to_class("tblCharacters", {'class' : Actor})
 locations = table_to_class("tblLocations", {'class' : Location})
+items = table_to_class("tblItems", {'class': Item})
 
 #Items
-book_item = Item('Book', 'an old book', 'This is a very old looking book.')
-gun_item = Item('Gun', 'a shiny gun', 'This is a very reliable weapon.')
+#book_item = Item('Book', 'an old book', 'This is a very old looking book.')
+#gun_item = Item('Gun', 'a shiny gun', 'This is a very reliable weapon.')
 
 #Characters
 #char_narrator = Actor('narrator_tag', '#D3D3D3', "Narrator")
@@ -51,14 +52,14 @@ stg_act1 = Stage('act1', 'Act 1', [
 	{'speaker':actors['Kirill_Sidorov'], 'dialog':'Nisl postulant ne eos. Ut eos vide dolor urbanitas, ipsum legere instructior no eam. Quo eu affert recusabo partiendo, his ne accusam probatus facilisi. Soleat forensibus definiebas ex vix.', 'location':  locations['park']},
 	{'speaker':actors['Nikeen_Patel'], 'dialog':'Porro graeco semper ei quo, per iudico percipit ut. Exerci luptatum elaboraret mel ex, no sed debet commodo dolores. Erat liber tantas at vis. Ut possit prompta feugiat nec, summo interesset an his, debitis probatus convenire id vix. Nobis dissentiunt sed ei, cum at impetus viderer definiebas. Ius cu nominavi mediocrem, an mel iriure dolorum, et veritus inciderint ius. Ad case virtute eleifend est.', 'location':  locations['park']},
 	{'speaker':actors['William_Davies'], 'dialog':'Id eum dicunt ullamcorper, ne sea enim appareat. Omnium repudiare eu ius. Vero dicit sea te, mea ad iuvaret sensibus. Ex vis doming commodo theophrastus, prima civibus laboramus his cu. Ius ea soluta mollis erroribus, modus novum eu has.', 'location':  locations['home']}
-	],  "What do you decide?", {'Yes': {'cmd':'cmd_dialog_choice', 'var':'yes'}, 'No':{'cmd':'cmd_dialog_choice', 'var':'no'}})
-stg_other_menu = Stage('other menu', 'other menu', [{'speaker':actors['Dmytro_Kaduba'], 'dialog':'Welcome  Krill', 'location': locations['menu']}],  "What next?", {'Main Menu': {'cmd':'cmd_new_game', 'var':''}, 'Exit':{'cmd':'cmd_exit', 'var':''}})
+	],  "What do you decide?", {'Yes': {'cmd':'cmd_change_scene', 'var':'stg_act1b'}, 'No':{'cmd':'cmd_dialog_choice', 'var':'no'}})
+stg_act1b = Stage('act1b', 'Act 1b', [{'speaker':actors['Kirill_Sidorov'], 'dialog':'Welcome  Krill', 'location': locations['triad']}],  "What next?", {'Main Menu': {'cmd':'cmd_new_game', 'var':''}, 'Exit':{'cmd':'cmd_exit', 'var':''}})
 stg_new_game = Stage('new game', 'new game', [{'speaker':actors['Dmytro_Kaduba'], 'dialog':'Welcome  Krill', 'location': locations['menu']}],  "What next?", {'Main Menu': {'cmd':'cmd_new_game', 'var':''}, 'Exit':{'cmd':'cmd_exit', 'var':''}})
 stg_load_game = Stage('load game', 'load game', [{'speaker':actors['Dmytro_Kaduba'], 'dialog':'Welcome  Krill', 'location': locations['menu']}],  "What next?", {'Main Menu': {'cmd':'cmd_new_game', 'var':''}, 'Exit':{'cmd':'cmd_exit', 'var':''}})
 stg_exit = Stage('exit', 'Exiting', [{'speaker':actors['Dmytro_Kaduba'], 'dialog':'Welcome  Krill', 'location': locations['menu']}],  "What next?", {'Main Menu': {'cmd':'cmd_new_game', 'var':''}, 'Exit':{'cmd':'cmd_exit', 'var':''}})
 stg_lost = Stage('lost', 'You Loose', [{'speaker':actors['Dmytro_Kaduba'], 'dialog':'You lost', 'location': locations['menu']}], "What next?", {'Main Menu': {'cmd':'cmd_new_game', 'var':''}, 'Exit':{'cmd':'cmd_exit', 'var':''}})
 
-stages = {'stg_main_menu':stg_main_menu, 'stg_act1':stg_act1, 'stg_other_menu':stg_other_menu, 'stg_new_game':stg_new_game, 'stg_load_game':stg_load_game, 'stg_exit':stg_exit, 'stg_lost':stg_lost}
+stages = {'stg_main_menu':stg_main_menu, 'stg_act1':stg_act1, 'stg_act1b':stg_act1b, 'stg_new_game':stg_new_game, 'stg_load_game':stg_load_game, 'stg_exit':stg_exit, 'stg_lost':stg_lost}
 
 item_names = []
 #for item in global_game_items:

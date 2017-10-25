@@ -75,11 +75,17 @@ class Location():
 
 """Item class not complete(need to integrate with DB)"""
 class Item():
-	def __init__(self, itemid, name, description):
-		self.itemid = itemid
-		self.name = name
-		self.description = description
-
+	def __init__(self, data)
+		self.id = str(data['ItemTag']).strip()
+		self.name = str(data['ItemName']).strip()
+		self.type = str(data['ItemType']).strip()
+		self.location = str(data['ItemLoc']).strip()
+		self.w = float(data['ItemWeight'])
+		self.value = int(data['ItemValue'])
+		self.buy = int(data['ItemBuyValue'])
+		self.sell = int(data['ItemSellValue'])
+		self.legal = bool(data['ItemLegal'])
+	
 	def inspect():
 		#Print out name, description and hints in narration section
 		pass
