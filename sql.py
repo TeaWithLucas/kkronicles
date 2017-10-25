@@ -14,13 +14,15 @@ except mysql.connector.Error as err:
 	else:
 		print(err)
 
-#THIS METHOD FETCHES ALL ROWS IN A DATABASE TABLE AND SEPERATES EACH ROW INTO A LIST OF DICTIONARIES.
-#
+#THIS METHOD ATTEMPTS FETCH ALL ROWS IN A DATABASE AND RETURNS THE ROWS TO BE ACCESSED IN THE table_to_classes FUNCTON - data.py
 def fetch_all(stringSQL):
-	query = stringSQL
-	cursor.execute(query)
-	rows = cursor.fetchall()
-	return rows
+	try:
+		query = stringSQL
+		cursor.execute(query)
+		rows = cursor.fetchall()
+		return rows
+	except:
+		print("Error fetching records - Please check your internet connection")
 
 def insert_records(stringSQL, stringData):
 	query = stringSQL
