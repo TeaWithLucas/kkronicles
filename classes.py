@@ -31,7 +31,6 @@ class Actor():
 		elif self.tags['justify']=='CENTER': self.tags['justify']=CENTER
 		else: self.tags['justify']=LEFT
 		self.inv = []
-		self.faction = "indie"
 		self.calc_stats()
 
 	#calculates the currect stats of the actor
@@ -42,9 +41,44 @@ class Actor():
 		new_curh = cur_curh + (new_maxh - cur_maxh)
 		self.stats['health'] = {'maxh': new_maxh, 'curh': new_curh}
 
-
 	def add_email(self, email):
 		self.emails.append(email)
+
+	def take(self, item):
+		self.inv.append(item)
+
+	def drop(self, item):
+		self.inv.remove(item)
+
+	def stat_check(self, stat_to_check):
+		stat_value = self.stats['special'][stat_to_check]
+		luc_stat = self.stats['special']['luc']
+		stat_modifier = (random.randrange(0,luc_stat) - 1) + random.randrange(-5,5)
+		stat_return = stat_value + stat_modifier
+		return stat_return
+
+
+	class Recipe_Manager():
+
+		def __init__(self, all_recepies):
+			self.all_recepies = all_recepies
+
+		def check_for_possibilities(self,inventory):
+			possible_recepy_list = []
+			inventory_ids = []
+			for item in inventory:
+				inventory_ids.append(item.id)
+			for recepy in self.all_recepies.values():
+				current_rec_input = recepy.input.values()
+				print(current_rec_input in inventory)
+				print(current_rec_input)
+				if all(x in inventory_ids for x in current_rec_input):
+					print('MATCH')
+					possible_recepy_list.append(recepy)
+
+			return possible_recepy_list
+
+
 
 
 """The Stage class allows to navigate through the game"""
@@ -63,7 +97,7 @@ class Stage():
 			self.choices[str(choice).lower().strip()] = dic
 			self.choicesinput.append(str(choice).lower().strip())
 
-	def narration_add(self, data):	
+	def narration_add(self, data):
 		for row in data:
 			tempdict = {'speaker':str(row['narr_speaker']).strip(), 'location':str(row['narr_location']).strip(), 'order':int(row['narr_order']), 'dialog':str(row['narr_dialog'])}
 			self.narration.append(tempdict)
@@ -98,7 +132,7 @@ class Item():
 		self.buy = int(data['ItemBuyValue'])
 		self.sell = int(data['ItemSellValue'])
 		self.legal = bool(data['ItemLegal'])
-	
+		self.quant = 1
 	def inspect():
 		#Print out name, description and hints in narration section
 		pass

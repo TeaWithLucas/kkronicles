@@ -20,7 +20,7 @@ class Stage_Manager():
 		self.email_disp = False
 		self.email_read = False
 		self.job_offered = False
-		self.functions = {"cmd_change_stage": self.cmd_change_stage, "cmd_sell_online": self.cmd_sell_online, "cmd_buy_online": self.cmd_buy_online, "cmd_open_tor": self.cmd_open_tor, "cmd_read_email": self.cmd_read_email,"cmd_display_emails": self.cmd_display_emails,"cmd_new_game":self.cmd_new_game, "cmd_exit":self.cmd_exit, "cmd_choose":self.cmd_choose, "cmd_change_scene":self.cmd_change_scene, "cmd_lose":self.cmd_lose, "cmd_won":self.cmd_won, "cmd_dialog_choice":self.cmd_dialog_choice, "cmd_make_chems":self.cmd_make_chems, "cmd_create_chems":self.cmd_create_chems, "cmd_caught_police":self.cmd_caught_police, "cmd_start_job":self.cmd_start_job}
+		self.functions = {"cmd_cook_drug": self.cmd_cook_drug, "cmd_cook_menu": self.cmd_cook_menu,"cmd_change_stage": self.cmd_change_stage, "cmd_sell_online": self.cmd_sell_online, "cmd_buy_online": self.cmd_buy_online, "cmd_open_tor": self.cmd_open_tor, "cmd_read_email": self.cmd_read_email,"cmd_display_emails": self.cmd_display_emails,"cmd_new_game":self.cmd_new_game, "cmd_exit":self.cmd_exit, "cmd_choose":self.cmd_choose, "cmd_change_scene":self.cmd_change_scene, "cmd_lose":self.cmd_lose, "cmd_won":self.cmd_won, "cmd_dialog_choice":self.cmd_dialog_choice, "cmd_make_chems":self.cmd_make_chems, "cmd_create_chems":self.cmd_create_chems, "cmd_caught_police":self.cmd_caught_police, "cmd_start_job":self.cmd_start_job}
 
 
 	#Function to update consoles
@@ -34,9 +34,17 @@ class Stage_Manager():
 		print('inp ' + input_choice[0])
 		print(str(self.current_stage))
 		functions = self.functions
-		if input_choice[0] in self.current_stage.choices:
-			cmd = self.current_stage.choices[input_choice[0]]['cmd']
-			var = self.current_stage.choices[input_choice[0]]['var']
+		whole_input = ''
+		first = True
+		for word in input_choice:
+			if first:
+				whole_input = word
+				first = False
+			else:
+				whole_input +=  ' ' + word
+		if whole_input in self.current_stage.choices:
+			cmd = self.current_stage.choices[whole_input]['cmd']
+			var = self.current_stage.choices[whole_input]['var']
 			if cmd in functions:
 				functions[cmd](var)
 
@@ -69,6 +77,7 @@ class Stage_Manager():
 
 	#Output choices for stage
 	def update_choices(self):
+		self.gui.clear_choices()
 		self.gui.add_txt('choice', "\t" + self.current_stage.question + "\n", self.system_text.tag)
 		for choice in self.current_stage.choicesinput:
 			print('c = ' + choice)
@@ -115,6 +124,9 @@ class Stage_Manager():
 	def cmd_change_scene(self, args = ""):
 		print('cmd_change_scene')
 		self.current_stage=self.all_stages[args]
+		if self.email_disp:
+			self.current_stage.choices = self.prev_choices
+			self.current_stage.choicesinput = self.prev_list_choices
 		self.new_scene()
 	def cmd_exit(self, args = ""):
 		print('cmd_exit')
@@ -227,6 +239,94 @@ class Stage_Manager():
 
 	def cmd_sell_online(self, args = ""):
 		print('Sell Online')
+		self.email_read = True
+		items_to_sell = []
+		for item in self.gui.player.inv:
+			if item.type == 'Drug':
+				items_to_sell.append(item)
+
+		self.gui.clear_middle()
+		self.gui.add_txt('narration', 'THE SILK ROAD\n\n', self.narrator.tag)
+		self.gui.add_txt('narration', 'Now choose what you want to sell...\n\n', self.system_text.tag)
+
+		self.current_stage.choicesinput = []
+		for item in items_to_sell:
+			name = item.name.lower()
+			tag = item.id
+			self.current_stage.choicesinput.append('sell ' + name)
+			self.current_stage.choices.update({'sell ' + item.name.lower() : {'cmd':'cmd_sell_item', 'var': tag}})
+
+		self.current_stage.choicesinput.append('close')
+		self.current_stage.choices.update({'close' : {'cmd':'cmd_open_tor', 'var': ''}})
+		self.update_choices()
 
 	def cmd_buy_online(self, args = ""):
 		print('Buy Online')
+
+		def cmd_sell_item(self, args = ""):
+			self.email_read = True
+			item_sold = ''
+			for i in self.all_items.values():
+				if i.id == args:
+					item_sold = i
+			print(item_sold.name)
+			self.gui.player.inv.remove(item_sold)
+			self.gui.update_inv_display()
+			self.gui.player.wallet += item_sold.sell
+			self.gui.update_wallet()
+			items_to_sell = []
+			for item in self.gui.player.inv:
+				if item.type == 'Drug':
+					items_to_sell.append(item)
+
+			self.cmd_sell_online()
+
+			def cmd_cook_menu(self, arg = ""):
+				self.email_disp = True
+				if not(self.email_read):
+					self.prev_choices = self.current_stage.choices
+					self.prev_list_choices = self.current_stage.choicesinput
+					self.email_read = False
+				self.gui.clear_middle()
+				self.gui.add_txt('narration', 'Recepie Book\n\n', self.narrator.tag)
+				self.gui.add_txt('narration', 'Here you can cook your very own drugs! Have fun...\n\n', self.system_text.tag)
+				possibilities = self.gui.recipe_engine.check_for_possibilities(self.gui.player.inv)
+				self.gui.add_txt('narration', 'With your items you can make:\n\n', self.system_text.tag)
+				self.current_stage.choicesinput = []
+				for c in possibilities:
+					drug_name = ''
+					drug_id = c.output
+					for item in self.all_items.values():
+						print(item.id + ' - ' + c.output)
+						if c.output == item.id:
+							drug_name = item.name
+
+					self.gui.add_txt('narration', '\t\t' + drug_name + '\n\n', self.system_text.tag)
+
+					self.current_stage.choicesinput.append('cook ' + drug_name)
+					self.current_stage.choices.update({'cook ' + drug_name.lower() : {'cmd':'cmd_cook_drug', 'var': drug_id}})
+
+				self.current_stage.choicesinput.append('close')
+				self.current_stage.choices.update({'close' : {'cmd':'cmd_change_scene', 'var': self.current_stage.stage_id}})
+				self.update_choices()
+
+			def cmd_cook_drug(self, drug_id):
+				self.email_read = True
+				print('Cooking...')
+				drug_item = ''
+				for item in self.all_items.values():
+					if item.id == drug_id:
+						drug_item = item
+				self.gui.player.take(drug_item)
+				remove_list = []
+				all_game_rec = self.gui.recipe_engine.all_recepies
+				for rec in all_game_rec.values():
+					if rec.output == drug_id:
+						remove_list += rec.input.values()
+				print(remove_list)
+				for item in remove_list:
+					for i in self.all_items.values():
+						if i.id == item:
+							self.gui.player.drop(i)
+				self.gui.update_inv_display()
+				self.cmd_cook_menu()

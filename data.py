@@ -76,15 +76,3 @@ for stage in all_stages.values():
 #stg_lost = Stage('lost', 'You Loose', [{'speaker':actors['Dmytro_Kaduba'], 'dialog':'You lost', 'location': locations['menu']}], "What next?", {'Main Menu': {'cmd':'cmd_new_game', 'var':''}, 'Exit':{'cmd':'cmd_exit', 'var':''}})
 
 #stages = {'stg_main_menu':stg_main_menu, 'stg_act1':stg_act1, 'stg_act1b':stg_act1b, 'stg_new_game':stg_new_game, 'stg_load_game':stg_load_game, 'stg_exit':stg_exit, 'stg_lost':stg_lost}
-
-item_names = []
-#for item in global_game_items:
-	#item_names.append(item.id)
-
-directions = ['north', 'south', 'east', 'west']
-action_cmds = ['move', 'take', 'drop']
-
-directions = ['north', 'south', 'east', 'west']
-action_cmds = ['move', 'take', 'drop']
-
-keep_words = action_cmds + directions + item_names
