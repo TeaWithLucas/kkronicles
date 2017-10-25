@@ -28,12 +28,13 @@ def draw_anim_ascii(path, gui, output_widget):
 			gui.update_txt(output_widget,new_line[0:i])
 
 #Norm input by removing spaces and punct
-def normalise(text, keep_words):
+def normalise(text):
 	print()
 	no_punct = re.sub(r'[^\w\s]','',text)
 	no_space = re.sub(r'^\s+|\s+$','',text)
-	final = filter_input(no_space, keep_words)
-	return no_space.lower()
+	#final = filter_input(no_space, keep_words)
+	final = no_space.lower()
+	return final.split()
 
 
 #Filter to remove uselees words

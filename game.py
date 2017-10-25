@@ -211,7 +211,7 @@ class gui():
 	#Get input from a widget and normalises it
 	def get_input(self):
 		con_input = self.widgets['console'].get()
-		norm_input = normalise(con_input, self.stage_man.current_stage.choicesinput)
+		norm_input = normalise(con_input)
 		self.widgets['console'].delete(0, END)
 		return norm_input
 
@@ -233,6 +233,7 @@ class gui():
 				spaces += ' '
 
 			update_txt += ' ' + desc.upper() + ': '+ spaces + str(amount) + '\n'
+		update_txt += '\n' + 'Availiable Points: ' + str(self.player.stat_points)
 		print ('updating stats:' + str(self.player.stats['special']))
 		self.update_txt('stats', update_txt)
 

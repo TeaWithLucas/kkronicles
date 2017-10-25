@@ -12,6 +12,8 @@ class Actor():
 		self.lname =  str(data['CharLname']).strip()
 		self.name = self.fname + " " + self.lname
 		self.id = self.fname + "_" + self.lname
+		self.emails = []
+		self.stat_points = 20
 		self.nickname =  str(data['CharNickname']).strip()
 		self.location =  str(data['CharLoc']).strip()
 		self.function =  str(data['CharFunc']).strip()
@@ -40,21 +42,24 @@ class Actor():
 		self.stats['health'] = {'maxh': new_maxh, 'curh': new_curh}
 
 
+	def add_email(self, email):
+		self.emails.append(email)
+
+
 """The Stage class allows to navigate through the game"""
 class Stage():
 	def __init__(self, data):
 		self.id = str(data['stages_id']).strip()
 		self.name = str(data['stages_name']).strip()
 		self.narration = [] #The text to be displayed in this stage (story/dialog)
-		#self.choices = choices #The choices availiable at the end of this stage
-		#self.question = data['question']
-		self.question = str("needs to be put on db").strip()
-		self.choices = json.loads(data['stages_choices']) #The choices availiable at the end of this stage
-		self.choicesinput = [] #List of choices to filter ochoice.lower()ut bad input
-		if len(self.choices) > 0:
-			for choice, dic in choices.items():
-				self.choices[str(choice).lower().strip()] = dic
-				self.choicesinput.append(str(choice).lower().strip())
+		self.question = data['stages_questions']
+		#self.question = str("needs to be put on db").strip()
+		self.choices = {}
+		choices = json.loads(data['stages_choices']) #The choices availiable at the end of this stage
+		self.choicesinput = [] #List of choices to filter  out bad input
+		for choice, dic in choices.items():
+			self.choices[str(choice).lower().strip()] = dic
+			self.choicesinput.append(str(choice).lower().strip())
 
 	def narration_add(self, data):	
 		for row in data:
@@ -95,3 +100,9 @@ class Item():
 	def inspect():
 		#Print out name, description and hints in narration section
 		pass
+
+class Email:
+	def __init__(self, sender, title, text):
+		self.sender = sender
+		self.title = title
+		self.text = text
