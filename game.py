@@ -16,15 +16,19 @@ class gui():
 		self.player = actors['Kirill_Sidorov'] #The protagonist actor object
 		self.player.add_email(email_z)
 		self.player.add_email(email_d)
+		self.player.take(items['in_coca'])
+		self.player.take(items['in_soda'])
+		self.player.take(items['in_paint'])
 		self.narrator = actors['Nikeen_Patel'] #The narrato actor
 		self.system_text = actors['Dmytro_Kaduba'] #System text display actor
+		self.recepe_engine = Recipe_Manager(recipes)
 
 		#User input (global)
 		self.user_input = ""
 
 		#Stage manager to navigate through the game
 		start_stage = stg_main_menu
-		self.stage_man = Stage_Manager(self,stages,start_stage,self.narrator,self.system_text)
+		self.stage_man = Stage_Manager(self,stages,start_stage,self.narrator,self.system_text,items)
 
 		#health and location initialisation
 		self.cur_health_symbols = "<health>"
@@ -288,7 +292,7 @@ class gui():
 	def update_inv_display(self):
 		update_txt = ""
 		for item in self.player.inv:
-			update_txt += '  ---  ' + item.itemid + '\n'
+			update_txt += '  ---  ' + item.name + '\n'
 		self.update_txt('inv', update_txt)
 
 		update_txt_room = ''
@@ -313,6 +317,9 @@ class gui():
 	def clear_middle(self):
 		print('clearing narration and choice widgets')
 		self.update_txt('narration', "")
+		self.update_txt('choice', "")
+
+	def clear_choices(self):
 		self.update_txt('choice', "")
 
 	#Change the image of a widget

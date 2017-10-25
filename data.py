@@ -24,6 +24,7 @@ def table_to_class(table, dic):
 actors = table_to_class("tblCharacters", {'class' : Actor})
 locations = table_to_class("tblLocations", {'class' : Location})
 items = table_to_class("tblItems", {'class': Item})
+recipes = table_to_class("tblRecipes", {'class': Recipe})
 
 #Items
 #book_item = Item('Book', 'an old book', 'This is a very old looking book.')
@@ -48,8 +49,8 @@ items = table_to_class("tblItems", {'class': Item})
 
 #Stages(integrate with DB in future)
 stg_main_menu = Stage('stg_main_menu', 'Main Menu', [{'speaker':actors['Dmytro_Kaduba'], 'dialog':(draw_ascii('./assets/welcome.txt') + '\n\n\n\n\n' + '0Welcome  Kirill\t'), 'location': locations['menu']}], "What would you like to do?", {'Start': {'cmd':'cmd_change_scene', 'var':'stg_stat_choice'}, 'Exit':{'cmd':'cmd_exit', 'var':''}})
-stg_stat_choice = Stage('stg_stat_choice', 'Selecting Stats', [{'speaker':actors['Nikeen_Patel'], 'dialog':'[APPLICATIION FORM]', 'location': locations['menu']}, {'speaker':actors['Dmytro_Kaduba'], 'dialog':'Enter your chosen stats to complete your application by typing the stat followed by the value. When you are done type [continue]. ', 'location': locations['menu']}], "What would you like to do?", {'continue': {'cmd':'cmd_change_scene', 'var':'stg_act1'},'open tor': {'cmd':'cmd_open_tor', 'var':'stg_act1'}})
 
+stg_stat_choice = Stage('stg_stat_choice', 'Selecting Stats', [{'speaker':actors['Nikeen_Patel'], 'dialog':'[APPLICATIION FORM]', 'location': locations['menu']}, {'speaker':actors['Dmytro_Kaduba'], 'dialog':'Enter your chosen stats to complete your application by typing the stat followed by the value. When you are done type [continue]. ', 'location': locations['menu']}], "What would you like to do?", {'continue': {'cmd':'cmd_change_scene', 'var':'stg_act1'},'open tor': {'cmd':'cmd_open_tor', 'var':'stg_act1'},'cook drug': {'cmd':'cmd_cook_menu', 'var':''}})
 stg_act1 = Stage('stg_act1', 'Act 1', [
 	{'speaker':actors['Nikeen_Patel'], 'dialog':'Lorem ipsum dolor sit amet, sea ei ridens signiferumque, vel no graece altera viderer. Has diam nibh no. Pro in noster probatus eleifend, saepe graecis corpora quo ei. Debitis definitiones quo ad, tollit eirmod patrioque ad vim, dico dolore assentior ut mel. Vel epicurei intellegam ex. Cum probatus theophrastus an, per id tota virtute.', 'location': locations['queens']},
 	{'speaker':actors['James_Wills'], 'dialog':'Dico quando invidunt ei sit. Et bonorum delicata cum, per falli praesent explicari ea. Usu et tale error dissentiet, cum an laboramus aliquando repudiandae. Munere eloquentiam disputationi in vix. Tota salutandi rationibus eu pro, ius no persius menandri. Eam ut purto case instructior, decore periculis reprehendunt mei in, ea dicat cotidieque cum.', 'location':  locations['queens']},

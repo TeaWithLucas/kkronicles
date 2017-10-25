@@ -2,6 +2,7 @@ import time
 from functions import *
 from tkinter import *
 import json
+import random
 
 """ These are the classes which are the structures for different objects in the game """
 class Actor():
@@ -44,9 +45,20 @@ class Actor():
 	def add_email(self, email):
 		self.emails.append(email)
 
+	def take(self, item):
+		self.inv.append(item)
+
+	def stat_check(self, stat_to_check):
+		stat_value = self.stats['special'][stat_to_check]
+		luc_stat = self.stats['special']['luc']
+		stat_modifier = (random.randrange(0,luc_stat) - 1) + random.randrange(-5,5)
+		stat_return = stat_value + stat_modifier
+		return stat_return
+
+
 """The Stage class allows to navigate through the game"""
 class Stage():
-	def __init__(self, stage_id, name, narration, question, choices):
+	def __init__(self, stage_id, name, narration, question, choices, time = 1):
 		self.stage_id = stage_id
 		self.name = name
 		self.narration = narration #The text to be displayed in this stage (story/dialog)
@@ -57,12 +69,42 @@ class Stage():
 		for choice, dic in choices.items():
 			self.choices[choice.lower()] = dic
 			self.choicesinput.append(choice.lower())
+		self.time_value = time
 
 class Email:
 	def __init__(self, sender, title, text):
 		self.sender = sender
 		self.title = title
 		self.text = text
+
+class Recipe():
+
+	def __init__(self, data):
+			self.id = str(data['rec_id']).strip()
+			self.name = str(data['rec_name']).strip()
+			self.input = json.loads(data['rec_input'])
+			self.output = str(data['rec_output']).strip()
+			self.method = str(data['rec_method']).strip()
+
+
+class Recipe_Manager():
+
+	def __init__(self, all_recepies):
+		self.all_recepies = all_recepies
+
+	def check_for_possibilities(self,inventory):
+		print(inventory)
+		possible_recepy_list = []
+		for recepy in self.all_recepies.values():
+			current_rec_input = recepy.input.values()
+			print(current_rec_input in inventory)
+			if current_rec_input in inventory:
+				print('MATCH')
+				possible_recepy_list.append(recepy)
+
+		return possible_recepy_list
+
+
 
 """The location class allows to navigate through the game map and describe locations in the narration """
 class Location():

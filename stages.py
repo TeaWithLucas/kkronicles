@@ -3,7 +3,7 @@ from classes import *
 """The Stage Manager allows to easily change stages, take inputs and display all the outputs"""
 class Stage_Manager():
 	#Inits the stage manager object
-	def __init__(self, gui, all_stages, start_stage, narrator, system_text):
+	def __init__(self, gui, all_stages, start_stage, narrator, system_text, items):
 		self.all_stages = all_stages
 		self.gui = gui
 		self.current_stage = start_stage
@@ -18,9 +18,11 @@ class Stage_Manager():
 		self.prev_list_choices = []
 		self.email_disp = False
 		self.email_read = False
+		self.all_items = items
+		self.currect_time = 0
 
 
-		self.functions = {"cmd_sell_online": self.cmd_sell_online, "cmd_buy_online": self.cmd_buy_online, "cmd_open_tor": self.cmd_open_tor, "cmd_read_email": self.cmd_read_email,"cmd_display_emails": self.cmd_display_emails,"cmd_new_game":self.cmd_new_game, "cmd_exit":self.cmd_exit, "cmd_back":self.cmd_back, "cmd_change_scene":self.cmd_change_scene, "cmd_lose":self.cmd_lose, "cmd_won":self.cmd_won, "cmd_dialog_choice":self.cmd_dialog_choice, "cmd_make_chems":self.cmd_make_chems, "cmd_create_chems":self.cmd_create_chems, "cmd_caught_police":self.cmd_caught_police, "cmd_start_job":self.cmd_start_job}
+		self.functions = {"cmd_cook_menu": self.cmd_cook_menu,"cmd_sell_item":self.cmd_sell_item, "cmd_sell_online": self.cmd_sell_online, "cmd_buy_online": self.cmd_buy_online, "cmd_open_tor": self.cmd_open_tor, "cmd_read_email": self.cmd_read_email,"cmd_display_emails": self.cmd_display_emails,"cmd_new_game":self.cmd_new_game, "cmd_exit":self.cmd_exit, "cmd_back":self.cmd_back, "cmd_change_scene":self.cmd_change_scene, "cmd_lose":self.cmd_lose, "cmd_won":self.cmd_won, "cmd_dialog_choice":self.cmd_dialog_choice, "cmd_make_chems":self.cmd_make_chems, "cmd_create_chems":self.cmd_create_chems, "cmd_caught_police":self.cmd_caught_police, "cmd_start_job":self.cmd_start_job}
 		#, "cmd_":self.cmd_, "cmd_":self.cmd_, "cmd_":self.cmd_, "cmd_":self.cmd_, "cmd_":self.cmd_, "cmd_":self.cmd_, "cmd_":self.cmd_, "cmd_":self.cmd_, "cmd_":self.cmd_}
 
 
@@ -63,6 +65,8 @@ class Stage_Manager():
 
 	#Will play out the current stage
 	def narrate_current_stage(self):
+		self.currect_time += self.current_stage.time_value
+		print('The time is: ' + str(self.currect_time))
 		remaining_narration = self.current_stage.narration
 		for narration in remaining_narration:
 			print(self.change_location(narration['location']))
@@ -75,6 +79,7 @@ class Stage_Manager():
 
 	#Output choices for stage
 	def update_choices(self):
+		self.gui.clear_choices()
 		self.gui.add_txt('choice', "\t" + self.current_stage.question + "\n", self.system_text.tag)
 		for choice in self.current_stage.choicesinput:
 			print('c = ' + choice)
@@ -150,6 +155,8 @@ class Stage_Manager():
 		else:
 			self.gui.add_txt('narration', '[NOT ENOUGH POINTS]', self.narrator.tag)
 
+		print(self.gui.player.stat_check(stat))
+
 
 	def cmd_display_emails(self, args = ""):
 			self.email_read = True
@@ -215,7 +222,57 @@ class Stage_Manager():
 		self.update_choices()
 
 	def cmd_sell_online(self, args = ""):
-		print('Sell Online')
+		items_to_sell = []
+		for item in self.gui.player.inv:
+			if item.type == 'Drug':
+				items_to_sell.append(item)
+
+		self.gui.clear_middle()
+		self.gui.add_txt('narration', 'THE SILK ROAD\n\n', self.narrator.tag)
+		self.gui.add_txt('narration', 'Now choose what you want to sell...\n\n', self.system_text.tag)
+
+		self.current_stage.choicesinput = []
+		for item in items_to_sell:
+			name = item.name.lower()
+			tag = item.id
+			self.current_stage.choicesinput.append('sell ' + name)
+			self.current_stage.choices.update({'sell ' + item.name.lower() : {'cmd':'cmd_sell_item', 'var': tag}})
+
+		self.current_stage.choicesinput.append('close')
+		self.current_stage.choices.update({'close' : {'cmd':'cmd_open_tor', 'var': ''}})
+		self.update_choices()
 
 	def cmd_buy_online(self, args = ""):
 		print('Buy Online')
+
+	def cmd_sell_item(self, args = ""):
+		item_sold = ''
+		for i in self.all_items.values():
+			if i.id == args:
+				item_sold = i
+		print(item_sold.name)
+		self.gui.player.inv.remove(item_sold)
+		self.gui.update_inv_display()
+		self.gui.player.wallet += item_sold.sell
+		self.gui.update_wallet()
+		items_to_sell = []
+		for item in self.gui.player.inv:
+			if item.type == 'Drug':
+				items_to_sell.append(item)
+
+		self.current_stage.choicesinput = []
+		for item in items_to_sell:
+				name = item.name.lower()
+				tag = item.id
+				self.current_stage.choicesinput.append('sell ' + name)
+				self.current_stage.choices.update({'sell ' + item.name.lower() : {'cmd':'cmd_sell_item', 'var': tag}})
+		self.current_stage.choicesinput.append('close')
+		self.current_stage.choices.update({'close' : {'cmd':'cmd_open_tor', 'var': ''}})
+		self.update_choices()
+
+	def cmd_cook_menu(self, arg = ""):
+		self.gui.clear_middle()
+		self.gui.add_txt('narration', 'Recepie Book\n\n', self.narrator.tag)
+		self.gui.add_txt('narration', 'Here you can cook your very own drugs! Have fun...\n', self.system_text.tag)
+		possibilities = self.gui.recepe_engine.check_for_possibilities(self.gui.player.inv)
+		print(possibilities)
