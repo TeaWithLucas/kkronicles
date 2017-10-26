@@ -304,7 +304,7 @@ class Stage_Manager():
 
 
 	def cmd_sell_item(self, args = ""):
-		self.gui.player.police_alert += 2
+		self.gui.player.police_alert += random.randrange(4, 20 - self.gui.player.stats['special']['int'])
 		#self.email_read = True
 		list_items = self.gui.player.inv
 		for item in list_items:
@@ -449,7 +449,7 @@ class Stage_Manager():
 	def void():
 		pass
 	def cmd_buy_item(self, arg = ""):
-		self.gui.player.police_alert += 2
+		self.gui.player.police_alert += random.randrange(4, 20 - self.gui.player.stats['special']['cha'])
 		arg_list = arg.split()
 		item_bought = ''
 		for i in items.values():
@@ -460,6 +460,7 @@ class Stage_Manager():
 				self.gui.player.inv.append(item_bought)
 				self.gui.player.wallet -= item_bought.buy
 		else:
+
 			self.gui.add_txt('narration', '\n\nNOT ENOUGH FUNDS]', self.narrator.tag)
 
 		self.gui.update_inv_display()
@@ -481,7 +482,7 @@ class Stage_Manager():
 				self.cmd_change_scene('stg_labs_success')
 
 	def cmd_loot(self, arg = ""):
-		self.gui.player.police_alert += 3
+		self.gui.player.police_alert += random.randrange(4, 20 - self.gui.player.stats['special']['per'])
 		ingredient_list = []
 		for item in items.values():
 			if item.type == 'Ingredient':
@@ -494,7 +495,7 @@ class Stage_Manager():
 		self.cmd_change_scene('stg_home')
 
 	def cmd_get_money(self, arg = ""):
-		self.gui.player.wallet += 50 * 2300000
+		self.gui.player.wallet += 50 * 23
 		self.cmd_change_scene('stg_home')
 
 	def cmd_restart(self, arg = ""):
@@ -516,7 +517,7 @@ class Stage_Manager():
 		per = self.gui.player.stat_check('per')
 		agi = self.gui.player.stat_check('agi')
 
-		if stre > 6 or per > 6:
+		if stre >  6 or per > 6:
 			if stre > per:
 				self.cmd_change_scene(list_of_options[0])
 			else:
