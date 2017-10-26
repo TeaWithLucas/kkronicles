@@ -28,6 +28,7 @@ class Stage_Manager():
 		self.triad_email_read = False
 		self.triad_rejected = False
 		self.labs_first = True
+		self.global_time = 0
 		self.functions = {"cmd_combat": self.cmd_combat,"cmd_get_money": self.cmd_get_money, "cmd_restart": self.cmd_restart,"cmd_take_risk": self.cmd_take_risk, "cmd_loot": self.cmd_loot, "cmd_buy_item": self.cmd_buy_item, "cmd_display_items": self.cmd_display_items, "cmd_rnd_stats": self.cmd_rnd_stats, "cmd_move_location": self.cmd_move_location, "cmd_sell_item": self.cmd_sell_item, "cmd_cook_drug": self.cmd_cook_drug, "cmd_cook_menu": self.cmd_cook_menu,"cmd_change_stage": self.cmd_change_stage, "cmd_sell_online": self.cmd_sell_online, "cmd_open_tor": self.cmd_open_tor, "cmd_read_email": self.cmd_read_email,"cmd_display_emails": self.cmd_display_emails,"cmd_new_game":self.cmd_new_game, "cmd_exit":self.cmd_exit, "cmd_choose":self.cmd_choose, "cmd_change_scene":self.cmd_change_scene, "cmd_lose":self.cmd_lose, "cmd_won":self.cmd_won, "cmd_dialog_choice":self.cmd_dialog_choice, "cmd_make_chems":self.cmd_make_chems, "cmd_create_chems":self.cmd_create_chems, "cmd_caught_police":self.cmd_caught_police, "cmd_start_job":self.cmd_start_job}
 
 
@@ -38,6 +39,13 @@ class Stage_Manager():
 
 	#Function to update consoles
 	def navigate(self, input_choice):
+		self.global_time += 1
+		if self.global_time == 15:
+			self.gui.player.add_email(email_z)
+
+		if self.global_time == 30:
+			self.gui.player.add_email(email_t)
+
 		if self.gui.player.wallet > 500000000:
 			self.cmd_change_scene('stg_win_game')
 		else:
@@ -77,6 +85,7 @@ class Stage_Manager():
 
 	#Will play out the current stage
 	def narrate_current_stage(self):
+		self.global_time += 2
 		self.gui.waittime = 2
 		self.narration_speed = 0.02
 		if self.current_stage == self.all_stages['stg_main_menu']:
@@ -103,7 +112,7 @@ class Stage_Manager():
 		self.gui.add_txt('choice', "\t" + self.current_stage.question + "\n", self.system_text.tag)
 		for choice in self.current_stage.choicesinput:
 			print('c = ' + choice)
-			self.gui.add_txt('choice', '\n[' + choice.upper() + ']    \n', self.narrator.tag)
+			self.gui.add_txt('choice', '  [' + choice.upper() + ']  ', self.narrator.tag)
 
 
 
@@ -271,8 +280,16 @@ class Stage_Manager():
 		self.current_stage.choicesinput = []
 		self.current_stage.choicesinput.append('sell online')
 		self.current_stage.choices.update({'sell online' : {'cmd':'cmd_sell_online', 'var': ''}})
-		self.current_stage.choicesinput.append('email')
-		self.current_stage.choices.update({'email' : {'cmd':'cmd_display_emails', 'var': ''}})
+		if self.gui.player.emails:
+			plus = ''
+			for email in self.gui.player.emails:
+				plus += '+'
+			self.current_stage.choicesinput.append('email (' + plus + ')')
+			self.current_stage.choices.update({'email' : {'cmd':'cmd_display_emails', 'var': ''}})
+		else:
+			self.current_stage.choicesinput.append('email')
+			self.current_stage.choices.update({'email' : {'cmd':'cmd_display_emails', 'var': ''}})
+
 		self.current_stage.choicesinput.append('close')
 		self.current_stage.choices.update({'close' : {'cmd':'cmd_change_scene', 'var': self.current_stage.id}})
 
@@ -385,12 +402,12 @@ class Stage_Manager():
 
 		if self.gui.player.faction == 'triad':
 			#triad
-			self.current_stage.choicesinput.append('go triad')
-			self.current_stage.choices.update({'go triad' : {'cmd':'cmd_change_scene', 'var': 'stg_at_triad'}})
+			self.current_stage.choicesinput.append('go casino')
+			self.current_stage.choices.update({'go casino' : {'cmd':'cmd_change_scene', 'var': 'stg_at_triad'}})
 		elif self.triad_email_read and self.triad_rejected == False:
 			self.triad_rejected = True
-			self.current_stage.choicesinput.append('go triad')
-			self.current_stage.choices.update({'go triad' : {'cmd':'cmd_change_scene', 'var': 'stg_the_triad'}})
+			self.current_stage.choicesinput.append('go casino')
+			self.current_stage.choices.update({'go casino' : {'cmd':'cmd_change_scene', 'var': 'stg_the_triad'}})
 
 
 		if self.anon_email_read:
@@ -508,7 +525,6 @@ class Stage_Manager():
 		for stage in all_stages.values():
 			stage.narration_add(table_to_list("tblNarration", "stages_id", stage.id))
 		recipes = table_to_class("tblRecipes", {'class': Recipe})
-		self.cmd_change_scene('stg_main_menu')
 
 #{"Continue": {"cmd":"cmd_combat", "var":"stg_job_taffia_win_strength stg_job_taffia_win_perception stg_job_taffia_escape stg_job_taffia_die"}}
 

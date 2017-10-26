@@ -12,9 +12,6 @@ class gui():
 		self.running = True
 		self.title = title
 		self.player = actors['Kirill_Sidorov'] #The protagonist actor object
-		self.player.add_email(email_z)
-		self.player.add_email(email_d)
-		self.player.add_email(email_t)
 		self.narrator = actors['Nikeen_Patel'] #The narrato actor
 		self.system_text = actors['Dmytro_Kaduba'] #System text display actor
 		self.recipe_engine = Recipe_Manager(recipes)
