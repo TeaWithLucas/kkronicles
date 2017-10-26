@@ -1,5 +1,6 @@
 from classes import *
 from data import *
+import random
 
 """The Stage Manager allows to easily change stages, take inputs and display all the outputs"""
 class Stage_Manager():
@@ -20,7 +21,12 @@ class Stage_Manager():
 		self.email_disp = False
 		self.email_read = False
 		self.job_offered = False
-		self.functions = {"cmd_rnd_stats": self.cmd_rnd_stats, "cmd_move_location": self.cmd_move_location, "cmd_sell_item": self.cmd_sell_item, "cmd_cook_drug": self.cmd_cook_drug, "cmd_cook_menu": self.cmd_cook_menu,"cmd_change_stage": self.cmd_change_stage, "cmd_sell_online": self.cmd_sell_online, "cmd_buy_online": self.cmd_buy_online, "cmd_open_tor": self.cmd_open_tor, "cmd_read_email": self.cmd_read_email,"cmd_display_emails": self.cmd_display_emails,"cmd_new_game":self.cmd_new_game, "cmd_exit":self.cmd_exit, "cmd_choose":self.cmd_choose, "cmd_change_scene":self.cmd_change_scene, "cmd_lose":self.cmd_lose, "cmd_won":self.cmd_won, "cmd_dialog_choice":self.cmd_dialog_choice, "cmd_make_chems":self.cmd_make_chems, "cmd_create_chems":self.cmd_create_chems, "cmd_caught_police":self.cmd_caught_police, "cmd_start_job":self.cmd_start_job}
+		self.job_completed = False
+		self.anon_email_read = False
+		self.triad_email_read = False
+		self.triad_rejected = False
+		self.labs_first = True
+		self.functions = {"cmd_combat": self.cmd_combat,"cmd_get_money": self.cmd_get_money, "cmd_restart": self.cmd_restart,"cmd_take_risk": self.cmd_take_risk, "cmd_loot": self.cmd_loot, "cmd_buy_item": self.cmd_buy_item, "cmd_display_items": self.cmd_display_items, "cmd_rnd_stats": self.cmd_rnd_stats, "cmd_move_location": self.cmd_move_location, "cmd_sell_item": self.cmd_sell_item, "cmd_cook_drug": self.cmd_cook_drug, "cmd_cook_menu": self.cmd_cook_menu,"cmd_change_stage": self.cmd_change_stage, "cmd_sell_online": self.cmd_sell_online, "cmd_open_tor": self.cmd_open_tor, "cmd_read_email": self.cmd_read_email,"cmd_display_emails": self.cmd_display_emails,"cmd_new_game":self.cmd_new_game, "cmd_exit":self.cmd_exit, "cmd_choose":self.cmd_choose, "cmd_change_scene":self.cmd_change_scene, "cmd_lose":self.cmd_lose, "cmd_won":self.cmd_won, "cmd_dialog_choice":self.cmd_dialog_choice, "cmd_make_chems":self.cmd_make_chems, "cmd_create_chems":self.cmd_create_chems, "cmd_caught_police":self.cmd_caught_police, "cmd_start_job":self.cmd_start_job}
 
 
 	#Function to update consoles
@@ -30,31 +36,34 @@ class Stage_Manager():
 
 	#Function to update consoles
 	def navigate(self, input_choice):
-		print('KEYS> ' + str(self.gui.player.stats['special'].keys()))
-		print('inp ' + input_choice[0])
-		print(str(self.current_stage))
-		functions = self.functions
-		whole_input = ''
-		first = True
-		for word in input_choice:
-			if first:
-				whole_input = word
-				first = False
-			else:
-				whole_input +=  ' ' + word
-		if whole_input in self.current_stage.choices:
-			cmd = self.current_stage.choices[whole_input]['cmd']
-			var = self.current_stage.choices[whole_input]['var']
-			if cmd in functions:
-				self.current_stage.revert_choices()
-				functions[cmd](var)
-
-		elif input_choice[0] in self.gui.player.stats['special'].keys() and self.current_stage == self.all_stages['stg_stat_choice']:
-			print('Doing stats')
-			self.cmd_set_stat(input_choice[0],input_choice[1])
-
+		if self.gui.player.wallet > 5000000000:
+			self.cmd_change_scene('stg_win_game')
 		else:
-			self.update_choices()
+			print('KEYS> ' + str(self.gui.player.stats['special'].keys()))
+			print('inp ' + input_choice[0])
+			print(str(self.current_stage))
+			functions = self.functions
+			whole_input = ''
+			first = True
+			for word in input_choice:
+				if first:
+					whole_input = word
+					first = False
+				else:
+					whole_input +=  ' ' + word
+			if whole_input in self.current_stage.choices:
+				cmd = self.current_stage.choices[whole_input]['cmd']
+				var = self.current_stage.choices[whole_input]['var']
+				if cmd in functions:
+					self.current_stage.revert_choices()
+					functions[cmd](var)
+
+			elif input_choice[0] in self.gui.player.stats['special'].keys() and self.current_stage == self.all_stages['stg_stat_choice']:
+				print('Doing stats')
+				self.cmd_set_stat(input_choice[0],input_choice[1])
+
+			else:
+				self.update_choices()
 
 
 
@@ -163,10 +172,25 @@ class Stage_Manager():
 	def cmd_caught_police(self, args = ""):
 		print('cmd_caught_police')
 	def cmd_start_job(self, args = ""):
-		print('cmd_start_job')
+		if self.job_completed:
+			self.gui.add_txt('narration', 'No jobs currently availiable\n\n', self.narrator.tag)
+			self.current_stage.choicesinput = []
+			self.current_stage.choicesinput.append('close')
+			if args == 'taff':
+				self.current_stage.choices.update({'close': {'cmd':'cmd_change_scene', 'var': "stg_at_taff"}})
+			elif args == 'triad':
+				self.current_stage.choices.update({'close': {'cmd':'cmd_change_scene', 'var': "stg_at_triad"}})
+			self.update_choices()
+
+		else:
+			if args == 'taff':
+				self.cmd_change_scene('stg_job_offer_taffia')
+			elif args == 'triad':
+				self.cmd_change_scene('stg_job_offer_triad')
 
 	def cmd_rnd_stats(self, arg = ""):
-		self.gui.player.stats['special'] = {'str':3, 'per':3, 'end':3, 'cha':3, 'int':3, 'agi':3, 'luc':3}
+		self.gui.player.stats['special'] = {'str':6, 'per':6, 'end':6, 'cha':6, 'int':6, 'agi':6, 'luc':6}
+		self.gui.player.stat_points = 0
 		self.gui.player.calc_stats()
 		self.cmd_change_stage("stg_stat_choice")
 	def cmd_set_stat(self, stat, value, arg = ""):
@@ -199,6 +223,10 @@ class Stage_Manager():
 			self.update_choices()
 
 	def cmd_read_email(self, args = ""):
+		if args == 'z':
+			self.anon_email_read = True
+		if args == 'white tiger':
+			self.triad_email_read = True
 		#self.email_read = True
 		email_to_read = ''
 		for e in self.player_emails:
@@ -233,8 +261,6 @@ class Stage_Manager():
 		self.current_stage.choicesinput = []
 		self.current_stage.choicesinput.append('sell online')
 		self.current_stage.choices.update({'sell online' : {'cmd':'cmd_sell_online', 'var': ''}})
-		self.current_stage.choicesinput.append('buy online')
-		self.current_stage.choices.update({'buy online' : {'cmd':'cmd_buy_online', 'var': ''}})
 		self.current_stage.choicesinput.append('email')
 		self.current_stage.choices.update({'email' : {'cmd':'cmd_display_emails', 'var': ''}})
 		self.current_stage.choicesinput.append('close')
@@ -256,29 +282,26 @@ class Stage_Manager():
 		self.gui.add_txt('narration', 'Now choose what you want to sell...\n\n', self.system_text.tag)
 
 		self.current_stage.choicesinput = []
-		for item in items_to_sell:
-			name = item.name.lower()
-			tag = item.id
-			self.current_stage.choicesinput.append('sell ' + name)
-			self.current_stage.choices.update({'sell ' + item.name.lower() : {'cmd':'cmd_sell_item', 'var': tag}})
+		found = False
+		if items_to_sell:
+			self.current_stage.choicesinput.append('sell all drugs')
+			self.current_stage.choices.update({'sell all drugs' : {'cmd':'cmd_sell_item', 'var': ''}})
 
 		self.current_stage.choicesinput.append('close')
 		self.current_stage.choices.update({'close' : {'cmd':'cmd_open_tor', 'var': ''}})
 		self.update_choices()
 
-	def cmd_buy_online(self, args = ""):
-		print('Buy Online')
+
 
 	def cmd_sell_item(self, args = ""):
+		self.gui.player.police_alert += 1
 		#self.email_read = True
-		item_sold = ''
-		for i in items.values():
-			if i.id == args:
-				item_sold = i
-		print(item_sold.name)
-		self.gui.player.inv.remove(item_sold)
+		list_items = self.gui.player.inv
+		for item in list_items:
+			if item.type == 'Drug' :
+				self.gui.player.inv.remove(item)
+				self.gui.player.wallet += item.sell
 		self.gui.update_inv_display()
-		self.gui.player.wallet += item_sold.sell
 		self.gui.update_wallet()
 		items_to_sell = []
 		for item in self.gui.player.inv:
@@ -348,17 +371,137 @@ class Stage_Manager():
 			self.current_stage.choices.update({'go taff' : {'cmd':'cmd_change_scene', 'var': 'stg_at_taff'}})
 
 
-		elif self.gui.player.faction == 'triad':
+		if self.gui.player.faction == 'triad':
 			#triad
 			self.current_stage.choicesinput.append('go triad')
 			self.current_stage.choices.update({'go triad' : {'cmd':'cmd_change_scene', 'var': 'stg_at_triad'}})
+		elif self.triad_email_read and self.triad_rejected == False:
+			self.triad_rejected = True
+			self.current_stage.choicesinput.append('go triad')
+			self.current_stage.choices.update({'go triad' : {'cmd':'cmd_change_scene', 'var': 'stg_the_triad'}})
+
+
+		if self.anon_email_read:
+			self.current_stage.choicesinput.append('go park')
+			self.current_stage.choices.update({'go park' : {'cmd':'cmd_change_scene', 'var': 'stg_park'}})
 
 
 
+		if self.labs_first:
+			self.labs_first = False
+			self.current_stage.choicesinput.append('go labs')
+			self.current_stage.choices.update({'go labs' : {'cmd':'cmd_change_scene', 'var': 'stg_labs_first'}})
+		else:
+			self.current_stage.choicesinput.append('go labs')
+			self.current_stage.choices.update({'go labs' : {'cmd':'cmd_change_scene', 'var': 'stg_labs'}})
 		#always libarary, uni
 		self.current_stage.choicesinput.append('go library')
 		self.current_stage.choices.update({'go library' : {'cmd':'cmd_change_scene', 'var': 'stg_at_library'}})
-		self.current_stage.choicesinput.append('go uni')
-		self.current_stage.choices.update({'go uni' : {'cmd':'cmd_change_scene', 'var': 'stg_at_uni'}})
+		self.current_stage.choicesinput.append('go teach')
+		self.current_stage.choices.update({'go teach' : {'cmd':'cmd_change_scene', 'var': 'stg_job_lecture'}})
 
 		self.update_choices()
+
+	def cmd_display_items(self, arg = ""):
+		if arg == 'taff':
+			self.gui.clear_middle()
+			self.gui.add_txt('narration', "You approch Claws\n", self.narrator.tag)
+			self.gui.add_txt('narration', actors['James_Wills'].name + "\n\t'ight? 'eres what we got", actors['James_Wills'].tag)
+			items_on_sale = []
+			for item in items.values():
+				if item.type == 'Drug':
+					items_on_sale.append(item)
+			self.current_stage.choicesinput = []
+			for item in items_on_sale:
+				self.gui.add_txt('narration', '\n\t>' + item.name +  ' -- ' + str(item.value*0.8), self.system_text.tag)
+				self.current_stage.choicesinput.append('buy ' + item.name)
+				self.current_stage.choices.update({'buy ' + item.name.lower() : {'cmd':'cmd_buy_item', 'var': item.id + ' taff'}})
+			self.current_stage.choicesinput.append('close')
+			self.current_stage.choices.update({'close': {'cmd':'cmd_change_scene', 'var': 'stg_at_taff'}})
+			self.update_choices()
+		elif arg == 'triad':
+			self.gui.clear_middle()
+			self.gui.add_txt('narration', "You approch Snake\n", self.narrator.tag)
+			self.gui.add_txt('narration', actors['She_Ni'].name + "\n\t'Hello b i ch? (??)", actors['She_Ni'].tag)
+			items_on_sale = []
+			for item in items.values():
+				if item.type == 'Drug':
+					items_on_sale.append(item)
+			self.current_stage.choicesinput = []
+			for item in items_on_sale:
+				self.gui.add_txt('narration', '\n\t>' + item.name +  ' -- ' + str(item.value*0.8), self.system_text.tag)
+				self.current_stage.choicesinput.append('buy ' + item.name)
+				self.current_stage.choices.update({'buy ' + item.name.lower() : {'cmd':'cmd_buy_item', 'var': item.id + ' triad'}})
+			self.current_stage.choicesinput.append('close')
+			self.current_stage.choices.update({'close': {'cmd':'cmd_change_scene', 'var': 'stg_at_triad'}})
+			self.update_choices()
+
+	def cmd_buy_item(self, arg = ""):
+		self.gui.player.police_alert += 1
+		arg_list = arg.split()
+		item_bought = ''
+		for i in items.values():
+			if i.id == arg_list[0]:
+				item_bought = i
+		for n in range(0,5):
+			self.gui.player.inv.append(item_bought)
+		self.gui.update_inv_display()
+		self.gui.player.wallet -= item_bought.buy * 5
+		self.gui.update_wallet()
+		self.cmd_display_items(arg_list[1])
+
+	def cmd_take_risk(self, arg = ""):
+		if random.randrange(0, self.gui.player.police_alert) > 20:
+			#Get caught
+			if arg == 'park':
+				self.cmd_change_scene('stg_caught_park')
+			elif arg == 'labs':
+				self.cmd_change_scene('stg_caught_labs')
+		else:
+			#take loot
+			if arg == 'park':
+				self.cmd_change_scene('stg_leave_park')
+			elif arg == 'labs':
+				self.cmd_change_scene('stg_labs_success')
+
+	def cmd_loot(self, arg = ""):
+		self.gui.player.police_alert += 1
+		for item in items.values():
+			if item.type == 'Ingredient':
+				self.gui.player.inv.append(item)
+		self.cmd_change_scene('stg_home')
+
+	def cmd_get_money(self, arg = ""):
+		self.gui.player.wallet += 50 * 2300000
+		self.cmd_change_scene('stg_home')
+
+	def cmd_restart(self, arg = ""):
+		actors = table_to_class("tblCharacters", {'class' : Actor})
+		locations = table_to_class("tblLocations", {'class' : Location})
+		items = table_to_class("tblItems", {'class': Item})
+		all_stages = table_to_class("tblStages", {'class': Stage})
+		for stage in all_stages.values():
+			stage.narration_add(table_to_list("tblNarration", "stages_id", stage.id))
+		recipes = table_to_class("tblRecipes", {'class': Recipe})
+		self.cmd_change_scene('stg_main_menu')
+
+#{"Continue": {"cmd":"cmd_combat", "var":"stg_job_taffia_win_strength stg_job_taffia_win_perception stg_job_taffia_escape stg_job_taffia_die"}}
+
+#{"Continue": {"cmd":"cmd_combat", "var":"stg_job_triad_win_strength stg_job_triad_win_perception stg_job_triad_escape stg_job_triad_die"}}
+	def cmd_combat(self, args = ""):
+		list_of_options = args.split()
+		stre = self.gui.player.stat_check('str')
+		per = self.gui.player.stat_check('per')
+		agi = self.gui.player.stat_check('agi')
+
+		if stre > 6 or per > 6:
+			if stre > per:
+				self.cmd_change_scene(list_of_options[0])
+			else:
+				self.cmd_change_scene(list_of_options[1])
+
+		elif agi > 6:
+			self.cmd_change_scene(list_of_options[2])
+
+		else:
+			self.cmd_change_scene(list_of_options[3])

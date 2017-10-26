@@ -1,6 +1,7 @@
 import time
 from functions import *
 from tkinter import *
+import random
 import json
 
 """ These are the classes which are the structures for different objects in the game """
@@ -13,7 +14,7 @@ class Actor():
 		self.name = self.fname + " " + self.lname
 		self.id = self.fname + "_" + self.lname
 		self.emails = []
-		self.stat_points = 20
+		self.stat_points = 45
 		self.nickname =  str(data['CharNickname']).strip()
 		self.location =  str(data['CharLoc']).strip()
 		self.function =  str(data['CharFunc']).strip()
@@ -31,6 +32,7 @@ class Actor():
 		elif self.tags['justify']=='CENTER': self.tags['justify']=CENTER
 		else: self.tags['justify']=LEFT
 		self.inv = []
+		self.police_alert = 1
 		self.faction = 'indie'
 		self.calc_stats()
 
@@ -153,9 +155,9 @@ class Item():
 		self.type = str(data['ItemType']).strip()
 		self.location = str(data['ItemLoc']).strip()
 		self.w = float(data['ItemWeight'])
-		self.value = int(data['ItemValue'])
-		self.buy = int(data['ItemBuyValue'])
-		self.sell = int(data['ItemSellValue'])
+		self.value = int(data['ItemValue']) * 230000
+		self.buy = int(data['ItemBuyValue']) * 230000
+		self.sell = int(data['ItemSellValue']) * 230000
 		self.legal = bool(data['ItemLegal'])
 		self.quant = 1
 	def inspect():

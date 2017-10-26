@@ -15,6 +15,7 @@ class gui():
 		self.player = actors['Kirill_Sidorov'] #The protagonist actor object
 		self.player.add_email(email_z)
 		self.player.add_email(email_d)
+		self.player.add_email(email_t)
 		self.player.take(items['dru_coca'])
 		self.player.take(items['in_soda'])
 		self.player.take(items['in_paint'])
@@ -35,8 +36,8 @@ class gui():
 		self.cur_loc = "<location>"
 
 		#Text display speeds
-		self.narration_speed = 0.01
-		self.waittime = 0.5
+		self.narration_speed = 0.001
+		self.waittime = 0.005
 
 		#TK gui window
 		self.main = Tk ()
@@ -290,14 +291,18 @@ class gui():
 	#Updates inventory display after every cycle
 	def update_inv_display(self):
 		update_txt = ""
-		added_items = []
+		stacked_items = {}
 		for item in self.player.inv:
-			if item in added_items:
-				item.quant += 1
-
+			#if (item in self.player.inv):
+			if item.name in stacked_items:
+				stacked_items[item.name] = stacked_items[item.name] + 1
 			else:
-				added_items.append(item)
-				update_txt += '  ---  ' + item.name + '(' + str(item.quant) + ')\n'
+				stacked_items[item.name] = 1
+
+			#else:
+			#	added_items.append(item)
+		for key, quant in stacked_items.items():
+			update_txt += '  ---  ' + key + '(' + str(quant) + ')\n'
 
 		self.update_txt('inv', update_txt)
 
