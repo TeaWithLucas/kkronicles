@@ -32,7 +32,7 @@ class gui():
 
 		#Text display speeds
 		self.narration_speed = 0.01
-		self.waittime = 0.75
+		self.waittime = 0.5
 
 		#TK gui window
 		self.main = Tk ()
@@ -186,6 +186,9 @@ class gui():
 
 	#Appends text at the end of a widget
 	def add_txt(self, widget, inputstr, tag):
+		if widget == 'choice':
+			self.waittime = 0.5
+
 		self.widgets[widget].config(state = NORMAL)
 		self.widgets['console'].config(state = DISABLED)
 		print(tag)
@@ -194,18 +197,10 @@ class gui():
 			self.widgets[widget].see(END)
 			time.sleep(self.narration_speed) #Delay
 			self.main.update() #Update main window to avoid freezing
-		#if tag == 'on_drugs':
-		#	color_list = ['red','blue','green','lightreen','yellow','pink','white','gray']
-		#	direction_list = [LEFT, RIGHT, CENTER]
-		#	for l in inputstr:
-		#		self.widgets[widget].insert(END, l , tag)
-		#		self.widgets[widget].tag_config(tag, foreground = secrets.choice(color_list), justify = secrets.choice(direction_list))
-		#		self.widgets[widget].see(END)
-		#		time.sleep(self.narration_speed)
-		#		self.main.update()
 		time.sleep(self.waittime)
 		self.widgets['console'].config(state = NORMAL)
 		self.widgets[widget].config(state = DISABLED)
+		self.waittime = 2
 
 	#Returns the text in a widget
 	def get_txt(self, widget):

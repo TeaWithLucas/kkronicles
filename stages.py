@@ -1,6 +1,7 @@
 from classes import *
 from data import *
 import random
+from functions import draw_ascii
 
 """The Stage Manager allows to easily change stages, take inputs and display all the outputs"""
 class Stage_Manager():
@@ -36,7 +37,7 @@ class Stage_Manager():
 
 	#Function to update consoles
 	def navigate(self, input_choice):
-		if self.gui.player.wallet > 5000000000:
+		if self.gui.player.wallet > 500000000:
 			self.cmd_change_scene('stg_win_game')
 		else:
 			print('KEYS> ' + str(self.gui.player.stats['special'].keys()))
@@ -75,15 +76,18 @@ class Stage_Manager():
 
 	#Will play out the current stage
 	def narrate_current_stage(self):
-		remaining_narration = self.current_stage.narration
-		for narration in remaining_narration:
-			print(self.change_location(locations[narration['location']]))
-			if self.change_location(locations[narration['location']]):
-				speaker = actors[narration['speaker']]
-				if speaker== self.narrator or speaker == self.system_text:
-					self.gui.add_txt('narration', narration['dialog'] + '\n\n',  speaker.tag)
-				else:
-					self.gui.add_txt('narration', speaker.name + '\n\t"' + narration['dialog'] + '"\n\n', speaker.tag)
+		if self.current_stage == self.all_stages['stg_main_menu']:
+			self.cmd_main()
+		else:
+			remaining_narration = self.current_stage.narration
+			for narration in remaining_narration:
+				print(self.change_location(locations[narration['location']]))
+				if self.change_location(locations[narration['location']]):
+					speaker = actors[narration['speaker']]
+					if speaker== self.narrator or speaker == self.system_text:
+						self.gui.add_txt('narration', narration['dialog'] + '\n\n',  speaker.tag)
+					else:
+						self.gui.add_txt('narration', speaker.name + '\n\t"' + narration['dialog'] + '"\n\n', speaker.tag)
 		self.update_choices()
 
 
@@ -505,3 +509,7 @@ class Stage_Manager():
 
 		else:
 			self.cmd_change_scene(list_of_options[3])
+
+	def cmd_main(self, args = ""):
+		output = draw_ascii('./assets/welcome.txt')
+		self.gui.add_txt('narration', output, self.system_text.tag)
