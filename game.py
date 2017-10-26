@@ -16,11 +16,6 @@ class gui():
 		self.player.add_email(email_z)
 		self.player.add_email(email_d)
 		self.player.add_email(email_t)
-		self.player.take(items['dru_coca'])
-		self.player.take(items['in_soda'])
-		self.player.take(items['in_paint'])
-		self.player.take(items['in_safr'])
-		self.player.take(items['in_meth'])
 		self.narrator = actors['Nikeen_Patel'] #The narrato actor
 		self.system_text = actors['Dmytro_Kaduba'] #System text display actor
 		self.recipe_engine = Recipe_Manager(recipes)
