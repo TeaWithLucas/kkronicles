@@ -426,7 +426,7 @@ class Stage_Manager():
 		elif arg == 'triad':
 			self.gui.clear_middle()
 			self.gui.add_txt('narration', "You approch Snake\n", self.narrator.tag)
-			self.gui.add_txt('narration', actors['She_Ni'].name + "\n\t'Hello b i ch? (??)", actors['She_Ni'].tag)
+			self.gui.add_txt('narration', actors['She_Ni'].name + "\n\t'Hello", actors['She_Ni'].tag)
 			items_on_sale = []
 			for item in items.values():
 				if item.type == 'Drug':
@@ -447,10 +447,13 @@ class Stage_Manager():
 		for i in items.values():
 			if i.id == arg_list[0]:
 				item_bought = i
-		for n in range(0,5):
-			self.gui.player.inv.append(item_bought)
+		if (self.gui.player.wallet - item_bought.buy * 5) > 0:
+			for n in range(0,5):
+				self.gui.player.inv.append(item_bought)
+				self.gui.player.wallet -= item_bought.buy
+		else:
+			self.gui.add_txt('narration', '[NOT ENOUGH FUNDS]', self.narrator.tag)
 		self.gui.update_inv_display()
-		self.gui.player.wallet -= item_bought.buy * 5
 		self.gui.update_wallet()
 		self.cmd_display_items(arg_list[1])
 
