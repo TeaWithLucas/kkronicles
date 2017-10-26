@@ -36,8 +36,8 @@ class gui():
 		self.cur_loc = "<location>"
 
 		#Text display speeds
-		self.narration_speed = 0.001
-		self.waittime = 0.005
+		self.narration_speed = 0.01
+		self.waittime = 0.75
 
 		#TK gui window
 		self.main = Tk ()
