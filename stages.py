@@ -20,7 +20,7 @@ class Stage_Manager():
 		self.email_disp = False
 		self.email_read = False
 		self.job_offered = False
-		self.functions = {"cmd_sell_item": self.cmd_sell_item, "cmd_cook_drug": self.cmd_cook_drug, "cmd_cook_menu": self.cmd_cook_menu,"cmd_change_stage": self.cmd_change_stage, "cmd_sell_online": self.cmd_sell_online, "cmd_buy_online": self.cmd_buy_online, "cmd_open_tor": self.cmd_open_tor, "cmd_read_email": self.cmd_read_email,"cmd_display_emails": self.cmd_display_emails,"cmd_new_game":self.cmd_new_game, "cmd_exit":self.cmd_exit, "cmd_choose":self.cmd_choose, "cmd_change_scene":self.cmd_change_scene, "cmd_lose":self.cmd_lose, "cmd_won":self.cmd_won, "cmd_dialog_choice":self.cmd_dialog_choice, "cmd_make_chems":self.cmd_make_chems, "cmd_create_chems":self.cmd_create_chems, "cmd_caught_police":self.cmd_caught_police, "cmd_start_job":self.cmd_start_job}
+		self.functions = {"cmd_rnd_stats": self.cmd_rnd_stats, "cmd_move_location": self.cmd_move_location, "cmd_sell_item": self.cmd_sell_item, "cmd_cook_drug": self.cmd_cook_drug, "cmd_cook_menu": self.cmd_cook_menu,"cmd_change_stage": self.cmd_change_stage, "cmd_sell_online": self.cmd_sell_online, "cmd_buy_online": self.cmd_buy_online, "cmd_open_tor": self.cmd_open_tor, "cmd_read_email": self.cmd_read_email,"cmd_display_emails": self.cmd_display_emails,"cmd_new_game":self.cmd_new_game, "cmd_exit":self.cmd_exit, "cmd_choose":self.cmd_choose, "cmd_change_scene":self.cmd_change_scene, "cmd_lose":self.cmd_lose, "cmd_won":self.cmd_won, "cmd_dialog_choice":self.cmd_dialog_choice, "cmd_make_chems":self.cmd_make_chems, "cmd_create_chems":self.cmd_create_chems, "cmd_caught_police":self.cmd_caught_police, "cmd_start_job":self.cmd_start_job}
 
 
 	#Function to update consoles
@@ -46,6 +46,7 @@ class Stage_Manager():
 			cmd = self.current_stage.choices[whole_input]['cmd']
 			var = self.current_stage.choices[whole_input]['var']
 			if cmd in functions:
+				self.current_stage.revert_choices()
 				functions[cmd](var)
 
 		elif input_choice[0] in self.gui.player.stats['special'].keys() and self.current_stage == self.all_stages['stg_stat_choice']:
@@ -54,6 +55,8 @@ class Stage_Manager():
 
 		else:
 			self.update_choices()
+
+
 
 	def new_scene(self):
 		self.gui.clear_middle() #Clear consoles
@@ -82,6 +85,8 @@ class Stage_Manager():
 		for choice in self.current_stage.choicesinput:
 			print('c = ' + choice)
 			self.gui.add_txt('choice', '\n[' + choice.upper() + ']    \n', self.narrator.tag)
+
+
 
 	#Fetches user input
 	#def take_input(self, input):
@@ -175,7 +180,7 @@ class Stage_Manager():
 
 
 	def cmd_display_emails(self, args = ""):
-			self.email_read = True
+			#self.email_read = True
 			self.gui.clear_middle()
 			self.gui.add_txt('narration', 'You open your email\n\n', self.narrator.tag)
 			self.gui.add_txt('narration', 'You have ' + str(len(self.gui.player.emails)) + ' emails:\n\n', self.system_text.tag)
@@ -194,7 +199,7 @@ class Stage_Manager():
 			self.update_choices()
 
 	def cmd_read_email(self, args = ""):
-		self.email_read = True
+		#self.email_read = True
 		email_to_read = ''
 		for e in self.player_emails:
 			if e.sender == args:
@@ -209,11 +214,11 @@ class Stage_Manager():
 		self.update_choices()
 
 	def cmd_open_tor(self, args = ""):
-		self.email_disp = True
-		if not(self.email_read):
-			self.prev_choices = self.current_stage.choices
-			self.prev_list_choices = self.current_stage.choicesinput
-			self.email_read = False
+		#self.email_disp = True
+		#if not(self.email_read):
+			#self.prev_choices = self.current_stage.choices
+			#self.prev_list_choices = self.current_stage.choicesinput
+			#self.email_read = False
 		print('Opened TOR')
 		self.gui.clear_middle()
 		self.gui.add_txt('narration', 'You open Tor Browser\n\n', self.narrator.tag)
@@ -233,9 +238,10 @@ class Stage_Manager():
 		self.current_stage.choicesinput.append('email')
 		self.current_stage.choices.update({'email' : {'cmd':'cmd_display_emails', 'var': ''}})
 		self.current_stage.choicesinput.append('close')
-		self.current_stage.choices.update({'close' : {'cmd':'cmd_change_scene', 'var': 'stg_stat_choice'}})
+		self.current_stage.choices.update({'close' : {'cmd':'cmd_change_scene', 'var': self.current_stage.id}})
 
 		self.update_choices()
+
 
 	def cmd_sell_online(self, args = ""):
 		print('Sell Online')
@@ -264,7 +270,7 @@ class Stage_Manager():
 		print('Buy Online')
 
 	def cmd_sell_item(self, args = ""):
-		self.email_read = True
+		#self.email_read = True
 		item_sold = ''
 		for i in items.values():
 			if i.id == args:
@@ -282,11 +288,11 @@ class Stage_Manager():
 		self.cmd_sell_online()
 
 	def cmd_cook_menu(self, arg = ""):
-		self.email_disp = True
-		if not(self.email_read):
-			self.prev_choices = self.current_stage.choices
-			self.prev_list_choices = self.current_stage.choicesinput
-			self.email_read = False
+		#self.email_disp = True
+		#if not(self.email_read):
+			#self.prev_choices = self.current_stage.choices
+			#self.prev_list_choices = self.current_stage.choicesinput
+			#self.email_read = False
 		self.gui.clear_middle()
 		self.gui.add_txt('narration', 'Recepie Book\n\n', self.narrator.tag)
 		self.gui.add_txt('narration', 'Here you can cook your very own drugs! Have fun...\n\n', self.system_text.tag)
@@ -330,3 +336,29 @@ class Stage_Manager():
 					self.gui.player.drop(i)
 		self.gui.update_inv_display()
 		self.cmd_cook_menu()
+
+
+	def cmd_move_location(self, args = ""):
+		print('We moved')
+		self.gui.clear_choices()
+		self.current_stage.choicesinput = []
+		if self.gui.player.faction == 'taffia':
+			#taf
+			self.current_stage.choicesinput.append('go taff')
+			self.current_stage.choices.update({'go taff' : {'cmd':'cmd_change_scene', 'var': 'stg_at_taff'}})
+
+
+		elif self.gui.player.faction == 'triad':
+			#triad
+			self.current_stage.choicesinput.append('go triad')
+			self.current_stage.choices.update({'go triad' : {'cmd':'cmd_change_scene', 'var': 'stg_at_triad'}})
+
+
+
+		#always libarary, uni
+		self.current_stage.choicesinput.append('go library')
+		self.current_stage.choices.update({'go library' : {'cmd':'cmd_change_scene', 'var': 'stg_at_library'}})
+		self.current_stage.choicesinput.append('go uni')
+		self.current_stage.choices.update({'go uni' : {'cmd':'cmd_change_scene', 'var': 'stg_at_uni'}})
+
+		self.update_choices()

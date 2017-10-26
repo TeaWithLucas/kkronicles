@@ -31,7 +31,9 @@ class Actor():
 		elif self.tags['justify']=='CENTER': self.tags['justify']=CENTER
 		else: self.tags['justify']=LEFT
 		self.inv = []
+		self.faction = 'indie'
 		self.calc_stats()
+
 
 	#calculates the currect stats of the actor
 	def calc_stats(self):
@@ -105,11 +107,25 @@ class Stage():
 		for choice, dic in choices.items():
 			self.choices[str(choice).lower().strip()] = dic
 			self.choicesinput.append(str(choice).lower().strip())
+		self.choices_orig = {}
+		choices = json.loads(data['stages_choices']) #The choices availiable at the end of this stage
+		self.choicesinput_orig = [] #List of choices to filter  out bad input
+		for choice, dic in choices.items():
+			self.choices_orig[str(choice).lower().strip()] = dic
+			self.choicesinput_orig.append(str(choice).lower().strip())
 
 	def narration_add(self, data):
 		for row in data:
 			tempdict = {'speaker':str(row['narr_speaker']).strip(), 'location':str(row['narr_location']).strip(), 'order':int(row['narr_order']), 'dialog':str(row['narr_dialog'])}
 			self.narration.append(tempdict)
+	def revert_choices(self):
+		self.choices = {}
+		self.choicesinput = []
+		choices = self.choices_orig
+		for choice, dic in choices.items():
+			self.choices[choice] = dic
+			self.choicesinput.append(choice)
+
 """The location class allows to navigate through the game map and describe locations in the narration """
 
 class Location():
