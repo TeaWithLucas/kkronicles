@@ -298,7 +298,7 @@ class Stage_Manager():
 
 
 	def cmd_sell_item(self, args = ""):
-		self.gui.player.police_alert += 1
+		self.gui.player.police_alert += 2
 		#self.email_read = True
 		list_items = self.gui.player.inv
 		for item in list_items:
@@ -441,7 +441,7 @@ class Stage_Manager():
 			self.update_choices()
 
 	def cmd_buy_item(self, arg = ""):
-		self.gui.player.police_alert += 1
+		self.gui.player.police_alert += 2
 		arg_list = arg.split()
 		item_bought = ''
 		for i in items.values():
@@ -469,7 +469,7 @@ class Stage_Manager():
 				self.cmd_change_scene('stg_labs_success')
 
 	def cmd_loot(self, arg = ""):
-		self.gui.player.police_alert += 1
+		self.gui.player.police_alert += 3
 		for item in items.values():
 			if item.type == 'Ingredient':
 				self.gui.player.inv.append(item)
