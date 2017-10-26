@@ -292,10 +292,11 @@ class Stage_Manager():
 		self.gui.add_txt('narration', 'Now choose what you want to sell...\n\n', self.system_text.tag)
 
 		self.current_stage.choicesinput = []
-		found = False
-		if items_to_sell:
-			self.current_stage.choicesinput.append('sell all drugs')
-			self.current_stage.choices.update({'sell all drugs' : {'cmd':'cmd_sell_item', 'var': ''}})
+		for item in items_to_sell:
+			name = item.name.lower()
+			tag = item.id
+			self.current_stage.choicesinput.append('sell ' + name)
+			self.current_stage.choices.update({'sell ' + item.name.lower() : {'cmd':'cmd_sell_item', 'var': tag}})
 
 		self.current_stage.choicesinput.append('close')
 		self.current_stage.choices.update({'close' : {'cmd':'cmd_open_tor', 'var': ''}})
@@ -305,13 +306,14 @@ class Stage_Manager():
 
 	def cmd_sell_item(self, args = ""):
 		self.gui.player.police_alert += random.randrange(4, 20 - self.gui.player.stats['special']['int'])
-		#self.email_read = True
-		list_items = self.gui.player.inv
-		for item in list_items:
-			if item.type == 'Drug' :
-				self.gui.player.inv.remove(item)
-				self.gui.player.wallet += item.sell
+		item_sold = ''
+		for i in items.values():
+			if i.id == args:
+				item_sold = i
+		print(item_sold.name)
+		self.gui.player.inv.remove(item_sold)
 		self.gui.update_inv_display()
+		self.gui.player.wallet += item_sold.sell
 		self.gui.update_wallet()
 		items_to_sell = []
 		for item in self.gui.player.inv:
