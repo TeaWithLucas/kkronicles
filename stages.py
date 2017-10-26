@@ -1,6 +1,7 @@
 from classes import *
 from data import *
 import random
+import time
 from functions import draw_ascii
 
 """The Stage Manager allows to easily change stages, take inputs and display all the outputs"""
@@ -76,6 +77,8 @@ class Stage_Manager():
 
 	#Will play out the current stage
 	def narrate_current_stage(self):
+		self.gui.waittime = 2
+		self.narration_speed = 0.02
 		if self.current_stage == self.all_stages['stg_main_menu']:
 			self.cmd_main()
 		else:
@@ -88,6 +91,9 @@ class Stage_Manager():
 						self.gui.add_txt('narration', narration['dialog'] + '\n\n',  speaker.tag)
 					else:
 						self.gui.add_txt('narration', speaker.name + '\n\t"' + narration['dialog'] + '"\n\n', speaker.tag)
+
+		self.gui.waittime = 0.1
+		self.narration_speed = 0.005
 		self.update_choices()
 
 
@@ -440,6 +446,8 @@ class Stage_Manager():
 			self.current_stage.choices.update({'close': {'cmd':'cmd_change_scene', 'var': 'stg_at_triad'}})
 			self.update_choices()
 
+	def void():
+		pass
 	def cmd_buy_item(self, arg = ""):
 		self.gui.player.police_alert += 2
 		arg_list = arg.split()
@@ -452,7 +460,8 @@ class Stage_Manager():
 				self.gui.player.inv.append(item_bought)
 				self.gui.player.wallet -= item_bought.buy
 		else:
-			self.gui.add_txt('narration', '[NOT ENOUGH FUNDS]', self.narrator.tag)
+			self.gui.add_txt('narration', '\n\nNOT ENOUGH FUNDS]', self.narrator.tag)
+
 		self.gui.update_inv_display()
 		self.gui.update_wallet()
 		self.cmd_display_items(arg_list[1])
@@ -473,9 +482,15 @@ class Stage_Manager():
 
 	def cmd_loot(self, arg = ""):
 		self.gui.player.police_alert += 3
+		ingredient_list = []
 		for item in items.values():
 			if item.type == 'Ingredient':
-				self.gui.player.inv.append(item)
+				ingredient_list.append(item)
+
+
+		for x in range(0,random.randrange(1 ,1 + self.gui.player.stats['special']['luc'])):
+			self.gui.player.inv.append(ingredient_list[random.randrange(0, len(ingredient_list) - 1)])
+
 		self.cmd_change_scene('stg_home')
 
 	def cmd_get_money(self, arg = ""):
