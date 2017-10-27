@@ -46,7 +46,7 @@ class Stage_Manager():
 		if self.global_time == 30:
 			self.gui.player.add_email(email_t)
 
-		if self.gui.player.wallet > 500000000:
+		if self.gui.player.wallet > 100000000:
 			self.cmd_change_scene('stg_win_game')
 		else:
 			print('KEYS> ' + str(self.gui.player.stats['special'].keys()))
@@ -174,7 +174,7 @@ class Stage_Manager():
 				self.gui.player.faction = "triad"
 		elif options[0] == "job":
 			self.job_offered = True
-			if options[1] == "refuse":
+			if options[1] == "decline":
 				self.gui.player.faction = "indie"
 		self.cmd_change_stage(options[2])
 
@@ -211,7 +211,7 @@ class Stage_Manager():
 		self.gui.player.stats['special'] = {'str':6, 'per':6, 'end':6, 'cha':6, 'int':6, 'agi':6, 'luc':6}
 		self.gui.player.stat_points = 0
 		self.gui.player.calc_stats()
-		self.cmd_change_stage("stg_stat_choice")
+		self.cmd_change_stage("stg_the_taffia")
 	def cmd_set_stat(self, stat, value, arg = ""):
 		if self.gui.player.stat_points - int(value) > 0:
 			self.gui.player.stat_points -= int(value) - self.gui.player.stats['special'][stat]
@@ -369,6 +369,8 @@ class Stage_Manager():
 		self.update_choices()
 
 	def cmd_cook_drug(self, drug_id):
+		self.gui.clear_middle()
+		self.waittime = 8
 		self.email_read = True
 		print('Cooking...')
 		drug_item = ''
@@ -376,6 +378,13 @@ class Stage_Manager():
 			if item.id == drug_id:
 				drug_item = item
 		self.gui.player.take(drug_item)
+		recipe_used = ''
+		for r in recipes.values():
+			if r.output == drug_item.id:
+				recipe_used = r
+
+		self.gui.add_txt('narration',recipe_used.method, self.narrator.tag)
+		self.waittime = 0.1
 		remove_list = []
 		all_game_rec = self.gui.recipe_engine.all_recepies
 		for rec in all_game_rec.values():
