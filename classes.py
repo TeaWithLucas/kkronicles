@@ -149,25 +149,25 @@ class Location():
 
 	#Constructor pulls location data from DB
 	def __init__(self, data):
-		self.id =  str(data['LocID']).strip()
+		self.id =  str(data['loc_ID']).strip()
 		self.locname = self.id
-		self.name =  str(data['LocName']).strip()
-		self.image =  str(data['LocImage']).strip()
-		self.description =  str(data['LocID']).strip()
-		self.desc = {'short': str(data['LocDescShort']).strip(), 'long1':  str(data['LocDescLong1']).strip(), 'long2':  str(data['LocDescLong2']).strip()}
+		self.name =  str(data['loc_Name']).strip()
+		self.image =  str(data['loc_Image']).strip()
+		self.description =  str(data['loc_ID']).strip()
+		self.desc = {'short': str(data['loc_DescShort']).strip(), 'long1':  str(data['loc_DescLong1']).strip(), 'long2':  str(data['loc_DescLong2']).strip()}
 
 """Item class not complete(need to integrate with DB)"""
 class Item():
 	def __init__(self, data):
-		self.id = str(data['ItemTag']).strip()
-		self.name = str(data['ItemName']).strip()
-		self.type = str(data['ItemType']).strip()
-		self.location = str(data['ItemLoc']).strip()
-		self.w = float(data['ItemWeight'])
-		self.value = int(data['ItemValue']) * 230000
-		self.buy = int(data['ItemBuyValue']) * 230000
-		self.sell = int(data['ItemSellValue']) * 230000
-		self.legal = bool(data['ItemLegal'])
+		self.id = str(data['item_Tag']).strip()
+		self.name = str(data['item_Name']).strip()
+		self.type = str(data['item_Type']).strip()
+		self.location = str(data['item_Loc']).strip()
+		self.w = float(data['item_Weight'])
+		self.value = int(data['item_Value']) * 230000
+		self.buy = int(data['item_BuyValue']) * 230000
+		self.sell = int(data['item_SellValue']) * 230000
+		self.legal = bool(data['item_Legal'])
 		self.quant = 1
 	def inspect():
 		#Print out name, description and hints in narration section
