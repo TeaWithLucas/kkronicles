@@ -11,12 +11,11 @@ class gui():
 		print('initialisng gui')
 		self.running = True
 		self.title = title
-		self.player = actors['Kirill_Sidorov'] #The protagonist actor object
-		self.player.add_email(email_z)
-		self.player.add_email(email_d)
-		self.player.add_email(email_t)
-		self.narrator = actors['Nikeen_Patel'] #The narrato actor
-		self.system_text = actors['Dmytro_Kaduba'] #System text display actor
+		self.player = actors['player'] #The protagonist actor object
+		self.narrator = actors['narr'] #The narrato actor
+		self.system_text = actors['sys'] #System text display actor
+		self.player.add_email([email_z, email_d, email_t])
+
 		self.recipe_engine = Recipe_Manager(recipes)
 		#User input (global)
 		self.user_input = ""
@@ -28,7 +27,7 @@ class gui():
 		#health and location initialisation
 		self.cur_health_symbols = "<health>"
 		self.cur_loc = "<location>"
-
+		
 		#Text display speeds
 		self.narration_speed = 0.01
 		self.waittime = 0.5

@@ -480,14 +480,7 @@ class Stage_Manager():
 		self.cmd_change_scene('stg_home')
 
 	def cmd_restart(self, arg = ""):
-		actors = table_to_class("tblCharacters", {'class' : Actor})
-		locations = table_to_class("tblLocations", {'class' : Location})
-		items = table_to_class("tblItems", {'class': Item})
-		all_stages = table_to_class("tblStages", {'class': Stage})
-		for stage in all_stages.values():
-			stage.narration_add(table_to_list("tblNarration", "stages_id", stage.id))
-		recipes = table_to_class("tblRecipes", {'class': Recipe})
-		self.cmd_change_scene('stg_main_menu')
+		data.reload_data()
 
 #{"Continue": {"cmd":"cmd_combat", "var":"stg_job_taffia_win_strength stg_job_taffia_win_perception stg_job_taffia_escape stg_job_taffia_die"}}
 

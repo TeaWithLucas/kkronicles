@@ -8,25 +8,34 @@ import json
 class Actor():
 	#Constructor inits the object with data pulled form DB
 	def __init__(self, data):
-		#self.speech_color = data['CharID']: 1
-		self.fname =  str(data['CharFname']).strip()
-		self.lname =  str(data['CharLname']).strip()
-		self.name = self.fname + " " + self.lname
-		self.id = self.fname + "_" + self.lname
+
+		#self.speech_color = data['actor_ID']: 1
+		self.fname =  str(data['actor_Fname']).strip()
+		self.lname =  str(data['actor_Lname']).strip()
+		self.nickname =  str(data['actor_Nickname']).strip()
+		self.id =  str(data['actor_StrID']).strip()
+
+		nametype = str(data['actor_NickUse']).strip()
+		name = ""
+		if nametype == 0: name = self.nickname
+		elif nametype == 1: name = self.fname + " " + self.lname
+		elif nametype == 2: name = self.fname
+
+		self.name = name
 		self.emails = []
 		self.stat_points = 45
-		self.nickname =  str(data['CharNickname']).strip()
-		self.location =  str(data['CharLoc']).strip()
-		self.function =  str(data['CharFunc']).strip()
+		
+		self.location =  str(data['actor_Loc']).strip()
+		self.function =  str(data['actor_Func']).strip()
 		self.stats = {
-			'special': {'str':int(data['CharSTR']), 'per':int(data['CharPER']), 'end':int(data['CharEND']), 'cha':int(data['CharCHA']), 'int':int(data['CharINT']), 'agi':int(data['CharAGI']), 'luc':int(data['CharLUC'])},
+			'special': {'str':int(data['actor_STR']), 'per':int(data['actor_PER']), 'end':int(data['actor_END']), 'cha':int(data['actor_CHA']), 'int':int(data['actor_INT']), 'agi':int(data['actor_AGI']), 'luc':int(data['actor_LUC'])},
 			'health': {'curh':0, 'maxh':0},
-			'level': {'exp':int(data['CharXP']),'lvl':int(data['CharLevel']),'nxt_lvl':0, 'nxt_exp':0}
+			'level': {'exp':int(data['actor_XP']),'lvl':int(data['actor_Level']),'nxt_lvl':0, 'nxt_exp':0}
 		}
-		self.wallet = int(data['CharWallet'])
+		self.wallet = int(data['actor_Wallet'])
 		self.tag = self.id
-		#self.tags = {'foreground':data['CharCOL'].strip()}
-		self.tags = json.loads(data['CharTags'])
+		#self.tags = {'foreground':data['actor_COL'].strip()}
+		self.tags = json.loads(data['actor_Tags'])
 		if self.tags['justify']=='RIGHT': self.tags['justify']=RIGHT
 		elif self.tags['justify']=='LEFT': self.tags['justify']=LEFT
 		elif self.tags['justify']=='CENTER': self.tags['justify']=CENTER
