@@ -2,7 +2,7 @@ from classes import *
 import sql
 
 game_title = 'Kirill Kronicles'
-email_z = Email('z', 'Yo Kirill', "You don’t know me, G, but I can hook you up with my product, you feel. If you want 'em. They'll be waiting. Leave the money, my bredrin' will collect it. ")
+email_z = Email('z', 'Yo Kirill', "You don’t know me, G, but I can hook you up with my product, you feel. If you want 'em. They'll be waiting at Cathays Park. Leave the money, my bredrin' will collect it. ")
 email_d = Email('dmytro', 'spam', "I will send you a very big amount of spam emails if you sell drugs. ")
 email_t = Email('white tiger', 'hello kirill', "I know you have been dealing for Castellano, but I want you to working for me. I can supply at less than he can. If you wish to join me, come to the Casino. ")
 bitcoin_values = [{'name':'bitcoin', 'value':10**8, 'symbol':'B'}, {'name':'milli', 'value':10**5, 'symbol':'mB'}, {'name':'micro', 'value':10**2, 'symbol':'µB'}, {'name':'nano', 'value':1, 'symbol':'nB'}]

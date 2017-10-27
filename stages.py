@@ -1,6 +1,7 @@
 from classes import *
 from data import *
 import random
+import time
 from functions import draw_ascii
 
 """The Stage Manager allows to easily change stages, take inputs and display all the outputs"""
@@ -27,6 +28,7 @@ class Stage_Manager():
 		self.triad_email_read = False
 		self.triad_rejected = False
 		self.labs_first = True
+		self.global_time = 0
 		self.functions = {"cmd_combat": self.cmd_combat,"cmd_get_money": self.cmd_get_money, "cmd_restart": self.cmd_restart,"cmd_take_risk": self.cmd_take_risk, "cmd_loot": self.cmd_loot, "cmd_buy_item": self.cmd_buy_item, "cmd_display_items": self.cmd_display_items, "cmd_rnd_stats": self.cmd_rnd_stats, "cmd_move_location": self.cmd_move_location, "cmd_sell_item": self.cmd_sell_item, "cmd_cook_drug": self.cmd_cook_drug, "cmd_cook_menu": self.cmd_cook_menu,"cmd_change_stage": self.cmd_change_stage, "cmd_sell_online": self.cmd_sell_online, "cmd_open_tor": self.cmd_open_tor, "cmd_read_email": self.cmd_read_email,"cmd_display_emails": self.cmd_display_emails,"cmd_new_game":self.cmd_new_game, "cmd_exit":self.cmd_exit, "cmd_choose":self.cmd_choose, "cmd_change_scene":self.cmd_change_scene, "cmd_lose":self.cmd_lose, "cmd_won":self.cmd_won, "cmd_dialog_choice":self.cmd_dialog_choice, "cmd_make_chems":self.cmd_make_chems, "cmd_create_chems":self.cmd_create_chems, "cmd_caught_police":self.cmd_caught_police, "cmd_start_job":self.cmd_start_job}
 
 
@@ -37,7 +39,14 @@ class Stage_Manager():
 
 	#Function to update consoles
 	def navigate(self, input_choice):
-		if self.gui.player.wallet > 500000000:
+		self.global_time += 1
+		if self.global_time == 15:
+			self.gui.player.add_email(email_z)
+
+		if self.global_time == 30:
+			self.gui.player.add_email(email_t)
+
+		if self.gui.player.wallet > 100000000:
 			self.cmd_change_scene('stg_win_game')
 		else:
 			print('KEYS> ' + str(self.gui.player.stats['special'].keys()))
@@ -76,6 +85,9 @@ class Stage_Manager():
 
 	#Will play out the current stage
 	def narrate_current_stage(self):
+		self.global_time += 2
+		self.gui.waittime = 2
+		self.narration_speed = 0.02
 		if self.current_stage == self.all_stages['stg_main_menu']:
 			self.cmd_main()
 		else:
@@ -88,6 +100,9 @@ class Stage_Manager():
 						self.gui.add_txt('narration', narration['dialog'] + '\n\n',  speaker.tag)
 					else:
 						self.gui.add_txt('narration', speaker.name + '\n\t"' + narration['dialog'] + '"\n\n', speaker.tag)
+
+		self.gui.waittime = 0.1
+		self.narration_speed = 0.005
 		self.update_choices()
 
 
@@ -97,7 +112,7 @@ class Stage_Manager():
 		self.gui.add_txt('choice', "\t" + self.current_stage.question + "\n", self.system_text.tag)
 		for choice in self.current_stage.choicesinput:
 			print('c = ' + choice)
-			self.gui.add_txt('choice', '\n[' + choice.upper() + ']    \n', self.narrator.tag)
+			self.gui.add_txt('choice', '  [' + choice.upper() + ']  ', self.narrator.tag)
 
 
 
@@ -159,7 +174,7 @@ class Stage_Manager():
 				self.gui.player.faction = "triad"
 		elif options[0] == "job":
 			self.job_offered = True
-			if options[1] == "refuse":
+			if options[1] == "decline":
 				self.gui.player.faction = "indie"
 		self.cmd_change_stage(options[2])
 
@@ -196,7 +211,7 @@ class Stage_Manager():
 		self.gui.player.stats['special'] = {'str':6, 'per':6, 'end':6, 'cha':6, 'int':6, 'agi':6, 'luc':6}
 		self.gui.player.stat_points = 0
 		self.gui.player.calc_stats()
-		self.cmd_change_stage("stg_stat_choice")
+		self.cmd_change_stage("stg_the_taffia")
 	def cmd_set_stat(self, stat, value, arg = ""):
 		if self.gui.player.stat_points - int(value) > 0:
 			self.gui.player.stat_points -= int(value) - self.gui.player.stats['special'][stat]
@@ -265,8 +280,16 @@ class Stage_Manager():
 		self.current_stage.choicesinput = []
 		self.current_stage.choicesinput.append('sell online')
 		self.current_stage.choices.update({'sell online' : {'cmd':'cmd_sell_online', 'var': ''}})
-		self.current_stage.choicesinput.append('email')
-		self.current_stage.choices.update({'email' : {'cmd':'cmd_display_emails', 'var': ''}})
+		if self.gui.player.emails:
+			plus = ''
+			for email in self.gui.player.emails:
+				plus += '+'
+			self.current_stage.choicesinput.append('email (' + plus + ')')
+			self.current_stage.choices.update({'email' : {'cmd':'cmd_display_emails', 'var': ''}})
+		else:
+			self.current_stage.choicesinput.append('email')
+			self.current_stage.choices.update({'email' : {'cmd':'cmd_display_emails', 'var': ''}})
+
 		self.current_stage.choicesinput.append('close')
 		self.current_stage.choices.update({'close' : {'cmd':'cmd_change_scene', 'var': self.current_stage.id}})
 
@@ -286,10 +309,11 @@ class Stage_Manager():
 		self.gui.add_txt('narration', 'Now choose what you want to sell...\n\n', self.system_text.tag)
 
 		self.current_stage.choicesinput = []
-		found = False
-		if items_to_sell:
-			self.current_stage.choicesinput.append('sell all drugs')
-			self.current_stage.choices.update({'sell all drugs' : {'cmd':'cmd_sell_item', 'var': ''}})
+		for item in items_to_sell:
+			name = item.name.lower()
+			tag = item.id
+			self.current_stage.choicesinput.append('sell ' + name)
+			self.current_stage.choices.update({'sell ' + item.name.lower() : {'cmd':'cmd_sell_item', 'var': tag}})
 
 		self.current_stage.choicesinput.append('close')
 		self.current_stage.choices.update({'close' : {'cmd':'cmd_open_tor', 'var': ''}})
@@ -298,14 +322,15 @@ class Stage_Manager():
 
 
 	def cmd_sell_item(self, args = ""):
-		self.gui.player.police_alert += 2
-		#self.email_read = True
-		list_items = self.gui.player.inv
-		for item in list_items:
-			if item.type == 'Drug' :
-				self.gui.player.inv.remove(item)
-				self.gui.player.wallet += item.sell
+		self.gui.player.police_alert += random.randrange(4, 20 - self.gui.player.stats['special']['int'])
+		item_sold = ''
+		for i in items.values():
+			if i.id == args:
+				item_sold = i
+		print(item_sold.name)
+		self.gui.player.inv.remove(item_sold)
 		self.gui.update_inv_display()
+		self.gui.player.wallet += item_sold.sell
 		self.gui.update_wallet()
 		items_to_sell = []
 		for item in self.gui.player.inv:
@@ -344,6 +369,8 @@ class Stage_Manager():
 		self.update_choices()
 
 	def cmd_cook_drug(self, drug_id):
+		self.gui.clear_middle()
+		self.waittime = 8
 		self.email_read = True
 		print('Cooking...')
 		drug_item = ''
@@ -351,6 +378,13 @@ class Stage_Manager():
 			if item.id == drug_id:
 				drug_item = item
 		self.gui.player.take(drug_item)
+		recipe_used = ''
+		for r in recipes.values():
+			if r.output == drug_item.id:
+				recipe_used = r
+
+		self.gui.add_txt('narration',recipe_used.method, self.narrator.tag)
+		self.waittime = 0.1
 		remove_list = []
 		all_game_rec = self.gui.recipe_engine.all_recepies
 		for rec in all_game_rec.values():
@@ -377,12 +411,12 @@ class Stage_Manager():
 
 		if self.gui.player.faction == 'triad':
 			#triad
-			self.current_stage.choicesinput.append('go triad')
-			self.current_stage.choices.update({'go triad' : {'cmd':'cmd_change_scene', 'var': 'stg_at_triad'}})
+			self.current_stage.choicesinput.append('go casino')
+			self.current_stage.choices.update({'go casino' : {'cmd':'cmd_change_scene', 'var': 'stg_at_triad'}})
 		elif self.triad_email_read and self.triad_rejected == False:
 			self.triad_rejected = True
-			self.current_stage.choicesinput.append('go triad')
-			self.current_stage.choices.update({'go triad' : {'cmd':'cmd_change_scene', 'var': 'stg_the_triad'}})
+			self.current_stage.choicesinput.append('go casino')
+			self.current_stage.choices.update({'go casino' : {'cmd':'cmd_change_scene', 'var': 'stg_the_triad'}})
 
 
 		if self.anon_email_read:
@@ -426,7 +460,7 @@ class Stage_Manager():
 		elif arg == 'triad':
 			self.gui.clear_middle()
 			self.gui.add_txt('narration', "You approch Snake\n", self.narrator.tag)
-			self.gui.add_txt('narration', actors['She_Ni'].name + "\n\t'Hello b i ch? (??)", actors['She_Ni'].tag)
+			self.gui.add_txt('narration', actors['She_Ni'].name + "\n\t'Hello", actors['She_Ni'].tag)
 			items_on_sale = []
 			for item in items.values():
 				if item.type == 'Drug':
@@ -440,17 +474,24 @@ class Stage_Manager():
 			self.current_stage.choices.update({'close': {'cmd':'cmd_change_scene', 'var': 'stg_at_triad'}})
 			self.update_choices()
 
+	def void():
+		pass
 	def cmd_buy_item(self, arg = ""):
-		self.gui.player.police_alert += 2
+		self.gui.player.police_alert += random.randrange(4, 20 - self.gui.player.stats['special']['cha'])
 		arg_list = arg.split()
 		item_bought = ''
 		for i in items.values():
 			if i.id == arg_list[0]:
 				item_bought = i
-		for n in range(0,5):
-			self.gui.player.inv.append(item_bought)
+		if (self.gui.player.wallet - item_bought.buy * 5) > 0:
+			for n in range(0,5):
+				self.gui.player.inv.append(item_bought)
+				self.gui.player.wallet -= item_bought.buy
+		else:
+
+			self.gui.add_txt('narration', '\n\nNOT ENOUGH FUNDS]', self.narrator.tag)
+
 		self.gui.update_inv_display()
-		self.gui.player.wallet -= item_bought.buy * 5
 		self.gui.update_wallet()
 		self.cmd_display_items(arg_list[1])
 
@@ -469,14 +510,20 @@ class Stage_Manager():
 				self.cmd_change_scene('stg_labs_success')
 
 	def cmd_loot(self, arg = ""):
-		self.gui.player.police_alert += 3
+		self.gui.player.police_alert += random.randrange(4, 20 - self.gui.player.stats['special']['per'])
+		ingredient_list = []
 		for item in items.values():
 			if item.type == 'Ingredient':
-				self.gui.player.inv.append(item)
+				ingredient_list.append(item)
+
+
+		for x in range(0,random.randrange(1 ,1 + self.gui.player.stats['special']['luc'])):
+			self.gui.player.inv.append(ingredient_list[random.randrange(0, len(ingredient_list) - 1)])
+
 		self.cmd_change_scene('stg_home')
 
 	def cmd_get_money(self, arg = ""):
-		self.gui.player.wallet += 50 * 2300000
+		self.gui.player.wallet += 50 * 23
 		self.cmd_change_scene('stg_home')
 
 	def cmd_restart(self, arg = ""):
@@ -491,7 +538,7 @@ class Stage_Manager():
 		per = self.gui.player.stat_check('per')
 		agi = self.gui.player.stat_check('agi')
 
-		if stre > 6 or per > 6:
+		if stre >  6 or per > 6:
 			if stre > per:
 				self.cmd_change_scene(list_of_options[0])
 			else:
