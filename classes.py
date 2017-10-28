@@ -15,7 +15,7 @@ class Actor():
 		self.nickname =  str(data['actor_Nickname']).strip()
 		self.id =  str(data['actor_StrID']).strip()
 
-		nametype = str(data['actor_NickUse']).strip()
+		nametype = int(data['actor_NickUse'])
 		name = ""
 		if nametype == 0: name = self.nickname
 		elif nametype == 1: name = self.fname + " " + self.lname

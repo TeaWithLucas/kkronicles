@@ -2,7 +2,7 @@
 from stages import *
 import PIL.Image
 import PIL.ImageTk
-import secrets
+#import secrets
 from tkinter import font
 
 class gui():
