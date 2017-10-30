@@ -1,5 +1,5 @@
 from classes import *
-import sql
+import requests
 
 game_title = 'Kirill Kronicles'
 email_z = Email('z', 'Yo Kirill', "You don’t know me, G, but I can hook you up with my product, you feel. If you want 'em. They'll be waiting at Cathays Park. Leave the money, my bredrin' will collect it. ")
@@ -9,24 +9,26 @@ bitcoin_values = [{'name':'bitcoin', 'value':10**8, 'symbol':'B'}, {'name':'mill
 
 #Pulls data form a BD table and integrates it into a class
 def table_to_class(table, dic):
-	stringSQL = "SELECT * FROM " + table + ";" #Create query
-	tabledata = sql.fetch_all(stringSQL) #Fetch data form table
-	outputdata = {} #Create dictionary for output
+	url = 'http://kkronicles.teawithlucas.com/data.php?tbl=' + table #Create url
+	data = requests.get(url).json()
+	outputdata = {} #Create dict for outputoutputdata = {} #Create dict for output
 	#Put data into class object
 	print ("\nInitalising " + str(dic['class']))
-	for row in tabledata:
+	for row in data.values():
 		classobj = dic['class'](row)
 		outputdata[classobj.id] = classobj
 		print ("ID: " + classobj.id, end=", ")
 	return outputdata
 
-def table_to_list(table, id_name, id_value):
-	stringSQL = "SELECT * FROM " + table + " WHERE " + id_name + " = '" + id_value + "';" #Create query
-	tabledata = sql.fetch_all(stringSQL) #Fetch data form table
-	outputdata = [] #Create list for output
 
-	#complie narrarion into list
-	for row in tabledata:
+
+def table_to_list(table, id_name, id_value):
+
+	url = 'http://kkronicles.teawithlucas.com/data.php?tbl='+table+"&fld="+id_name+"&val="+id_value #Create url
+	data = requests.get(url).json()
+	outputdata = [] #Create dict for outputoutputdata = {} #Create dict for output
+	#Put data into class object
+	for row in data.values():
 		outputdata.append(row)
 	return outputdata
 
@@ -47,3 +49,6 @@ all_stages = table_to_class("kk_Stages", {'class': Stage})
 for stage in all_stages.values():
 	stage.narration_add(table_to_list("kk_Narration", "stages_id", stage.id))
 recipes = table_to_class("kk_Recipes", {'class': Recipe})
+
+
+
